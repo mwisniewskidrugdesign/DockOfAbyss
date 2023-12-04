@@ -1,0 +1,23 @@
+### TOOLS PATH ###
+pdb2fasta 		= 
+mgltools_directory 	=
+cdhit_dir 		=
+smina_dir		=
+obabel_dir		=
+rxdock_dir		=
+
+##################
+
+### DIRECTORIES ###
+datadir 		=
+bdb2020plus_datadir	=
+lp-pdbbind_datadir	=
+
+###################
+
+### DATAFRAMES ###
+
+bdb2020plus_df		=
+lp-pdbbind_df		=
+
+##################
