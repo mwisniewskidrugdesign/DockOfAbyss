@@ -3,9 +3,6 @@ from protein_ligand import docking
 from protein_ligand import datasets
 import pandas as pd
 
-import settings
-
-
 pd.set_option('display.max_columns', None)
 
 generate_library_step = True
