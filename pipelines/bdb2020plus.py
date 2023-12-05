@@ -21,7 +21,7 @@ def pipeline(datadir,bdb2020plus_datadir,bdb2020plus_df,no_modes):
         for index,row in bdb2020plus_df.iterrows():                                                     #iteruje po dataframe
             print(str(index)+'.'+row['pdbid'])
             library = generator.Converter(row['pdbid'],datadir)                             #Klasa konwertera
-            library.to_pdbqt(protein=True,ligand=True,native_ligand=True)                    #konwertuje do pdbqt
+            library.pdb_to_pdbqt(protein=True,ligand=True,native_ligand=True)                    #konwertuje do pdbqt
 
     if smina_docking_step:
         bdb2020plus_df_prep = datasets.DatasetPreparation(bdb2020plus_df)

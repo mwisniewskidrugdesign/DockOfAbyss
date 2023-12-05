@@ -26,10 +26,38 @@ Dataset library:
 │ │ ├── /log            #smina files with modes affinity and rmsd
 │ │ └── /atom_terms     #smina files with sf components per atom
 ```
-Smina command:
+## Molecular Docking Software
+### Autodock Smina
+Autodock Smina was used with standard scoring function weights.
+
+The receptors were prepared with **MGL-tools Python package script**: *prepare_receptor4.py* and ligands with **openbabel**.
+
+**The command line:**
 ```commandline
 smina -r <receptor.pdbqt> -l <ligand.pdbqt> --autobox_ligand <native_ligand.pdbqt> --autobox_add 8 --exhaustiveness 64 --num_modes <no_modes> -o <output_file.pdbqt> --atom_terms <atom_terms_output_file.txt> --log output_file.log --atom_term_data --cpu 12 --min_rmsd_filter 0 --energy_range 1000000
-
 ```
 
+### RxDock
 RxDock command:
+```commandline
+reference ligand method for mapping cavity
+scoring function:
+S_total = S_inter + S_intra + S_site + S_restrain
+S_inter = W_inter_vdW * S_inter_vdW + W_inter_polar * S_inter_polar ...
+standard scoring function file = RbtInterIdxSF.prm 
+https://rxdock.gitlab.io/documentation/devel/html/reference-guide/scoring-functions.html
+
+check diffrent scoring functions:
+
+RbtInterGridSF.prm      #As above, but vdW term uses a precalculated grid
+RbtSolvIdxSF.prm        #Intermolecular scoring function definition (desolvation scoring function, SF5)
+calcgrid_vdw1.prm       #vdW term only (ECUT = 1), for calculating vdW grid (used by rbcalcgrid)
+calcgrid_vdw5.prm       #vdW term only (ECUT = 5), for calculating vdW grid (used by rbcalcgrid)
+Tripos52_vdw.prm        #vdW term parameter file
+Tripos52_dihedrals.prm  #Dihedral term parameter file
+solvation_asp.prm       #Desolvation term parameter file
+
+
+SystemPreparation
+
+```

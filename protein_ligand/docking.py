@@ -119,6 +119,8 @@ class RxDock:
             makedir = subprocess.run(['mkdir ' + self.logs_rxdock_dir], shell=True, capture_output=True, text=True)
     def rxdock_files(self,protein,ligand,native_ligand):
         return None
+    def rxdock_system_preparation(self):
+        
     def rxdock_docking(self):
         return None
     def read_files(self):
