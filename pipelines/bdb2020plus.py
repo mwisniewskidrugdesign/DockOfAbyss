@@ -33,14 +33,14 @@ def pipeline(datadir,bdb2020plus_datadir,bdb2020plus_df,no_modes):
         if 'smina' in docking_programs:
             bdb2020plus_smina_docking = docking.Smina(datadir)
             bdb2020plus_smina_docking.smina_dirs()
-            smina_matrix = bdb2020plus_smina_docking.create_smina_matrix(molecules[:],molecules[:],no_modes)
+            smina_matrix = bdb2020plus_smina_docking.create_smina_matrix(molecules[:2],molecules[:2],no_modes)
 
         if 'rxdock' in docking_programs:
             bdb2020plus_rx_docking = docking.RxDock(datadir)
             bdb2020plus_rx_docking.rxdock_dirs()
             rxdock_matrix = None
 
-        for molecule_idx,molecule in enumerate(molecules[:]):
+        for molecule_idx,molecule in enumerate(molecules[:2]):
             print('Docking '+molecule+' to '+molecule+'. With: \n',docking_programs)
             if 'smina' in docking_programs:
                 smina_docking_error_number = 0
@@ -60,6 +60,8 @@ def pipeline(datadir,bdb2020plus_datadir,bdb2020plus_df,no_modes):
                     break
             if 'rxdock' in docking_programs:
                 rx_docking_error_number = 0
+                bdb2020plus_rx_docking.rxdock_files(molecule,molecule,molecule)
+                bdb2020plus_rx_docking.rxdock_system_preparation()
                 #while True:
                     #try:
                         #print(elo)

@@ -105,12 +105,25 @@ class Smina:
         np.save(output, self.matrix)
 
 class RxDock:
-    def __init__(self,datadir):
+    def __init__(self,datadir,system_file='configs/rxdock_config.prm'):
+
         self.datadir = datadir
         self.rxdock_dir = datadir + '/docking_scores/rxdock'
         self.pdbqt_rxdock_dir = self.rxdock_dir + '/pdbqt'
         self.atom_terms_rxdock_dir = self.rxdock_dir + '/atom_terms'
         self.logs_rxdock_dir = self.rxdock_dir + '/logs'
+
+        self.protein = None
+        self.ligand = None
+        self.native_ligand = None
+
+        self.protein_file=''
+        self.ligand_file=''
+        self.native_ligand_file=''
+
+        self.system_file = system_file
+        self.system_prepared_file = None
+
     def rxdock_dirs(self):
         if not os.path.exists(self.rxdock_dir):
             makedir = subprocess.run(['mkdir ' + self.rxdock_dir], shell=True, capture_output=True, text=True)
@@ -118,9 +131,27 @@ class RxDock:
             makedir = subprocess.run(['mkdir ' + self.atom_terms_rxdock_dir], shell=True, capture_output=True, text=True)
             makedir = subprocess.run(['mkdir ' + self.logs_rxdock_dir], shell=True, capture_output=True, text=True)
     def rxdock_files(self,protein,ligand,native_ligand):
-        return None
+
+        self.protein = protein
+        self.ligand = ligand
+        self.native_ligand = native_ligand
+
+        self.protein_file = self.datadir + '/protein/mol2/' + protein + '_protein.mol2'
+        self.ligand_file = self.datadir + '/ligand/sdf/' + ligand + '_ligand.sdf'
+        self.native_ligand_file = self.datadir + '/native_ligand/sdf/' + native_ligand + '_ligand.sdf'
+        self.system_prepared_file = self.datadir+'/docs/temp/'+self.protein+'-'+self.ligand+'.prm'
     def rxdock_system_preparation(self):
-        return None
+        with open(self.system_file,'r') as file:
+            system_filedata = file.read()
+
+        system_filedata = system_filedata.replace('{title}', self.protein+'-'+self.ligand)                          #define title
+        system_filedata = system_filedata.replace('{receptor_file}', self.protein_file)                   #define receptor.mol2 filepath
+        system_filedata = system_filedata.replace('{native_ligand_file}', self.native_ligand_file)
+
+
+        with open(self.system_prepared_file, 'w') as file:
+            file.write(system_filedata)
+
     def rxdock_docking(self):
         return None
     def read_files(self):

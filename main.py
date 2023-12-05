@@ -30,6 +30,6 @@ lp_pdbbind_pipeline = False
 ### PIPELINES ###
 
 if bdb2020plus_pipeline:
-    bdb2020plus.pipeline(datadir, bdb2020plus_datadir, bdb2020plus_df,50)
+    bdb2020plus.pipeline(datadir, bdb2020plus_datadir, bdb2020plus_df,1)
 
 

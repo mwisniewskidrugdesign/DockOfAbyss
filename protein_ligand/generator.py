@@ -26,7 +26,7 @@ def generate_libraray(datadir):
         pocket_dirlist = ['mol2','pdb', 'pdbqt', 'fasta']
         native_ligand_dirlist = ['sdf', 'mol2', 'pdb', 'pdbqt', 'smi']
         ligand_dirlist = ['sdf','mol2','pdb', 'pdbqt','smi']
-
+        
         for dir in dirlist:
             if not os.path.exists(datadir + '/' + dir):
                 result = subprocess.run(['mkdir ' + datadir + '/' + dir], shell=True, capture_output=True,text=True)
@@ -46,6 +46,10 @@ def generate_libraray(datadir):
         for subdir in ligand_dirlist:
             if not os.path.exists(datadir + '/ligand/' + subdir):
                 result = subprocess.run(['mkdir ' + datadir + '/ligand/' + subdir], shell=True,capture_output=True, text=True)
+        
+        if not os.path.exists(datadir+'/doc/temp'):
+            result = subprocess.run(['mkdir '+datadir+'/docs/temp'],shell=True,capture_output=True,text=True)
+
 class GetDataset:
     def __init__(self,datadir,df,pdb_id_column='pdbid'):
         self.datadir = datadir              #directory of data
@@ -141,7 +145,7 @@ class Converter:
             pdbqt_ligand_file = self.datadir + '/ligand/pdbqt/' + self.molecule + '_ligand.pdbqt'
 
             if (not os.path.exists(pdbqt_ligand_file) or os.path.getsize(pdbqt_ligand_file) == 0) and os.path.exists(pdb_ligand_file):
-                command = settings.obabel_dir+' '+pdb_ligand_file+' -O '+pdbqt_ligand_file
+                command = settings.obabel_path+' '+pdb_ligand_file+' -O '+pdbqt_ligand_file
                 pdbqt_result = subprocess.run([command], shell=True, capture_output=True, text=True)
                 print(pdbqt_result.stderr)
                 generate_ligand_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_result.stdout)
@@ -158,7 +162,7 @@ class Converter:
             pdbqt_native_ligand_file = self.datadir + '/native_ligand/pdbqt/' + self.molecule + '_ligand.pdbqt'
 
             if (not os.path.exists(pdbqt_native_ligand_file) or os.path.getsize(pdbqt_native_ligand_file) == 0) and os.path.exists(pdb_native_ligand_file):
-                command = settings.obabel_dir +' '+ pdb_native_ligand_file + ' -O ' + pdbqt_native_ligand_file
+                command = settings.obabel_path +' '+ pdb_native_ligand_file + ' -O ' + pdbqt_native_ligand_file
                 pdbqt_result = subprocess.run([command], shell=True, capture_output=True, text=True)
                 print(pdbqt_result.stdout)
                 generate_native_ligand_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_result.stdout)
@@ -194,7 +198,7 @@ class Converter:
             mol2_protein_file = self.datadir + '/protein/mol2/' + self.molecule + '_protein.mol2'
 
             if (not os.path.exists(mol2_protein_file) or os.path.getsize(mol2_protein_file) == 0) and os.path.exists(pdb_protein_file):
-                command = settings.obabel_dir +' '+ pdb_protein_file + ' -O ' + mol2_protein_file
+                command = settings.obabel_path + ' ' + pdb_protein_file + ' -O ' + mol2_protein_file
                 mol2_result = subprocess.run([command], shell=True, capture_output=True, text=True)
                 print(mol2_result.stderr)
                 generate_protein_mol2_file_logger.info(self.molecule + ',' + mol2_result.stderr)
@@ -211,7 +215,7 @@ class Converter:
             mol2_pocket_file = self.datadir + '/pocket/mol2/' + self.molecule + '_pocket.mol2'
 
             if (not os.path.exists(mol2_pocket_file) or os.path.getsize(mol2_pocket_file) == 0) and os.path.exists(pdb_pocket_file):
-                command = settings.obabel_dir +' '+ pdb_pocket_file + ' -O ' + mol2_pocket_file
+                command = settings.obabel_path +' '+ pdb_pocket_file + ' -O ' + mol2_pocket_file
                 mol2_result = subprocess.run([command], shell=True, capture_output=True, text=True)
                 print(mol2_result.stderr)
                 generate_pocket_mol2_file_logger.info(self.molecule + ',' + mol2_result.stderr)
@@ -229,7 +233,7 @@ class Converter:
             mol2_ligand_file = self.datadir + '/ligand/mol2/' + self.molecule + '_ligand.mol2'
 
             if (not os.path.exists(mol2_ligand_file) or os.path.getsize(mol2_ligand_file) == 0) and os.path.exists(pdb_ligand_file):
-                command = settings.obabel_dir+' '+pdb_ligand_file+' -O '+mol2_ligand_file
+                command = settings.obabel_path +' '+pdb_ligand_file+' -O '+mol2_ligand_file
                 mol2_result = subprocess.run([command], shell=True, capture_output=True, text=True)
                 print(mol2_result.stderr)
                 generate_ligand_mol2_file_logger.info(self.molecule + ',' + mol2_result.stdout)
@@ -246,7 +250,7 @@ class Converter:
             mol2_native_ligand_file = self.datadir + '/native_ligand/mol2/' + self.molecule + '_ligand.mol2'
 
             if (not os.path.exists(mol2_native_ligand_file) or os.path.getsize(mol2_native_ligand_file) == 0) and os.path.exists(pdb_native_ligand_file):
-                command = settings.obabel_dir +' '+ pdb_native_ligand_file + ' -O ' + mol2_native_ligand_file
+                command = settings.obabel_path +' '+ pdb_native_ligand_file + ' -O ' + mol2_native_ligand_file
                 mol2_result = subprocess.run([command], shell=True, capture_output=True, text=True)
                 print(mol2_result.stdout)
                 generate_native_ligand_mol2_file_logger.info(self.molecule + ',' + mol2_result.stdout)
