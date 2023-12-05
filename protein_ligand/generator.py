@@ -25,7 +25,7 @@ def generate_libraray(datadir):
         protein_dirlist = ['mol2','pdb', 'pdbqt', 'fasta']
         pocket_dirlist = ['mol2','pdb', 'pdbqt', 'fasta']
         native_ligand_dirlist = ['sdf', 'mol2', 'pdb', 'pdbqt', 'smi']
-        ligand_dirlist = ['mol2','pdb', 'pdbqt']
+        ligand_dirlist = ['sdf','mol2','pdb', 'pdbqt','smi']
 
         for dir in dirlist:
             if not os.path.exists(datadir + '/' + dir):
@@ -62,11 +62,13 @@ class GetDataset:
                 print(str(index) + '.' + row[self.pdb_id_column])
                 pdb_protein_final_path = self.datadir + '/protein/pdb'
                 pdb_ligand_final_path = self.datadir + '/ligand/pdb'
+                sdf_ligand_final_path = self.datadir + '/ligand/sdf'
                 pdb_native_ligand_final_path = self.datadir + '/native_ligand/pdb'
                 sdf_native_ligand_final_path = self.datadir + '/native_ligand/sdf'
 
                 protein_pdb_file = bdb2020plus_dir + '/' + row[self.pdb_id_column] + '/protein.pdb'
                 ligand_pdb_file = bdb2020plus_dir + '/' + row[self.pdb_id_column] + '/ligand.pdb'
+                ligand_sdf_file = bdb2020plus_dir + '/' + row[self.pdb_id_column] + '/ligand.sdf'
                 native_ligand_pdb_file = bdb2020plus_dir + '/' + row[self.pdb_id_column] + '/ligand.pdb'
                 native_ligand_sdf_file = bdb2020plus_dir + '/' + row[self.pdb_id_column] + '/ligand.sdf'
 
@@ -82,7 +84,7 @@ class GetDataset:
                 if native_ligand == False:
                     if not os.path.exists(pdb_ligand_final_path + '/' + row[self.pdb_id_column] + '_ligand.pdb'):
                         shutil.copy(ligand_pdb_file, pdb_ligand_final_path + '/' + row[self.pdb_id_column] + '_ligand.pdb')
-
+                        shutil.copy(ligand_sdf_file, sdf_ligand_final_path + '/' + row[self.pdb_id_column] +'_ligand.sdf')
         except IndexError:
             print('Error!')
 class Converter:
