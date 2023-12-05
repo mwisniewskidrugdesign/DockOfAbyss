@@ -120,7 +120,7 @@ class RxDock:
     def rxdock_files(self,protein,ligand,native_ligand):
         return None
     def rxdock_system_preparation(self):
-        
+        return None
     def rxdock_docking(self):
         return None
     def read_files(self):

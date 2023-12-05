@@ -95,7 +95,7 @@ class Converter:
         '''
         if protein==False and pocket==False and ligand == False and native_ligand == False:
             print('There is nothing to do. Precise which molecule type u want to convert (protein/pocket/ligand/native ligand)')
-            break
+            return
         if protein == True:
             '''Generate Log File'''
             generate_protein_pdbqt_log_file = self.datadir + '/logs/generate_protein_pdbqt_files.log'
@@ -167,7 +167,7 @@ class Converter:
 
         if protein == False and pocket == False:
             print('There is no molecule to convert. PLease specify what type of molecules you want to convert (protein/pocket).')
-            break
+            return
         if protein==True:
             protein_pdb_file = self.datadir + '/protein/pdb/' + self.molecule + '_protein.pdb'
             protein_fasta_file = self.datadir + '/protein/fasta/' + self.molecule + '_protein.fasta'
