@@ -39,7 +39,7 @@ class Smina:
         self.atom_terms_output_file = self.atom_terms_smina_dir + '/' + protein + '_' + ligand + '_atom_terms.txt'
         self.log_output_file = self.logs_smina_dir + '/' + protein + '_' + ligand + '.log'
     def smina_docking(self,no_modes):
-        smina_command = settings.smina_tools_dir+' -r ' + self.protein_file + ' -l ' + self.ligand_file + ' --autobox_ligand ' + self.native_ligand_file + ' --autobox_add 8 --exhaustiveness 32 --num_modes '+str(no_modes)+' -o ' + self.pdbqt_output_file + ' --atom_terms ' + self.atom_terms_output_file + ' --log ' + self.log_output_file + ' --atom_term_data --cpu 12 --min_rmsd_filter 0.1 --energy_range 1000'
+        smina_command = settings.smina_tools_dir+' -r ' + self.protein_file + ' -l ' + self.ligand_file + ' --autobox_ligand ' + self.native_ligand_file + ' --autobox_add 8 --exhaustiveness 8 --num_modes '+str(no_modes)+' -o ' + self.pdbqt_output_file + ' --atom_terms ' + self.atom_terms_output_file + ' --log ' + self.log_output_file + ' --atom_term_data --cpu 12 --min_rmsd_filter 0 --energy_range 1000'
         docking = subprocess.run([smina_command], shell=True, capture_output=True, text=True)
     def read_scoring_function(self):
 

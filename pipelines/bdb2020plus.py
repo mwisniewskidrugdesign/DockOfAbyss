@@ -8,11 +8,11 @@ import settings
 
 pd.set_option('display.max_columns', None)
 
-generate_library_step = True
-convert_to_pdbqt_step=True
+generate_library_step = False
+convert_to_pdbqt_step=False
 smina_docking_step=True
 
-def pipeline(datadir,bdb2020plus_datadir,bdb2020plus_df):
+def pipeline(datadir,bdb2020plus_datadir,bdb2020plus_df,no_modes):
 
     if generate_library_step:
         '''Generate the library for bdb2020plus operations'''
@@ -33,15 +33,15 @@ def pipeline(datadir,bdb2020plus_datadir,bdb2020plus_df):
 
         bdb2020plus_docking = docking.Smina(datadir)
         bdb2020plus_docking.smina_dirs()
-        smina_matrix = bdb2020plus_docking.create_smina_matrix(molecules[:],molecules[:],50)
+        smina_matrix = bdb2020plus_docking.create_smina_matrix(molecules[:],molecules[:],no_modes)
 
         for molecule_idx,molecule in enumerate(molecules[:]):
             print('Docking '+molecule+' to '+molecule+'.')
             bdb2020plus_docking.smina_files(molecule,molecule,molecule)
-            bdb2020plus_docking.smina_docking(50)
+            bdb2020plus_docking.smina_docking(no_modes)
             bdb2020plus_docking.read_experimental_affinity(bdb2020plus_df,molecule,molecule)
             bdb2020plus_docking.read_scoring_function()
-            bdb2020plus_docking.read_atom_term_function(50)
+            bdb2020plus_docking.read_atom_term_function(no_modes)
 
             bdb2020plus_docking.fill_smina_matrix(molecule_idx,molecule_idx)
 
