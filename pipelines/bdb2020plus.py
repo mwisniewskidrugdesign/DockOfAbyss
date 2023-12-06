@@ -8,7 +8,7 @@ pd.set_option('display.max_columns', None)
 generate_library_step = True
 convert_step=True                #ADD IF !!!!!!!!!!!!!!!!!!!!!!!!!! SUCH US DOCKING PROGRAMS LIST
 docking_step=True
-docking_programs=['smina','rxdock']
+docking_programs=['smina']
 
 def pipeline(datadir,bdb2020plus_datadir,bdb2020plus_df,no_modes):
 
@@ -58,16 +58,16 @@ def pipeline(datadir,bdb2020plus_datadir,bdb2020plus_df,no_modes):
                         print('Smina proposed less modes than expected for docking '+molecule+' to '+molecule+'. '+str(smina_docking_error_number)+'st time.')
                         continue
                     break
-            if 'rxdock' in docking_programs:
-                rx_docking_error_number = 0
-                bdb2020plus_rx_docking.rxdock_files(molecule,molecule,molecule)
-                bdb2020plus_rx_docking.rxdock_system_preparation()
-                #while True:
-                    #try:
-                        #print(elo)
-                    #except:
-                        #rx_docking_error_number+=1
-                        #print('RxDock proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + rx_docking_error_number + 'st time.')
+            # if 'rxdock' in docking_programs:
+            #     rx_docking_error_number = 0
+            #     bdb2020plus_rx_docking.rxdock_files(molecule,molecule,molecule)
+            #     bdb2020plus_rx_docking.rxdock_system_preparation()
+            #     #while True:
+            #         #try:
+            #             #print(elo)
+            #         #except:
+            #             #rx_docking_error_number+=1
+            #             #print('RxDock proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + rx_docking_error_number + 'st time.')
 
         if 'smina' in docking_programs:
             bdb2020plus_smina_docking.save_matrix('smina_matrix')

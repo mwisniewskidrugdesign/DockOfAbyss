@@ -9,13 +9,21 @@ settings.init()                                 # inicjalizacja zmiennych odnoś
 
 ### DIRS ###
 # na to osobny plik z configiem
-datadir='/mnt/raid/mwisniewski/PhD/data/bdb2020plus'
-bdb2020plus_datadir = '/mnt/raid/mwisniewski/PhD/data/LP-PDBBind/dataset/BDB2020+/dataset'
+if settings.station == 'inka':
+    datadir='/mnt/raid/mwisniewski/PhD/data/bdb2020plus'
+    bdb2020plus_datadir = '/mnt/raid/mwisniewski/PhD/data/LP-PDBBind/dataset/BDB2020+/dataset'
+
+elif settings.station == 'eden':
+    datadir='/home/sfglab/mwisniewski/PhD/data/bdb2020plus'
+    bdb2020plus_datadir='/home/sfglab/mwisniewski/PhD/data/other/LP-PDBbind/dataset/BDB2020+/dataset'
+
 ############
 
 ### DATAFRAMES ###
-# na to osobny plik z configiem
-bdb2020plus_df = pd.read_csv('/mnt/raid/mwisniewski/PhD/data/LP-PDBBind/dataset/BDB2020+/BDB2020+.csv')
+if settings.station == 'inka':
+    bdb2020plus_df = pd.read_csv('/mnt/raid/mwisniewski/PhD/data/LP-PDBBind/dataset/BDB2020+/BDB2020+.csv')
+elif settings.station == 'eden':
+    bdb2020plus_df = pd.read_csv('/home/sfglab/mwisniewski/PhD/data/others/LP-PDBBind/dataset/BDB2020+/BDB2020+.csv')
 ##################
 
 ### PIPELINES ###
