@@ -15,19 +15,19 @@ def pipeline(datadir,bdb2020plus_datadir,bdb2020plus_df,no_modes):
     if generate_library_step:
         '''Generate the library for bdb2020plus operations'''
         generator.generate_libraray(datadir)
-        workspace = generator.GetDataset(datadir,bdb2020plus_df)                                        #create workspace
-        workspace.bdb2020plus(bdb2020plus_datadir)                                          #copy files to workspace
+        workspace = generator.GetDataset(datadir,bdb2020plus_df)                                    #create workspace
+        workspace.bdb2020plus(bdb2020plus_datadir)                                                  #copy files to workspace
 
     if convert_step:
-        for index,row in bdb2020plus_df.iterrows():                                                     #iteruje po dataframe
+        for index,row in bdb2020plus_df.iterrows():                                                 #iteruje po dataframe
             print(str(index)+'.'+row['pdbid'])
-            library = generator.Converter(row['pdbid'],datadir)                             #Klasa konwertera
-            library.pdb_to_pdbqt(protein=True,ligand=True,native_ligand=True)                    #konwertuje do pdbqt
+            library = generator.Converter(row['pdbid'],datadir)                                     #Klasa konwertera
+            library.pdb_to_pdbqt(protein=True,ligand=True,native_ligand=True)                       #konwertuje do pdbqt
             library.pdb_to_mol(protein=True,ligand=True,native_ligand=True)
 
     if docking_step:
         bdb2020plus_df_prep = datasets.DatasetPreparation(bdb2020plus_df)
-        molecules = bdb2020plus_df_prep.get_molecules('pdbid')           #Generate list of molecules
+        molecules = bdb2020plus_df_prep.get_molecules('pdbid')                                      #Generate list of molecules
         print(molecules)
 
         if 'smina' in docking_programs:

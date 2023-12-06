@@ -12,7 +12,7 @@ SECTION_LIGAND
 END_SECTION
 SECTION MAPPER
    SITE_MAPPER RbtLigandSiteMapper
-   REF_MOL (native_ligand_file}
+   REF_MOL {native_ligand_file}
    RADIUS 10.0
    SMALL_SPHERE 1.5
    MIN_VOLUME 100
