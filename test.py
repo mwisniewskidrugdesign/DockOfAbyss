@@ -1,3 +1,6 @@
+for i in range(6):
+    print(i)
+
 # import subprocess
 # import os
 # import sys

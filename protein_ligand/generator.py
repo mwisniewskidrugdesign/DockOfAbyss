@@ -102,12 +102,24 @@ class GetDataset:
                 mol2_native_ligand_final_path = self.datadir + '/native_ligand/mol2'
                 sdf_native_ligand_final_path = self.datadir + '/native_ligand/sdf'
 
+
+                final_paths=[pdb_protein_final_path,pdb_pocket_final_path,mol2_ligand_final_path,sdf_ligand_final_path,mol2_native_ligand_final_path,sdf_native_ligand_final_path]
+
+
                 protein_pdb_file = lp_pdbbind_dir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_protein.pdb'
                 pocket_pdb_file = lp_pdbbind_dir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_pocket.pdb'
                 ligand_mol2_file= lp_pdbbind_dir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_ligand.mol2'
                 ligand_sdf_file= lp_pdbbind_dir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_ligand.sdf'
                 native_ligand_mol2_file= lp_pdbbind_dir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_ligand.mol2'
-                native_ligand_sdf_file== lp_pdbbind_dir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_ligand.sdf'
+                native_ligand_sdf_file= lp_pdbbind_dir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_ligand.sdf'
+
+                files = [protein_pdb_file,pocket_pdb_file,ligand_mol2_file,ligand_sdf_file,native_ligand_mol2_file,native_ligand_sdf_file]
+                ### ADD IF for native_ligands
+                strings=['_protein.pdb','_pocket.pdb','_ligand.mol2','_ligand.sdf','_ligand.mol2','_ligand.sdf']
+                for i in range(6):
+                    if not os.path.exists(final_paths[i]+'/'+row[self.pdb_id_column]+strings[i]):
+                        shutil.copy(files[i],final_paths[i]+'/'+row[self.pdb_id_column]+strings[i])
+
 class Converter:
     def __init__(self,molecule,datadir):
         self.molecule = molecule
