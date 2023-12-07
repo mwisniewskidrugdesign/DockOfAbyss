@@ -21,9 +21,9 @@ def init():
 
 
     if station=='eden':
-        pdb2fasta_path = '/home/sfglab/mwisniewski/Software/pdb2fasta'
-        mgltools_dir = '/home/sfglab/mwisniewski/Software/mgltools'
-        cdhit_dir = '/home/sfglab/mwisniewski/Software/cd-hit-v4.8.1-2019-0228'
+        pdb2fasta_path = '/home2/sfglab/mwisniewski/Software/pdb2fasta'
+        mgltools_dir = '/home2/sfglab/mwisniewski/Software/mgltools'
+        cdhit_dir = '/home2/sfglab/mwisniewski/Software/cd-hit-v4.8.1-2019-0228'
         smina_tools_dir = 'smina'
         obabel_path = 'obabel'
 
