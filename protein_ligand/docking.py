@@ -76,9 +76,9 @@ class Smina:
             non_dir_h_bond[idx] = float(sum(non_dir_h_bond[idx]))
         self.sf_components = [gauss,gauss2,repulsion,hydrophobic,non_dir_h_bond]
         return self.sf_components
-    def read_experimental_affinity(self,df,protein,ligand):
+    def read_experimental_affinity(self,df,protein,ligand,affinity_column='pKa'):
         if protein == ligand:
-            self.experimental_affinity = df[df['pdbid']==protein]['pKa'].values[0]
+            self.experimental_affinity = df[df['pdbid']==protein][affinity_column].values[0]
     def create_smina_matrix(self,proteins,ligands,no_modes):
 
         values = ['pKa','Predicted Binding Affinity','Gauss1','Gauss2','Repulsion','Hydrophobic','Non_dir_h_bond']
@@ -90,6 +90,7 @@ class Smina:
         self.matrix = np.empty((no_proteins,no_ligands,no_modes),dtype=object)
         return self.matrix
     def fill_smina_matrix(self,pidx,lidx):
+
         for mode_idx in range(len(self.matrix[0][0])):
             if pidx == lidx:
                 mode_values = [(self.experimental_affinity),float(self.predicted_binding_affinity[mode_idx])]

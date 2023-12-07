@@ -51,9 +51,9 @@ def generate_libraray(datadir):
             result = subprocess.run(['mkdir '+datadir+'/docs/temp'],shell=True,capture_output=True,text=True)
 
 class GetDataset:
-    def __init__(self,datadir,rawdir,df,pdb_id_column='pdbid'):
+    def __init__(self,datadir,rawdir,df,pdb_id_column):
         self.datadir = datadir              #directory of data
-        self.rawdir = rawdir
+        self.rawdir = rawdir                #directory of rawdata
         self.df = df                        #dataframe of dataset
         self.pdb_id_column=pdb_id_column    #pdb_id_columnn = 'pdbid' or diffrent
     def bdb2020plus(self,native_ligand=False):
@@ -99,6 +99,7 @@ class GetDataset:
         try:
             for index,row in self.df.iterrows():
                 print(str(index) + '.' + row[self.pdb_id_column])
+
                 pdb_protein_final_path = self.datadir + '/protein/pdb'
                 pdb_pocket_final_path = self.datadir + '/pocket/pdb'
                 mol2_native_ligand_final_path = self.datadir + '/native_ligand/mol2'
