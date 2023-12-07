@@ -120,7 +120,6 @@ class GetDataset:
                 for i in range(6):
                     if not os.path.exists(final_paths[i]+'/'+row[self.pdb_id_column]+strings[i]):
                         shutil.copy(files[i],final_paths[i]+'/'+row[self.pdb_id_column]+strings[i])
-
 class Converter:
     def __init__(self,molecule,datadir):
         self.molecule = molecule
