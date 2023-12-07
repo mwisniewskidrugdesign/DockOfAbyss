@@ -34,6 +34,8 @@ def pipeline(datadir,lp_pdbbind_datadir,lp_pdbbind_df,no_mode):
     ##### TO DO
     if 'smina' in docking_programs:
       smina_docking = docking.Smina(datadir)
+      smina_docking.smina_dirs()
+          ## ????
     if 'smina' in docking_programs:
       smina_docking_error_number = 0
       while True:
