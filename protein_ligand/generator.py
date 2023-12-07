@@ -91,6 +91,10 @@ class GetDataset:
                         shutil.copy(ligand_sdf_file, sdf_ligand_final_path + '/' + row[self.pdb_id_column] +'_ligand.sdf')
         except IndexError:
             print('Error!')
+    # def lp_pdbbind(self,lp_pdbbind_dir,native_ligand=False):
+    #     try:
+    #         for index,row in df.iterrows():
+
 class Converter:
     def __init__(self,molecule,datadir):
         self.molecule = molecule
