@@ -91,10 +91,23 @@ class GetDataset:
                         shutil.copy(ligand_sdf_file, sdf_ligand_final_path + '/' + row[self.pdb_id_column] +'_ligand.sdf')
         except IndexError:
             print('Error!')
-    # def lp_pdbbind(self,lp_pdbbind_dir,native_ligand=False):
-    #     try:
-    #         for index,row in df.iterrows():
+    def lp_pdbbind(self,lp_pdbbind_dir,native_ligand=False):
+        try:
+            for index,row in self.df.iterrows():
+                print(str(index) + '.' + row[self.pdb_id_column])
+                pdb_protein_final_path = self.datadir + '/protein/pdb'
+                pdb_pocket_final_path = self.datadir + '/pocket/pdb'
+                mol2_ligand_final_path = self.datadir + '/ligand/mol2'
+                sdf_ligand_final_path = self.datadir + '/ligand/sdf'
+                mol2_native_ligand_final_path = self.datadir + '/native_ligand/mol2'
+                sdf_native_ligand_final_path = self.datadir + '/native_ligand/sdf'
 
+                protein_pdb_file = lp_pdbbind_dir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_protein.pdb'
+                pocket_pdb_file = lp_pdbbind_dir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_pocket.pdb'
+                ligand_mol2_file= lp_pdbbind_dir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_ligand.mol2'
+                ligand_sdf_file= lp_pdbbind_dir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_ligand.sdf'
+                native_ligand_mol2_file= lp_pdbbind_dir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_ligand.mol2'
+                native_ligand_sdf_file== lp_pdbbind_dir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_ligand.sdf'
 class Converter:
     def __init__(self,molecule,datadir):
         self.molecule = molecule
