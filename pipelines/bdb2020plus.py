@@ -15,8 +15,8 @@ def pipeline(datadir,bdb2020plus_datadir,bdb2020plus_df,no_modes):
     if generate_library_step:
         '''Generate the library for bdb2020plus operations'''
         generator.generate_libraray(datadir)
-        workspace = generator.GetDataset(datadir,bdb2020plus_df)                                    #create workspace
-        workspace.bdb2020plus(bdb2020plus_datadir)                                                  #copy files to workspace
+        workspace = generator.GetDataset(datadir,bdb2020plus_datadir,bdb2020plus_df)                                    #create workspace
+        workspace.bdb2020plus()                                                  #copy files to workspace
 
     if convert_step:
         for index,row in bdb2020plus_df.iterrows():                                                 #   Converter loop for every PDB structure from BDB2020+ set

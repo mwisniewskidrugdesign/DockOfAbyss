@@ -51,11 +51,12 @@ def generate_libraray(datadir):
             result = subprocess.run(['mkdir '+datadir+'/docs/temp'],shell=True,capture_output=True,text=True)
 
 class GetDataset:
-    def __init__(self,datadir,df,pdb_id_column='pdbid'):
+    def __init__(self,datadir,rawdir,df,pdb_id_column='pdbid'):
         self.datadir = datadir              #directory of data
+        self.rawdir = rawdir
         self.df = df                        #dataframe of dataset
         self.pdb_id_column=pdb_id_column    #pdb_id_columnn = 'pdbid' or diffrent
-    def bdb2020plus(self,bdb2020plus_dir,native_ligand=False):
+    def bdb2020plus(self,native_ligand=False):
         '''
         Copy files from BindindDB 2020+ dataset
         bdb20plus_dir = directory of BindindDB 2020+ database
@@ -70,11 +71,11 @@ class GetDataset:
                 pdb_native_ligand_final_path = self.datadir + '/native_ligand/pdb'
                 sdf_native_ligand_final_path = self.datadir + '/native_ligand/sdf'
 
-                protein_pdb_file = bdb2020plus_dir + '/' + row[self.pdb_id_column] + '/protein.pdb'
-                ligand_pdb_file = bdb2020plus_dir + '/' + row[self.pdb_id_column] + '/ligand.pdb'
-                ligand_sdf_file = bdb2020plus_dir + '/' + row[self.pdb_id_column] + '/ligand.sdf'
-                native_ligand_pdb_file = bdb2020plus_dir + '/' + row[self.pdb_id_column] + '/ligand.pdb'
-                native_ligand_sdf_file = bdb2020plus_dir + '/' + row[self.pdb_id_column] + '/ligand.sdf'
+                protein_pdb_file = self.rawdir + '/' + row[self.pdb_id_column] + '/protein.pdb'
+                ligand_pdb_file = self.rawdir + '/' + row[self.pdb_id_column] + '/ligand.pdb'
+                ligand_sdf_file = self.rawdir + '/' + row[self.pdb_id_column] + '/ligand.sdf'
+                native_ligand_pdb_file = self.rawdir + '/' + row[self.pdb_id_column] + '/ligand.pdb'
+                native_ligand_sdf_file = self.rawdir + '/' + row[self.pdb_id_column] + '/ligand.sdf'
 
                 if not os.path.exists(pdb_protein_final_path + '/' + row[self.pdb_id_column] + '_protein.pdb'):
                     shutil.copy(protein_pdb_file, pdb_protein_final_path + '/' + row[self.pdb_id_column] + '_protein.pdb')
@@ -91,7 +92,7 @@ class GetDataset:
                         shutil.copy(ligand_sdf_file, sdf_ligand_final_path + '/' + row[self.pdb_id_column] +'_ligand.sdf')
         except IndexError:
             print('Error!')
-    def lp_pdbbind(self,lp_pdbbind_dir,native_ligand=False):
+    def lp_pdbbind(self,native_ligand=False):
         try:
             for index,row in self.df.iterrows():
                 print(str(index) + '.' + row[self.pdb_id_column])
@@ -106,12 +107,12 @@ class GetDataset:
                 final_paths=[pdb_protein_final_path,pdb_pocket_final_path,mol2_ligand_final_path,sdf_ligand_final_path,mol2_native_ligand_final_path,sdf_native_ligand_final_path]
 
 
-                protein_pdb_file = lp_pdbbind_dir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_protein.pdb'
-                pocket_pdb_file = lp_pdbbind_dir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_pocket.pdb'
-                ligand_mol2_file= lp_pdbbind_dir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_ligand.mol2'
-                ligand_sdf_file= lp_pdbbind_dir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_ligand.sdf'
-                native_ligand_mol2_file= lp_pdbbind_dir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_ligand.mol2'
-                native_ligand_sdf_file= lp_pdbbind_dir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_ligand.sdf'
+                protein_pdb_file = self.rawdir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_protein.pdb'
+                pocket_pdb_file = self.rawdir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_pocket.pdb'
+                ligand_mol2_file= self.rawdir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_ligand.mol2'
+                ligand_sdf_file= self.rawdir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_ligand.sdf'
+                native_ligand_mol2_file= self.rawdir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_ligand.mol2'
+                native_ligand_sdf_file= self.rawdir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_ligand.sdf'
 
                 files = [protein_pdb_file,pocket_pdb_file,ligand_mol2_file,ligand_sdf_file,native_ligand_mol2_file,native_ligand_sdf_file]
                 ### ADD IF for native_ligands
