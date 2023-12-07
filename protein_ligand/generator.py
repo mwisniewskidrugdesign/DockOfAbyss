@@ -66,30 +66,33 @@ class GetDataset:
             for index,row in self.df.iterrows():
                 print(str(index) + '.' + row[self.pdb_id_column])
                 pdb_protein_final_path = self.datadir + '/protein/pdb'
-                pdb_ligand_final_path = self.datadir + '/ligand/pdb'
-                sdf_ligand_final_path = self.datadir + '/ligand/sdf'
                 pdb_native_ligand_final_path = self.datadir + '/native_ligand/pdb'
                 sdf_native_ligand_final_path = self.datadir + '/native_ligand/sdf'
+                pdb_ligand_final_path = self.datadir + '/ligand/pdb'
+                sdf_ligand_final_path = self.datadir + '/ligand/sdf'
 
                 protein_pdb_file = self.rawdir + '/' + row[self.pdb_id_column] + '/protein.pdb'
-                ligand_pdb_file = self.rawdir + '/' + row[self.pdb_id_column] + '/ligand.pdb'
-                ligand_sdf_file = self.rawdir + '/' + row[self.pdb_id_column] + '/ligand.sdf'
                 native_ligand_pdb_file = self.rawdir + '/' + row[self.pdb_id_column] + '/ligand.pdb'
                 native_ligand_sdf_file = self.rawdir + '/' + row[self.pdb_id_column] + '/ligand.sdf'
+                ligand_pdb_file = self.rawdir + '/' + row[self.pdb_id_column] + '/ligand.pdb'
+                ligand_sdf_file = self.rawdir + '/' + row[self.pdb_id_column] + '/ligand.sdf'
 
-                if not os.path.exists(pdb_protein_final_path + '/' + row[self.pdb_id_column] + '_protein.pdb'):
-                    shutil.copy(protein_pdb_file, pdb_protein_final_path + '/' + row[self.pdb_id_column] + '_protein.pdb')
+                final_paths = [pdb_protein_final_path, pdb_native_ligand_final_path, sdf_native_ligand_final_path]
+                files = [protein_pdb_file,native_ligand_pdb_file,native_ligand_sdf_file]
+                strings=['_protein.pdb','_ligand.pdb','_ligand.sdf']
 
-                if not os.path.exists(pdb_native_ligand_final_path + '/' + row[self.pdb_id_column] + '_ligand.pdb'):
-                    shutil.copy(native_ligand_pdb_file, pdb_native_ligand_final_path + '/' + row[self.pdb_id_column] + '_ligand.pdb')
-
-                if not os.path.exists(sdf_native_ligand_final_path + '/' + row[self.pdb_id_column] + '_ligand.sdf'):
-                    shutil.copy(native_ligand_sdf_file, sdf_native_ligand_final_path + '/' + row[self.pdb_id_column] + '_ligand.sdf')
+                iterations = range(3)
 
                 if native_ligand == False:
-                    if not os.path.exists(pdb_ligand_final_path + '/' + row[self.pdb_id_column] + '_ligand.pdb'):
-                        shutil.copy(ligand_pdb_file, pdb_ligand_final_path + '/' + row[self.pdb_id_column] + '_ligand.pdb')
-                        shutil.copy(ligand_sdf_file, sdf_ligand_final_path + '/' + row[self.pdb_id_column] +'_ligand.sdf')
+                    final_paths.append(pdb_ligand_final_path, sdf_ligand_final_path)
+                    files.append([ligand_pdb_file,ligand_sdf_file])
+                    strings.append(['_ligand.pdb','_ligand.sdf'])
+                    iterations = range(5)
+
+                for i in iterations:
+                    if not os.path.exists(final_paths[i]+'/'+row[self.pdb_id_column]+strings[i]):
+                        shutil.copy(files[i],final_paths[i]+'/'+row[self.pdb_id_column]+strings[i])
+
         except IndexError:
             print('Error!')
     def lp_pdbbind(self,native_ligand=False):
@@ -98,14 +101,10 @@ class GetDataset:
                 print(str(index) + '.' + row[self.pdb_id_column])
                 pdb_protein_final_path = self.datadir + '/protein/pdb'
                 pdb_pocket_final_path = self.datadir + '/pocket/pdb'
-                mol2_ligand_final_path = self.datadir + '/ligand/mol2'
-                sdf_ligand_final_path = self.datadir + '/ligand/sdf'
                 mol2_native_ligand_final_path = self.datadir + '/native_ligand/mol2'
                 sdf_native_ligand_final_path = self.datadir + '/native_ligand/sdf'
-
-
-                final_paths=[pdb_protein_final_path,pdb_pocket_final_path,mol2_ligand_final_path,sdf_ligand_final_path,mol2_native_ligand_final_path,sdf_native_ligand_final_path]
-
+                mol2_ligand_final_path = self.datadir + '/ligand/mol2'
+                sdf_ligand_final_path = self.datadir + '/ligand/sdf'
 
                 protein_pdb_file = self.rawdir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_protein.pdb'
                 pocket_pdb_file = self.rawdir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_pocket.pdb'
@@ -114,10 +113,19 @@ class GetDataset:
                 native_ligand_mol2_file= self.rawdir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_ligand.mol2'
                 native_ligand_sdf_file= self.rawdir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_ligand.sdf'
 
-                files = [protein_pdb_file,pocket_pdb_file,ligand_mol2_file,ligand_sdf_file,native_ligand_mol2_file,native_ligand_sdf_file]
-                ### ADD IF for native_ligands
-                strings=['_protein.pdb','_pocket.pdb','_ligand.mol2','_ligand.sdf','_ligand.mol2','_ligand.sdf']
-                for i in range(6):
+                final_paths=[pdb_protein_final_path,pdb_pocket_final_path,mol2_native_ligand_final_path,sdf_native_ligand_final_path]
+                files = [protein_pdb_file,pocket_pdb_file,native_ligand_mol2_file,native_ligand_sdf_file]
+                strings=['_protein.pdb','_pocket.pdb','_ligand.mol2','_ligand.sdf']
+
+                iterations = range(4)
+
+                if native_ligand==False:
+                    final_paths.append([mol2_ligand_final_path,sdf_ligand_final_path])
+                    files.append([ligand_mol2_file,ligand_sdf_file])
+                    strings.append(['_ligand.mol2','_ligand.sdf'])
+                    iterations = range(6)
+
+                for i in iterations:
                     if not os.path.exists(final_paths[i]+'/'+row[self.pdb_id_column]+strings[i]):
                         shutil.copy(files[i],final_paths[i]+'/'+row[self.pdb_id_column]+strings[i])
 class Converter:
@@ -130,7 +138,8 @@ class Converter:
         '''
         if protein==False and pocket==False and ligand == False and native_ligand == False:
             print('There is nothing to do. Precise which molecule type u want to convert (protein/pocket/ligand/native ligand)')
-            return
+            return None
+
         if protein == True:
             '''Generate Log File'''
             generate_protein_pdbqt_log_file = self.datadir + '/logs/generate_protein_pdbqt_files.log'
@@ -147,6 +156,7 @@ class Converter:
             else:
                 pdbqt_convert_error = self.molecule+', There is no PDB file to convert.'
                 generate_protein_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_convert_error)
+
         if pocket == True:
             '''Generate Log File'''
             generate_pocket_pdbqt_log_file = self.datadir + '/logs/generate_pocket_pdbqt_files.log'
@@ -163,7 +173,6 @@ class Converter:
             else:
                 pdbqt_convert_error = self.molecule+', There is no PDB file to convert.'
                 generate_protein_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_convert_error)
-
 
         if ligand == True:
             '''Generate Log File'''
@@ -203,6 +212,7 @@ class Converter:
         if protein == False and pocket == False:
             print('There is no molecule to convert. PLease specify what type of molecules you want to convert (protein/pocket).')
             return
+
         if protein==True:
             protein_pdb_file = self.datadir + '/protein/pdb/' + self.molecule + '_protein.pdb'
             protein_fasta_file = self.datadir + '/protein/fasta/' + self.molecule + '_protein.fasta'
@@ -251,7 +261,6 @@ class Converter:
             else:
                 mol2_convert_error = self.molecule + ', There is no PDB file to convert.'
                 generate_protein_mol2_file_logger.info(self.molecule + ',' + mol2_convert_error)
-
 
         if ligand == True:
             '''Generate Log File'''
