@@ -56,8 +56,7 @@ class Smina:
 
         atom_term_output = atom_term_output.read().split('END\n')[:-1]
         atom_term_output = [i.split('\n') for i in atom_term_output]
-        #for i in atom_term_output:
-            #print(i)
+
         for idx,i in enumerate(atom_term_output):
             i = i[1:-1]
 
@@ -123,6 +122,11 @@ class RxDock:
         self.system_prepared_file = None        #rx_dock prepared system filepath
         self.rx_output = None                   #rx_dock output filepath
 
+        self.matrix = None
+        self.tensor = None
+        self.values = None
+        self.experimental_affinity = None
+        self.sf_components = None
     def rxdock_dirs(self):
         if not os.path.exists(self.rxdock_dir):
             makedir = subprocess.run(['mkdir ' + self.rxdock_dir], shell=True, capture_output=True, text=True)
@@ -150,18 +154,75 @@ class RxDock:
 
     def rxdock_docking(self,no_modes):
         os.environ['RBT_HOME'] = self.datadir
-        self.rx_output = self.rxdock_dir + '/' + self.protein + '-' + self.ligand +'.sd'
+        self.rx_output = self.rxdock_dir + '/' + self.protein + '-' + self.ligand
         command = 'rbcavity -W -d -r %s' % self.system_prepared_file
         result = subprocess.run([command], shell=True, capture_output=True, text=True)
-        print(result)
-        print(result.stdout)
-        print('error: ')
-        print(result.stderr)
         command = 'rbdock -i %s -o %s -r %s -p dock.prm -n %s' % (self.ligand_file, self.rx_output, self.system_prepared_file, no_modes)
         result = subprocess.run([command], shell=True, capture_output=True, text=True)
 
-        return None
-    def read_files(self):
+    def create_rxdock_matrix(self,proteins,ligands,no_modes):
+
+        self.values = ['pKa', '<SCORE>', '<SCORE.INTER>>', '<SCORE.INTER.CONST>', '<SCORE.INTER.POLAR>',
+                  '<SCORE.INTER.REPUL>', '<SCORE.INTER.ROT>', '<SCORE.INTER.VDW>', '<SCORE.INTER.norm>', '<SCORE.INTRA>',
+                  '<SCORE.INTRA.DIHEDRAL>', '<SCORE.INTRA.DIHEDRAL.0>', '<SCORE.INTRA.POLAR>', '<SCORE.INTRA.POLAR.0>',
+                  '<SCORE.INTRA.REPUL>', '<SCORE.INTRA.REPUL.0>', '<SCORE.INTRA.VDW>', '<SCORE.INTRA.VDW.0>',
+                  '<SCORE.INTRA.norm>', '<SCORE.RESTR>', '<SCORE.RESTR.CAVITY>', '<SCORE.RESTR.norm>', '<SCORE.SYSTEM>',
+                  '<SCORE.SYSTEM.CONST>', '<SCORE.SYSTEM.DIHEDRAL>', '<SCORE.SYSTEM.norm>', '<SCORE.HEAVY>', '<SCORE.norm>']
+
+        no_proteins = len(proteins)
+        no_ligands = len(ligands)
+        no_modes = no_modes
+
+        self.matrix = np.empty((no_proteins,no_ligands,no_modes),dtype=object)
+        return self.matrix
+
+    def read_experimental_affinity(self,df,protein,ligand,affinity_column='pKa'):
+        if protein == ligand:
+            self.experimental_affinity = df[df['pdbid']==protein][affinity_column].values[0]
+    def read_output(self):
+
+
+        predicted_binding_affinity = []
+        inter_score = []
+        inter_const_score = []
+        inter_polar_score = []
+        inter_repul_score = []
+        inter_rot_score = []
+        inter_vdw_score = []
+        inter_norm_score = []
+        intra_score = []
+        intra_dihedral_score = []
+        intra_dihedral_0_score = []
+        intra_polar_score = []
+        intra_polar_0_score = []
+        intra_repul_score = []
+        intra_repul_0_score = []
+        intra_vdw_score = []
+        intra_vdw_0_score = []
+        intra_norm_score = []
+        restr_score = []
+        restr_cavity_score = []
+        restr_norm_score = []
+        system_score = []
+        system_condst_score = []
+        system_dihedral_score = []
+        system_norm_score = []
+        heavy_score = []
+        norm_score = []
+
+        self.rx_output = self.rx_output + '.sd'
+        output_file = open(self.rx_output,'r')
+        list_of_modes = output_file.read().split('$$$$')[:-1]
+
+        for mode_index, mode in enumerate(list_of_modes[:1]):
+            mode = mode.split('>  <Rbt.Receptor>')[-1].split('\n')[2:-2:3]
+            print(mode)                         ## ???????? how to menage taht shit
+            for index, line in enumerate(mode):
+
+                if index % 3:
+                    print(index)
+                    print(line)
+
         return None
 
 

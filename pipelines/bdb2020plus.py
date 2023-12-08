@@ -32,14 +32,14 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes):
         if 'smina' in docking_programs:
             smina_docking = docking.Smina(datadir)                                      # SMINA Docking Class
             smina_docking.smina_dirs()                                                              ## Generate output dirs for SMINA docking
-            smina_matrix = smina_docking.create_smina_matrix(molecules[:2],molecules[:2],no_modes)  ## Generate empty SMINA outputs matrix
+            smina_matrix = smina_docking.create_smina_matrix(molecules[:1],molecules[:1],no_modes)  ## Generate empty SMINA outputs matrix
 
         if 'rxdock' in docking_programs:
             rx_docking = docking.RxDock(datadir)
             rx_docking.rxdock_dirs()
             rxdock_matrix = None
 
-        for molecule_idx,molecule in enumerate(molecules[:2]):                                      ## Docking Loop for molecules from list generated earlier
+        for molecule_idx,molecule in enumerate(molecules[:1]):                                      ## Docking Loop for molecules from list generated earlier
             print('Docking '+molecule+' to '+molecule+'. With: \n',docking_programs)                ## Print PDB structure code
             if 'smina' in docking_programs:
                 smina_docking_error_number = 0
@@ -63,7 +63,8 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes):
                 while True:
                     try:
                         rx_docking.rxdock_files(molecule,molecule,molecule)
-                        rx_docking.rxdock_docking(10)
+                        rx_docking.rxdock_docking(2)
+                        rx_docking.read_output()
                     except:
                         rx_docking_error_number+=1
                         print('RxDock proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + rx_docking_error_number + 'st time.')
