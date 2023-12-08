@@ -215,7 +215,7 @@ class RxDock:
         list_of_modes = output_file.read().split('$$$$')[:-1]
 
         for mode_index, mode in enumerate(list_of_modes[:1]):
-            mode = mode.split('>  <Rbt.Receptor>')[-1].split('\n')[2:-2:3]
+            mode = mode.split('>  <Rbt.Receptor>')[-1].split('\n')[1:-2:3]
             print(mode)                         ## ???????? how to menage taht shit
             for index, line in enumerate(mode):
 
