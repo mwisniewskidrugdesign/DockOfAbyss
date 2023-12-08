@@ -29,7 +29,7 @@ elif settings.station == 'eden':
 
 ### PIPELINES ###
 # na to zrobię $1 argument w prompt
-bdb2020plus_pipeline = False
+bdb2020plus_pipeline = True
 mpro_pipeline = False
 egfr_pipeline = False
 lp_pdbbind_pipeline = False

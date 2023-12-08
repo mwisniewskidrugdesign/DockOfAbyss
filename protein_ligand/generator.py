@@ -84,15 +84,15 @@ class GetDataset:
                 iterations = range(3)
 
                 if native_ligand == False:
-                    final_paths.append(pdb_ligand_final_path, sdf_ligand_final_path)
-                    files.append([ligand_pdb_file,ligand_sdf_file])
-                    strings.append(['_ligand.pdb','_ligand.sdf'])
+                    final_paths = final_paths+[pdb_ligand_final_path, sdf_ligand_final_path]
+                    files = files + [ligand_pdb_file,ligand_sdf_file]
+                    strings = strings + ['_ligand.pdb','_ligand.sdf']
                     iterations = range(5)
 
                 for i in iterations:
+                    print(final_paths[i])
                     if not os.path.exists(final_paths[i]+'/'+row[self.pdb_id_column]+strings[i]):
                         shutil.copy(files[i],final_paths[i]+'/'+row[self.pdb_id_column]+strings[i])
-
         except IndexError:
             print('Error!')
     def lp_pdbbind(self,native_ligand=False):
@@ -121,14 +121,16 @@ class GetDataset:
                 iterations = range(4)
 
                 if native_ligand==False:
-                    final_paths.append([mol2_ligand_final_path,sdf_ligand_final_path])
-                    files.append([ligand_mol2_file,ligand_sdf_file])
-                    strings.append(['_ligand.mol2','_ligand.sdf'])
+                    final_paths = final_paths + [mol2_ligand_final_path,sdf_ligand_final_path]
+                    files = files +[ligand_mol2_file,ligand_sdf_file]
+                    strings = strings + ['_ligand.mol2','_ligand.sdf']
                     iterations = range(6)
 
                 for i in iterations:
                     if not os.path.exists(final_paths[i]+'/'+row[self.pdb_id_column]+strings[i]):
                         shutil.copy(files[i],final_paths[i]+'/'+row[self.pdb_id_column]+strings[i])
+        except IndexError:
+            print('Error!')
 class Converter:
     def __init__(self,molecule,datadir):
         self.molecule = molecule
@@ -208,11 +210,12 @@ class Converter:
             else:
                 pdbqt_convert_error = self.molecule+', There is no PDB file to convert.'
                 generate_protein_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_convert_error)
+
     def pdb_to_seq(self,protein=True,pocket=False):
 
         if protein == False and pocket == False:
             print('There is no molecule to convert. PLease specify what type of molecules you want to convert (protein/pocket).')
-            return
+            return None
 
         if protein==True:
             protein_pdb_file = self.datadir + '/protein/pdb/' + self.molecule + '_protein.pdb'
@@ -298,7 +301,7 @@ class Converter:
                 generate_protein_mol2_file_logger.info(self.molecule + ',' + mol2_convert_error)
     def sdf_to_mol(self):
         '''To be done if needed'''
-        return None
+        return
 class Documents:
     def __init__(self,datadir):
         self.datadir = datadir

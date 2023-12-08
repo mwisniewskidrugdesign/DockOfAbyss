@@ -8,14 +8,14 @@ pd.set_option('display.max_columns', None)
 generate_library_step = True
 convert_step=True                #ADD IF !!!!!!!!!!!!!!!!!!!!!!!!!! SUCH US DOCKING PROGRAMS LIST
 docking_step=True
-docking_programs=['smina']
+docking_programs=['rxdock']
 
 def diagonal_pipeline(datadir,rawdir,df,no_modes):
 
     if generate_library_step:
         '''Generate the library for bdb2020plus operations'''
         generator.generate_libraray(datadir)
-        workspace = generator.GetDataset(datadir,rawdir,df)                                    #create workspace
+        workspace = generator.GetDataset(datadir,rawdir,df, pdb_id_column='pdbid')                                    #create workspace
         workspace.bdb2020plus()                                                  #copy files to workspace
 
     if convert_step:
@@ -32,14 +32,14 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes):
         if 'smina' in docking_programs:
             smina_docking = docking.Smina(datadir)                                      # SMINA Docking Class
             smina_docking.smina_dirs()                                                              ## Generate output dirs for SMINA docking
-            smina_matrix = smina_docking.create_smina_matrix(molecules[:],molecules[:],no_modes)  ## Generate empty SMINA outputs matrix
+            smina_matrix = smina_docking.create_smina_matrix(molecules[:2],molecules[:2],no_modes)  ## Generate empty SMINA outputs matrix
 
-        # if 'rxdock' in docking_programs:
-        #     rx_docking = docking.RxDock(datadir)
-        #     rx_docking.rxdock_dirs()
-        #     rxdock_matrix = None
+        if 'rxdock' in docking_programs:
+            rx_docking = docking.RxDock(datadir)
+            rx_docking.rxdock_dirs()
+            rxdock_matrix = None
 
-        for molecule_idx,molecule in enumerate(molecules[:]):                                      ## Docking Loop for molecules from list generated earlier
+        for molecule_idx,molecule in enumerate(molecules[:2]):                                      ## Docking Loop for molecules from list generated earlier
             print('Docking '+molecule+' to '+molecule+'. With: \n',docking_programs)                ## Print PDB structure code
             if 'smina' in docking_programs:
                 smina_docking_error_number = 0
@@ -56,16 +56,19 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes):
                         print('Smina proposed less modes than expected for docking '+molecule+' to '+molecule+'. '+str(smina_docking_error_number)+'st time.')
                         continue
                     break
-            # if 'rxdock' in docking_programs:
-            #     rx_docking_error_number = 0
-            #     rx_docking.rxdock_files(molecule,molecule,molecule)
-            #     rx_docking.rxdock_system_preparation()
-            #     #while True:
-            #         #try:
-            #             #print(elo)
-            #         #except:
-            #             #rx_docking_error_number+=1
-            #             #print('RxDock proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + rx_docking_error_number + 'st time.')
+            if 'rxdock' in docking_programs:
+                rx_docking_error_number = 0
+                rx_docking.rxdock_files(molecule,molecule,molecule)
+                rx_docking.rxdock_system_preparation()
+                while True:
+                    try:
+                        rx_docking.rxdock_files(molecule,molecule,molecule)
+                        rx_docking.rxdock_docking(10)
+                    except:
+                        rx_docking_error_number+=1
+                        print('RxDock proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + rx_docking_error_number + 'st time.')
+                        continue
+                    break
 
         if 'smina' in docking_programs:
             smina_docking.save_matrix('smina_matrix')                                       ## save SMINA matrix

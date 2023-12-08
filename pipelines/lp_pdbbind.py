@@ -8,14 +8,14 @@ pd.set_option('display.max_columns', None)
 generate_library_step = True
 convert_step=True                #ADD IF !!!!!!!!!!!!!!!!!!!!!!!!!! SUCH US DOCKING PROGRAMS LIST
 docking_step=True
-docking_programs=['smina']
+docking_programs=['rxdock']
 
 def diagonal_pipeline(datadir,rawdir,df,no_mode):
   #prep DF step for Clear 1 or Clear 2 !!!!
   if generate_library_step:
     '''Generate the library for LP_PDBBIND operations'''
     generator.generate_libraray(datadir)
-    workspace = generator.GetDataset(datadir,rawdir,df)                                    #create workspace
+    workspace = generator.GetDataset(datadir,rawdir,df,pdb_id_column='pdbid')                                    #create workspace
     workspace.lp_pdbbind()                                                    #copy files to workspace
 
   if convert_step:
@@ -34,10 +34,10 @@ def diagonal_pipeline(datadir,rawdir,df,no_mode):
       smina_docking.smina_dirs()  ## Generate output dirs for SMINA docking
       smina_matrix = smina_docking.create_smina_matrix(molecules[:], molecules[:], no_modes)
 
-    # if 'rxdock' in docking_programs:
-    #     rx_docking = docking.RxDock(datadir)
-    #     rx_docking.rxdock_dirs()
-    #     rxdock_matrix = None
+    if 'rxdock' in docking_programs:
+      rx_docking = docking.RxDock(datadir)
+      rx_docking.rxdock_dirs()
+      rxdock_matrix = None
 
     for molecule_idx, molecule in enumerate(molecules[:]):  ## Docking Loop for molecules from list generated earlier
       print('Docking ' + molecule + ' to ' + molecule + '. With: \n', docking_programs)  ## Print PDB structure code
@@ -57,16 +57,16 @@ def diagonal_pipeline(datadir,rawdir,df,no_mode):
             continue
           break
 
-      # if 'rxdock' in docking_programs:
-      #     rx_docking_error_number = 0
-      #     rx_docking.rxdock_files(molecule,molecule,molecule)
-      #     rx_docking.rxdock_system_preparation()
-      #     #while True:
-      #         #try:
-      #             #print(elo)
-      #         #except:
-      #             #rx_docking_error_number+=1
-      #             #print('RxDock proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + rx_docking_error_number + 'st time.')
+      if 'rxdock' in docking_programs:
+        rx_docking_error_number = 0
+        rx_docking.rxdock_files(molecule,molecule,molecule)
+        rx_docking.rxdock_system_preparation()
+        while False:
+          try:
+            print(elo)
+          except:
+            rx_docking_error_number+=1
+            print('RxDock proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + rx_docking_error_number + 'st time.')
 
     if 'smina' in docking_programs:
             smina_docking.save_matrix('smina_matrix')                                       ## save SMINA matrix

@@ -110,9 +110,6 @@ class RxDock:
 
         self.datadir = datadir
         self.rxdock_dir = datadir + '/docking_scores/rxdock'
-        self.pdbqt_rxdock_dir = self.rxdock_dir + '/pdbqt'
-        self.atom_terms_rxdock_dir = self.rxdock_dir + '/atom_terms'
-        self.logs_rxdock_dir = self.rxdock_dir + '/logs'
 
         self.protein = None
         self.ligand = None
@@ -122,15 +119,13 @@ class RxDock:
         self.ligand_file=''
         self.native_ligand_file=''
 
-        self.system_file = system_file
-        self.system_prepared_file = None
+        self.system_file = system_file          #rx_dock raw system filepath
+        self.system_prepared_file = None        #rx_dock prepared system filepath
+        self.rx_output = None                   #rx_dock output filepath
 
     def rxdock_dirs(self):
         if not os.path.exists(self.rxdock_dir):
             makedir = subprocess.run(['mkdir ' + self.rxdock_dir], shell=True, capture_output=True, text=True)
-            makedir = subprocess.run(['mkdir ' + self.pdbqt_rxdock_dir], shell=True, capture_output=True, text=True)
-            makedir = subprocess.run(['mkdir ' + self.atom_terms_rxdock_dir], shell=True, capture_output=True, text=True)
-            makedir = subprocess.run(['mkdir ' + self.logs_rxdock_dir], shell=True, capture_output=True, text=True)
     def rxdock_files(self,protein,ligand,native_ligand):
 
         self.protein = protein
@@ -153,7 +148,18 @@ class RxDock:
         with open(self.system_prepared_file, 'w') as file:
             file.write(system_filedata)
 
-    def rxdock_docking(self):
+    def rxdock_docking(self,no_modes):
+        os.environ['RBT_HOME'] = self.datadir
+        self.rx_output = self.rxdock_dir + '/' + self.protein + '-' + self.ligand +'.sd'
+        command = 'rbcavity -W -d -r %s' % self.system_prepared_file
+        result = subprocess.run([command], shell=True, capture_output=True, text=True)
+        print(result)
+        print(result.stdout)
+        print('error: ')
+        print(result.stderr)
+        command = 'rbdock -i %s -o %s -r %s -p dock.prm -n %s' % (self.ligand_file, self.rx_output, self.system_prepared_file, no_modes)
+        result = subprocess.run([command], shell=True, capture_output=True, text=True)
+
         return None
     def read_files(self):
         return None
