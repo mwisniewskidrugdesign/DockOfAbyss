@@ -14,9 +14,9 @@ if settings.station == 'inka':
     bdb2020plus_datadir = '/mnt/raid/mwisniewski/PhD/data/LP-PDBBind/dataset/BDB2020+/dataset'
 
 elif settings.station == 'eden':
-    datadir='/home2/sfglab/mwisniewski/PhD/data/bdb2020plus'
-    bdb2020plus_datadir='/home2/sfglab/mwisniewski/PhD/data/others/LP-PDBBind/dataset/BDB2020+/dataset'
-    lp_pdbbind_dir=''
+    datadir='/home2/sfglab/mwisniewski/PhD/data/lp_pdbbind'
+    bdb2020plus_datadir='/home2/sfglab/mwisniewski/PhD/data/raw/bdb2020plus'
+    lp_pdbbind_dir='/home2/sfglab/mwisniewski/PhD/data/raw/PDBbind'
 
 ############
 
@@ -26,16 +26,16 @@ if settings.station == 'inka':
     lp_pdbbind_df = pd.read_csv('/home2/sfglab/mwisniewski/PhD/data/others/PDBbind')
 
 elif settings.station == 'eden':
-    bdb2020plus_df = pd.read_csv('/home2/sfglab/mwisniewski/PhD/data/others/LP-PDBBind/dataset/BDB2020+/BDB2020+.csv')
-    lp_pdbbind_df = pd.read_csv('/home2/sfglab/mwisniewski/PhD/data/others/LP-PDBBind/dataset/LP_PDBBind.csv')
+    bdb2020plus_df = pd.read_csv('/home2/sfglab/mwisniewski/PhD/data/dataframes/BDB2020+.csv')
+    lp_pdbbind_df = pd.read_csv('/home2/sfglab/mwisniewski/PhD/data/dataframes/LP_PDBBind.csv')
 ##################
 
 ### PIPELINES ###
 # na to zrobię $1 argument w prompt
-bdb2020plus_pipeline = True
+bdb2020plus_pipeline = False
 mpro_pipeline = False
 egfr_pipeline = False
-lp_pdbbind_pipeline = False
+lp_pdbbind_pipeline = True
 
 #############
 

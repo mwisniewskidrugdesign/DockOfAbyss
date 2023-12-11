@@ -6,7 +6,7 @@ import pandas as pd
 pd.set_option('display.max_columns', None)
 
 generate_library_step = True
-convert_step=False                #ADD IF !!!!!!!!!!!!!!!!!!!!!!!!!! SUCH US DOCKING PROGRAMS LIST
+convert_step=True                #ADD IF !!!!!!!!!!!!!!!!!!!!!!!!!! SUCH US DOCKING PROGRAMS LIST
 docking_step=False
 docking_programs=['smina','rxdock']
 
@@ -14,6 +14,7 @@ def diagonal_pipeline(datadir,rawdir,df,no_mode,pdb_id_column):
   #prep DF step for Clear 1 or Clear 2 !!!!
   mask = df['CL1'] == 'True'
   df=df[mask]
+  print(df)
   if generate_library_step:
     '''Generate the library for LP_PDBBIND operations'''
     generator.generate_libraray(datadir)
