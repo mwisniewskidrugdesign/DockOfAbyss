@@ -156,6 +156,7 @@ class Converter:
                     print('error: '+len(pdbqt_result.stderr)+' | '+pdbqt_result.stderr)
 
                     if pdbqt_result.stderr == True:
+                        print('opebabel protein:\n')
                         command = settings.obabel_path+' '+pdb_protein_file+' -O '+pdbqt_protein_file
                         pdbqt_result = subprocess.run([command], shell=False, capture_output=True, text=True, close_fds=True)
                         print('error: ' + len(pdbqt_result.stderr) + ' | ' + pdbqt_result.stderr)
@@ -185,6 +186,12 @@ class Converter:
                     command = settings.mgltools_dir + '/bin/pythonsh ' + settings.mgltools_dir + '/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor4.py -r ' + pdb_pocket_file + ' -o ' + pdbqt_pocket_file + ' -A checkhydrogens'
                     pdbqt_result = subprocess.run([command], shell=False, capture_output=True, text=True, close_fds=True)
                     print(pdbqt_result.stderr)
+
+                    if pdbqt_result.stderr == True:
+                        print('opebabel pocket:\n')
+                        command = settings.obabel_path+' '+pdb_pocket_file+' -O '+pdbqt_pocket_file
+                        pdbqt_result = subprocess.run([command], shell=False, capture_output=True, text=True, close_fds=True)
+                        print('error: ' + len(pdbqt_result.stderr) + ' | ' + pdbqt_result.stderr)
 
                 else:
                     pdbqt_convert_error = self.molecule+', There is no PDB file to convert.'
