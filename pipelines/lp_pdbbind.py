@@ -10,7 +10,7 @@ convert_step=True                #ADD IF !!!!!!!!!!!!!!!!!!!!!!!!!! SUCH US DOCK
 docking_step=False
 docking_programs=['smina','rxdock']
 
-def diagonal_pipeline(datadir,rawdir,df,no_mode,pdb_id_column):
+def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch_end):
   #prep DF step for Clear 1 or Clear 2 !!!!
   mask = df['CL1'] == True
   df=df[mask]
@@ -31,7 +31,7 @@ def diagonal_pipeline(datadir,rawdir,df,no_mode,pdb_id_column):
 
   if docking_step:
     df_prep = datasets.DatasetPreparation(df)  # Generate Molecule list Class - is it neccessery in this case?
-    molecules = df_prep.get_molecules('pdbid')  ##  Generating molecules list from PDB structure codes
+    molecules = df_prep.get_molecules('pdbid')[batch_start:batch_end]  ##  Generating molecules list from PDB structure codes
 
     if 'smina' in docking_programs:
       smina_docking = docking.Smina(datadir)  # SMINA Docking Class

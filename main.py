@@ -1,4 +1,5 @@
 import settings
+import sys
 from pipelines import bdb2020plus, lp_pdbbind
 
 import pandas as pd
@@ -38,6 +39,8 @@ egfr_pipeline = False
 lp_pdbbind_pipeline = True
 
 #############
+batch_start = int(sys.argv[1])
+batch_end = int(sys.argv[2])
 
 ### PIPELINES ###
 
@@ -45,6 +48,6 @@ if bdb2020plus_pipeline:
     bdb2020plus.diagonal_pipeline(datadir, bdb2020plus_datadir, bdb2020plus_df,50)
 
 if lp_pdbbind_pipeline:
-    lp_pdbbind.diagonal_pipeline(datadir,lp_pdbbind_dir,lp_pdbbind_df,50,'pdbid')
+    lp_pdbbind.diagonal_pipeline(datadir,lp_pdbbind_dir,lp_pdbbind_df,50,'pdbid',batch_start,batch_end)
 
 

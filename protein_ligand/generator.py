@@ -155,8 +155,13 @@ class Converter:
                 if (not os.path.exists(pdbqt_protein_file) or os.path.getsize(pdbqt_protein_file) == 0) and os.path.exists(pdb_protein_file):
                     command = settings.mgltools_dir + '/bin/pythonsh ' + settings.mgltools_dir + '/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor4.py -r ' + pdb_protein_file + ' -o ' + pdbqt_protein_file + ' -A checkhydrogens'
                     pdbqt_result = subprocess.run([command], shell=True, capture_output=True, text=True)
-                    print(pdbqt_result.stderr)
+                    print('error: '+len(pdbqt_result.stderr)+' | '+pdbqt_result.stderr)
                     generate_protein_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_result.stderr)
+                    if pdbqt_result.stderr == True:
+                        command = settings.obabel_path+' '+pdb_protein_file+' -O '+pdbqt_protein_file
+                        pdbqt_result = subprocess.run([command], shell=True, capture_output=True, text=True)
+                        print('error: ' + len(pdbqt_result.stderr) + ' | ' + pdbqt_result.stderr)
+                        generate_protein_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_result.stderr)
                 else:
                     pdbqt_convert_error = self.molecule+', There is no PDB file to convert.'
                     generate_protein_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_convert_error)
