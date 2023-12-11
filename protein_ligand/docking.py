@@ -141,6 +141,7 @@ class RxDock:
         self.ligand_file = self.datadir + '/ligand/sdf/' + ligand + '_ligand.sdf'
         self.native_ligand_file = self.datadir + '/native_ligand/sdf/' + native_ligand + '_ligand.sdf'
         self.system_prepared_file = self.datadir+'/docs/temp/'+self.protein+'-'+self.ligand+'.prm'
+        self.rx_output = self.rxdock_dir + '/' + self.protein + '-' + self.ligand
     def rxdock_system_preparation(self):
         with open(self.system_file,'r') as file:
             system_filedata = file.read()
@@ -155,7 +156,7 @@ class RxDock:
 
     def rxdock_docking(self,no_modes):
         os.environ['RBT_HOME'] = self.datadir
-        self.rx_output = self.rxdock_dir + '/' + self.protein + '-' + self.ligand
+
         command = 'rbcavity -W -d -r %s' % self.system_prepared_file
         result = subprocess.run([command], shell=True, capture_output=True, text=True)
         command = 'rbdock -i %s -o %s -r %s -p dock.prm -n %s' % (self.ligand_file, self.rx_output, self.system_prepared_file, no_modes)

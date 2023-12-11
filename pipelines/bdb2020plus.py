@@ -63,8 +63,8 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes):
                 while True:
                     try:
                         rx_docking.rxdock_files(molecule,molecule,molecule)
-                        rx_docking.rxdock_docking(no_modes)
-                        #rx_docking.read_output()
+                        #rx_docking.rxdock_docking(no_modes)
+                        rx_docking.read_output()
                     except:
                         rx_docking_error_number+=1
                         print('RxDock proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + rx_docking_error_number + 'st time.')
