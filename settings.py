@@ -10,7 +10,7 @@ def init():
     global obabel_path
     global rxdock
 
-    station='inka'
+    station='eden'
 
     if station=='inka':
         pdb2fasta_path = 'pdb2fasta'
