@@ -80,7 +80,7 @@ class Smina:
             self.experimental_affinity = df[df['pdbid']==protein][affinity_column].values[0]
     def create_smina_matrix(self,proteins,ligands,no_modes):
 
-        values = ['pKa','Predicted Binding Affinity','Gauss1','Gauss2','Repulsion','Hydrophobic','Non_dir_h_bond']
+        values = ['Predicted Binding Affinity','Gauss1','Gauss2','Repulsion','Hydrophobic','Non_dir_h_bond']
 
         no_proteins = len(proteins)
         no_ligands = len(ligands)
@@ -92,9 +92,9 @@ class Smina:
 
         for mode_idx in range(len(self.matrix[0][0])):
             if pidx == lidx:
-                mode_values = [(self.experimental_affinity),float(self.predicted_binding_affinity[mode_idx])]
+                mode_values = [float(self.predicted_binding_affinity[mode_idx])]
             else:
-                mode_values = [np.NaN,float(self.predicted_binding_affinity[mode_idx])]
+                mode_values = [float(self.predicted_binding_affinity[mode_idx])]
             for i in range(5):
                 mode_values.append(float(self.sf_components[i][mode_idx]))
             mode_values = np.array(mode_values)
