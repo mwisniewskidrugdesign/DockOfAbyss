@@ -1,5 +1,5 @@
 import settings
-from pipelines import bdb2020plus
+from pipelines import bdb2020plus, lp_pdbbind
 
 import pandas as pd
 
@@ -16,15 +16,18 @@ if settings.station == 'inka':
 elif settings.station == 'eden':
     datadir='/home2/sfglab/mwisniewski/PhD/data/bdb2020plus'
     bdb2020plus_datadir='/home2/sfglab/mwisniewski/PhD/data/others/LP-PDBBind/dataset/BDB2020+/dataset'
+    lp_pdbbind_dir=''
 
 ############
 
 ### DATAFRAMES ###
 if settings.station == 'inka':
-    df = pd.read_csv('/mnt/raid/mwisniewski/PhD/data/LP-PDBBind/dataset/BDB2020+/BDB2020+.csv')
+    bdb2020plus_df = pd.read_csv('/mnt/raid/mwisniewski/PhD/data/LP-PDBBind/dataset/BDB2020+/BDB2020+.csv')
+    lp_pdbbind_df = pd.read_csv('/home2/sfglab/mwisniewski/PhD/data/others/PDBbind')
 
 elif settings.station == 'eden':
-    df = pd.read_csv('/home2/sfglab/mwisniewski/PhD/data/others/LP-PDBBind/dataset/BDB2020+/BDB2020+.csv')
+    bdb2020plus_df = pd.read_csv('/home2/sfglab/mwisniewski/PhD/data/others/LP-PDBBind/dataset/BDB2020+/BDB2020+.csv')
+    lp_pdbbind_df = pd.read_csv('/home2/sfglab/mwisniewski/PhD/data/others/LP-PDBBind/dataset/LP_PDBBind.csv')
 ##################
 
 ### PIPELINES ###
@@ -39,6 +42,9 @@ lp_pdbbind_pipeline = False
 ### PIPELINES ###
 
 if bdb2020plus_pipeline:
-    bdb2020plus.diagonal_pipeline(datadir, bdb2020plus_datadir, df,50)
+    bdb2020plus.diagonal_pipeline(datadir, bdb2020plus_datadir, bdb2020plus_df,50)
+
+if lp_pdbbind_pipeline:
+    lp_pdbbind.diagonal_pipeline(datadir,lp_pdbbind_dir,lp_pdbbind_df,50,'pdbid')
 
 
