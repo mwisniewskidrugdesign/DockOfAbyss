@@ -37,7 +37,7 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes):
         if 'rxdock' in docking_programs:
             rx_docking = docking.RxDock(datadir)
             rx_docking.rxdock_dirs()
-            rxdock_matrix = None
+            rxdock_matrix = rx_docking.create_rxdock_matrix(molecules[:1],molecules[:1],no_modes)
 
         for molecule_idx,molecule in enumerate(molecules[:1]):                                      ## Docking Loop for molecules from list generated earlier
             print('Docking '+molecule+' to '+molecule+'. With: \n',docking_programs)                ## Print PDB structure code
@@ -64,7 +64,7 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes):
                     try:
                         rx_docking.rxdock_files(molecule,molecule,molecule)
                         rx_docking.rxdock_docking(2)
-                        rx_docking.read_output()
+                        #rx_docking.read_output()
                     except:
                         rx_docking_error_number+=1
                         print('RxDock proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + rx_docking_error_number + 'st time.')
