@@ -22,6 +22,7 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch
     workspace.lp_pdbbind()                                                    #copy files to workspace
 
   if convert_step:
+    df=df[batch_start:batch_end] #to edit
     for index,row in df.iterrows():
       print(str(index) + '.' + row['pdbid'])
       library = generator.Converter(row['pdbid'],datadir)
