@@ -145,6 +145,7 @@ class Converter:
 
         if protein == True:
             '''Generate Log File'''
+            print('pdb to pdbqt protein:\n ')
             generate_protein_pdbqt_log_file = self.datadir + '/logs/generate_protein_pdbqt_files.log'
             generate_protein_pdbqt_file_logger = setup_logger('generate_protein_pdbqt_file_logger',generate_protein_pdbqt_log_file)
 
@@ -171,6 +172,7 @@ class Converter:
 
         if pocket == True:
             '''Generate Log File'''
+            print('pdb to pdbqt pocket:\n ')
             generate_pocket_pdbqt_log_file = self.datadir + '/logs/generate_pocket_pdbqt_files.log'
             generate_pocket_pdbqt_file_logger = setup_logger('generate_pocket_pdbqt_file_logger',generate_pocket_pdbqt_log_file)
 
@@ -196,6 +198,7 @@ class Converter:
                     generate_protein_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_convert_error)
 
         if ligand == True:
+            print('pdb to pdbqt ligand:\n ')
             '''Generate Log File'''
             generate_ligand_pdbqt_log_file = self.datadir + '/logs/generate_ligand_pdbqt_files.log'
             generate_ligand_pdbqt_file_logger = setup_logger('generate_ligand_pdbqt_file_logger',generate_ligand_pdbqt_log_file)
@@ -213,6 +216,7 @@ class Converter:
                 generate_protein_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_convert_error)
 
         if native_ligand == True:
+            print('pdb to pdbqt native_ligand:\n ')
             '''Generate Log File'''
             generate_native_ligand_pdbqt_log_file = self.datadir + '/logs/generate_native_ligand_pdbqt_files.log'
             generate_native_ligand_pdbqt_file_logger = setup_logger('generate_native_ligand_pdbqt_file_logger',generate_native_ligand_pdbqt_log_file)
