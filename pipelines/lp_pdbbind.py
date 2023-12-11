@@ -26,6 +26,7 @@ def diagonal_pipeline(datadir,rawdir,df,no_mode,pdb_id_column):
       print(str(index) + '.' + row['pdbid'])
       library = generator.Converter(row['pdbid'],datadir)
       library.pdb_to_pdbqt(protein=True,pocket=True,ligand=True,native_ligand=True)
+      library.pdb_to_mol(protein=True, pocket=True, ligand=True, native_ligand=True)
       ### add for other
 
   if docking_step:
