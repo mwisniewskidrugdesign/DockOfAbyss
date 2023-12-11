@@ -146,8 +146,6 @@ class Converter:
         if protein == True:
             '''Generate Log File'''
             print('pdb to pdbqt protein:\n ')
-            generate_protein_pdbqt_log_file = self.datadir + '/logs/generate_protein_pdbqt_files.log'
-            generate_protein_pdbqt_file_logger = setup_logger('generate_protein_pdbqt_file_logger',generate_protein_pdbqt_log_file)
 
             pdb_protein_file = self.datadir + '/protein/pdb/' + self.molecule + '_protein.pdb'
             pdbqt_protein_file = self.datadir + '/protein/pdbqt/' + self.molecule + '_protein.pdbqt'
@@ -156,31 +154,29 @@ class Converter:
                     command = settings.mgltools_dir + '/bin/pythonsh ' + settings.mgltools_dir + '/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor4.py -r ' + pdb_protein_file + ' -o ' + pdbqt_protein_file + ' -A checkhydrogens'
                     pdbqt_result = subprocess.run([command], shell=True, capture_output=True, text=True)
                     print('error: '+len(pdbqt_result.stderr)+' | '+pdbqt_result.stderr)
-                    generate_protein_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_result.stderr)
+
                     if pdbqt_result.stderr == True:
                         command = settings.obabel_path+' '+pdb_protein_file+' -O '+pdbqt_protein_file
                         pdbqt_result = subprocess.run([command], shell=True, capture_output=True, text=True)
                         print('error: ' + len(pdbqt_result.stderr) + ' | ' + pdbqt_result.stderr)
-                        generate_protein_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_result.stderr)
+
                 else:
                     pdbqt_convert_error = self.molecule+', There is no PDB file to convert.'
-                    generate_protein_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_convert_error)
+                    print(pdbqt_convert_error)
 
             except:
                 if (not os.path.exists(pdbqt_protein_file) or os.path.getsize(pdbqt_protein_file) == 0) and os.path.exists(pdb_protein_file):
                     command = settings.mgltools_dir + '/bin/pythonsh ' + settings.mgltools_dir + '/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor.py -r ' + pdb_protein_file + ' -o ' + pdbqt_protein_file + ' -A checkhydrogens'
                     pdbqt_result = subprocess.run([command], shell=True, capture_output=True, text=True)
                     print(pdbqt_result.stderr)
-                    generate_protein_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_result.stderr)
+
                 else:
                     pdbqt_convert_error = self.molecule+', There is no PDB file to convert.'
-                    generate_protein_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_convert_error)
+                    print(pdbqt_convert_error)
 
         if pocket == True:
             '''Generate Log File'''
             print('pdb to pdbqt pocket:\n ')
-            generate_pocket_pdbqt_log_file = self.datadir + '/logs/generate_pocket_pdbqt_files.log'
-            generate_pocket_pdbqt_file_logger = setup_logger('generate_pocket_pdbqt_file_logger',generate_pocket_pdbqt_log_file)
 
             pdb_pocket_file = self.datadir + '/pocket/pdb/' + self.molecule + '_pocket.pdb'
             pdbqt_pocket_file = self.datadir + '/pocket/pdbqt/' + self.molecule + '_pocket.pdbqt'
@@ -189,28 +185,24 @@ class Converter:
                     command = settings.mgltools_dir + '/bin/pythonsh ' + settings.mgltools_dir + '/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor4.py -r ' + pdb_pocket_file + ' -o ' + pdbqt_pocket_file + ' -A checkhydrogens'
                     pdbqt_result = subprocess.run([command], shell=True, capture_output=True, text=True)
                     print(pdbqt_result.stderr)
-                    generate_pocket_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_result.stderr)
+
                 else:
                     pdbqt_convert_error = self.molecule+', There is no PDB file to convert.'
-                    generate_pocket_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_convert_error)
+                    print(pdbqt_convert_error)
+
 
             except:
                 if (not os.path.exists(pdbqt_pocket_file) or os.path.getsize(pdbqt_pocket_file) == 0) and os.path.exists(pdb_pocket_file):
                     command = settings.mgltools_dir + '/bin/pythonsh ' + settings.mgltools_dir + '/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor.py -r ' + pdb_pocket_file + ' -o ' + pdbqt_pocket_file + ' -A checkhydrogens'
                     pdbqt_result = subprocess.run([command], shell=True, capture_output=True, text=True)
                     print(pdbqt_result.stderr)
-                    generate_pocket_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_result.stderr)
 
                 else:
                     pdbqt_convert_error = self.molecule+', There is no PDB file to convert.'
-                    generate_pocket_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_convert_error)
-
+                    print(pdbqt_convert_error)
 
         if ligand == True:
             print('pdb to pdbqt ligand:\n ')
-            '''Generate Log File'''
-            generate_ligand_pdbqt_log_file = self.datadir + '/logs/generate_ligand_pdbqt_files.log'
-            generate_ligand_pdbqt_file_logger = setup_logger('generate_ligand_pdbqt_file_logger',generate_ligand_pdbqt_log_file)
 
             pdb_ligand_file = self.datadir + '/ligand/pdb/' + self.molecule + '_ligand.pdb'
             pdbqt_ligand_file = self.datadir + '/ligand/pdbqt/' + self.molecule + '_ligand.pdbqt'
@@ -219,18 +211,14 @@ class Converter:
                 command = settings.obabel_path+' '+pdb_ligand_file+' -O '+pdbqt_ligand_file
                 pdbqt_result = subprocess.run([command], shell=True, capture_output=True, text=True)
                 print(pdbqt_result.stderr)
-                generate_ligand_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_result.stdout)
 
             else:
                 pdbqt_convert_error = self.molecule+', There is no PDB file to convert.'
-                generate_ligand_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_convert_error)
-
+                print(pdbqt_convert_error)
 
         if native_ligand == True:
             print('pdb to pdbqt native_ligand:\n ')
             '''Generate Log File'''
-            generate_native_ligand_pdbqt_log_file = self.datadir + '/logs/generate_native_ligand_pdbqt_files.log'
-            generate_native_ligand_pdbqt_file_logger = setup_logger('generate_native_ligand_pdbqt_file_logger',generate_native_ligand_pdbqt_log_file)
 
             pdb_native_ligand_file = self.datadir + '/native_ligand/pdb/' + self.molecule + '_ligand.pdb'
             pdbqt_native_ligand_file = self.datadir + '/native_ligand/pdbqt/' + self.molecule + '_ligand.pdbqt'
@@ -239,11 +227,10 @@ class Converter:
                 command = settings.obabel_path +' '+ pdb_native_ligand_file + ' -O ' + pdbqt_native_ligand_file
                 pdbqt_result = subprocess.run([command], shell=True, capture_output=True, text=True)
                 print(pdbqt_result.stdout)
-                generate_native_ligand_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_result.stdout)
 
             else:
                 pdbqt_convert_error = self.molecule+', There is no PDB file to convert.'
-                generate_native_ligand_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_convert_error)
+                print(pdbqt_convert_error)
 
     def pdb_to_seq(self,protein=True,pocket=False):
 

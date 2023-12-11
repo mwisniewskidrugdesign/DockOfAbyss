@@ -41,6 +41,7 @@ lp_pdbbind_pipeline = True
 #############
 batch_start = int(sys.argv[1])
 batch_end = int(sys.argv[2])
+print(batch_start)
 
 ### PIPELINES ###
 
