@@ -8,7 +8,7 @@ pd.set_option('display.max_columns', None)
 generate_library_step = True
 convert_step=True                #ADD IF !!!!!!!!!!!!!!!!!!!!!!!!!! SUCH US DOCKING PROGRAMS LIST
 docking_step=True
-docking_programs=['rxdock']
+docking_programs=['smina','rxdock']
 
 def diagonal_pipeline(datadir,rawdir,df,no_modes):
 
