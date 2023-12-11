@@ -162,7 +162,7 @@ class Converter:
                         print('error: ' + len(pdbqt_result.stderr) + ' | ' + pdbqt_result.stderr)
 
                 else:
-                    pdbqt_convert_error = self.molecule+', There is no PDB file to convert.'
+                    pdbqt_convert_error = self.molecule+', There is no PDB Protein  file to convert.'
                     print(pdbqt_convert_error)
 
             except:
@@ -172,7 +172,7 @@ class Converter:
                     print(pdbqt_result.stderr)
 
                 else:
-                    pdbqt_convert_error = self.molecule+', There is no PDB file to convert.'
+                    pdbqt_convert_error = self.molecule+', There is no PDB Protein file to convert.'
                     print(pdbqt_convert_error)
 
         if pocket == True:
@@ -194,7 +194,7 @@ class Converter:
                         print('error: ' + len(pdbqt_result.stderr) + ' | ' + pdbqt_result.stderr)
 
                 else:
-                    pdbqt_convert_error = self.molecule+', There is no PDB file to convert.'
+                    pdbqt_convert_error = self.molecule+', There is no PDB Pocket file to convert.'
                     print(pdbqt_convert_error)
 
 
@@ -205,7 +205,7 @@ class Converter:
                     print(pdbqt_result.stderr)
 
                 else:
-                    pdbqt_convert_error = self.molecule+', There is no PDB file to convert.'
+                    pdbqt_convert_error = self.molecule+', There is no PDB Pocket file to convert.'
                     print(pdbqt_convert_error)
 
         if ligand == True:
@@ -220,7 +220,7 @@ class Converter:
                 print(pdbqt_result.stderr)
 
             else:
-                pdbqt_convert_error = self.molecule+', There is no PDB file to convert.'
+                pdbqt_convert_error = self.molecule+', There is no PDB Ligand file to convert.'
                 print(pdbqt_convert_error)
 
         if native_ligand == True:
@@ -236,7 +236,7 @@ class Converter:
                 print(pdbqt_result.stdout)
 
             else:
-                pdbqt_convert_error = self.molecule+', There is no PDB file to convert.'
+                pdbqt_convert_error = self.molecule+', There is no PDB Native Ligand file to convert.'
                 print(pdbqt_convert_error)
 
     def pdb_to_seq(self,protein=True,pocket=False):
