@@ -64,7 +64,7 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes):
                     try:
                         rx_docking.rxdock_files(molecule,molecule,molecule)
                         #rx_docking.rxdock_docking(no_modes)
-                        rx_docking.read_output()
+                        rx_docking.read_output(molecule_idx,molecule_idx)
                     except:
                         rx_docking_error_number+=1
                         print('RxDock proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + rx_docking_error_number + 'st time.')
@@ -73,5 +73,7 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes):
 
         if 'smina' in docking_programs:
             smina_docking.save_matrix('smina_matrix')                                       ## save SMINA matrix
+        if 'rxdock' in docking_programs:
+            rx_docking.save_matrix('rxdock_matrix')
 
 

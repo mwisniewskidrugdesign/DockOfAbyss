@@ -123,10 +123,9 @@ class RxDock:
         self.rx_output = None                   #rx_dock output filepath
 
         self.matrix = None
-        self.tensor = None
+        self.mode_values = None
         self.values = None
         self.experimental_affinity = None
-        self.sf_components = None
 
     def rxdock_dirs(self):
         if not os.path.exists(self.rxdock_dir):
@@ -153,7 +152,6 @@ class RxDock:
 
         with open(self.system_prepared_file, 'w') as file:
             file.write(system_filedata)
-
     def rxdock_docking(self,no_modes):
         os.environ['RBT_HOME'] = self.datadir
 
@@ -161,7 +159,6 @@ class RxDock:
         result = subprocess.run([command], shell=True, capture_output=True, text=True)
         command = 'rbdock -i %s -o %s -r %s -p dock.prm -n %s' % (self.ligand_file, self.rx_output, self.system_prepared_file, no_modes)
         result = subprocess.run([command], shell=True, capture_output=True, text=True)
-
     def create_rxdock_matrix(self,proteins,ligands,no_modes):
 
         self.values = ['<SCORE>', '<SCORE.INTER>>', '<SCORE.INTER.CONST>', '<SCORE.INTER.POLAR>',
@@ -177,54 +174,26 @@ class RxDock:
 
         self.matrix = np.empty((no_proteins,no_ligands,no_modes),dtype=object)
         return self.matrix
-
+    def fill_rxdock_matrix(self,pidx,lidx,mode_index):
+        self.matrix[pidx,lidx,mode_index] = self.mode_values
     def read_experimental_affinity(self,df,protein,ligand,affinity_column='pKa'):
         if protein == ligand:
             self.experimental_affinity = df[df['pdbid']==protein][affinity_column].values[0]
-    def read_output(self):
-
-        predicted_binding_affinity = []
-        inter_score = []
-        inter_const_score = []
-        inter_polar_score = []
-        inter_repul_score = []
-        inter_rot_score = []
-        inter_vdw_score = []
-        inter_norm_score = []
-        intra_score = []
-        intra_dihedral_score = []
-        intra_dihedral_0_score = []
-        intra_polar_score = []
-        intra_polar_0_score = []
-        intra_repul_score = []
-        intra_repul_0_score = []
-        intra_vdw_score = []
-        intra_vdw_0_score = []
-        intra_norm_score = []
-        restr_score = []
-        restr_cavity_score = []
-        restr_norm_score = []
-        system_score = []
-        system_condst_score = []
-        system_dihedral_score = []
-        system_norm_score = []
-        heavy_score = []
-        norm_score = []
+    def read_output(self, protein_index, ligand_index):
 
         self.rx_output = self.rx_output + '.sd'
         output_file = open(self.rx_output,'r')
         list_of_modes = output_file.read().split('$$$$')[:-1]
 
-        for mode_index, mode in enumerate(list_of_modes[:1]):
-            mode = mode.split('>  <SCORE>')[-1].split('\n')[1:-2:3]
-            print(mode)                         ## ???????? how to menage taht shit
-            for index, line in enumerate(mode):
+        for mode_index, mode in enumerate(list_of_modes[:]):
+            self.mode_values = mode.split('>  <SCORE>')[-1].split('\n')[1:-2:3]
+            self.mode_values = np.array(self.mode_values)
+            self.mode_values = tf.convert_to_tensor(self.mode_values)
+            self.fill_rxdock_matrix(protein_index,ligand_index,mode_index)
 
-                if index % 3:
-                    print(index)
-                    print(line)
-
-        return None
+    def save_matrix(self,output):
+        output = self.datadir+'/docs/'+output
+        np.save(output, self.matrix)
 
 
 
