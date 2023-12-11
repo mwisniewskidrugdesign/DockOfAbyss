@@ -157,11 +157,9 @@ class Converter:
                     pdbqt_result = subprocess.run([command], shell=True, capture_output=True, text=True)
                     print(pdbqt_result.stderr)
                     generate_protein_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_result.stderr)
-                    generate_protein_pdbqt_file_logger.close()
                 else:
                     pdbqt_convert_error = self.molecule+', There is no PDB file to convert.'
                     generate_protein_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_convert_error)
-                    generate_protein_pdbqt_file_logger.close()
 
             except:
                 if (not os.path.exists(pdbqt_protein_file) or os.path.getsize(pdbqt_protein_file) == 0) and os.path.exists(pdb_protein_file):
@@ -169,11 +167,9 @@ class Converter:
                     pdbqt_result = subprocess.run([command], shell=True, capture_output=True, text=True)
                     print(pdbqt_result.stderr)
                     generate_protein_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_result.stderr)
-                    generate_protein_pdbqt_file_logger.close()
                 else:
                     pdbqt_convert_error = self.molecule+', There is no PDB file to convert.'
                     generate_protein_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_convert_error)
-                    generate_protein_pdbqt_file_logger.close()
 
         if pocket == True:
             '''Generate Log File'''
@@ -189,11 +185,9 @@ class Converter:
                     pdbqt_result = subprocess.run([command], shell=True, capture_output=True, text=True)
                     print(pdbqt_result.stderr)
                     generate_pocket_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_result.stderr)
-                    generate_pocket_pdbqt_file_logger.close()
                 else:
                     pdbqt_convert_error = self.molecule+', There is no PDB file to convert.'
                     generate_pocket_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_convert_error)
-                    generate_pocket_pdbqt_file_logger.close()
 
             except:
                 if (not os.path.exists(pdbqt_pocket_file) or os.path.getsize(pdbqt_pocket_file) == 0) and os.path.exists(pdb_pocket_file):
@@ -201,11 +195,11 @@ class Converter:
                     pdbqt_result = subprocess.run([command], shell=True, capture_output=True, text=True)
                     print(pdbqt_result.stderr)
                     generate_pocket_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_result.stderr)
-                    generate_pocket_pdbqt_file_logger.close()
+
                 else:
                     pdbqt_convert_error = self.molecule+', There is no PDB file to convert.'
                     generate_pocket_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_convert_error)
-                    generate_pocket_pdbqt_file_logger.close()
+
 
         if ligand == True:
             print('pdb to pdbqt ligand:\n ')
@@ -221,11 +215,11 @@ class Converter:
                 pdbqt_result = subprocess.run([command], shell=True, capture_output=True, text=True)
                 print(pdbqt_result.stderr)
                 generate_ligand_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_result.stdout)
-                generate_ligand_pdbqt_file_logger.close()
+
             else:
                 pdbqt_convert_error = self.molecule+', There is no PDB file to convert.'
                 generate_ligand_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_convert_error)
-                generate_ligand_pdbqt_file_logger.close()
+
 
         if native_ligand == True:
             print('pdb to pdbqt native_ligand:\n ')
@@ -241,11 +235,11 @@ class Converter:
                 pdbqt_result = subprocess.run([command], shell=True, capture_output=True, text=True)
                 print(pdbqt_result.stdout)
                 generate_native_ligand_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_result.stdout)
-                generate_native_ligand_pdbqt_file_logger.close()
+
             else:
                 pdbqt_convert_error = self.molecule+', There is no PDB file to convert.'
                 generate_native_ligand_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_convert_error)
-                generate_native_ligand_pdbqt_file_logger.close()
+
     def pdb_to_seq(self,protein=True,pocket=False):
 
         if protein == False and pocket == False:
