@@ -127,6 +127,7 @@ class RxDock:
         self.values = None
         self.experimental_affinity = None
         self.sf_components = None
+
     def rxdock_dirs(self):
         if not os.path.exists(self.rxdock_dir):
             makedir = subprocess.run(['mkdir ' + self.rxdock_dir], shell=True, capture_output=True, text=True)
@@ -162,7 +163,7 @@ class RxDock:
 
     def create_rxdock_matrix(self,proteins,ligands,no_modes):
 
-        self.values = ['pKa', '<SCORE>', '<SCORE.INTER>>', '<SCORE.INTER.CONST>', '<SCORE.INTER.POLAR>',
+        self.values = ['<SCORE>', '<SCORE.INTER>>', '<SCORE.INTER.CONST>', '<SCORE.INTER.POLAR>',
                   '<SCORE.INTER.REPUL>', '<SCORE.INTER.ROT>', '<SCORE.INTER.VDW>', '<SCORE.INTER.norm>', '<SCORE.INTRA>',
                   '<SCORE.INTRA.DIHEDRAL>', '<SCORE.INTRA.DIHEDRAL.0>', '<SCORE.INTRA.POLAR>', '<SCORE.INTRA.POLAR.0>',
                   '<SCORE.INTRA.REPUL>', '<SCORE.INTRA.REPUL.0>', '<SCORE.INTRA.VDW>', '<SCORE.INTRA.VDW.0>',
@@ -180,7 +181,6 @@ class RxDock:
         if protein == ligand:
             self.experimental_affinity = df[df['pdbid']==protein][affinity_column].values[0]
     def read_output(self):
-
 
         predicted_binding_affinity = []
         inter_score = []
