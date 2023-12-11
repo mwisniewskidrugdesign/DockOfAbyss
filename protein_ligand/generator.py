@@ -160,6 +160,7 @@ class Converter:
                 else:
                     pdbqt_convert_error = self.molecule+', There is no PDB file to convert.'
                     generate_protein_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_convert_error)
+
             except:
                 if (not os.path.exists(pdbqt_protein_file) or os.path.getsize(pdbqt_protein_file) == 0) and os.path.exists(pdb_protein_file):
                     command = settings.mgltools_dir + '/bin/pythonsh ' + settings.mgltools_dir + '/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor.py -r ' + pdb_protein_file + ' -o ' + pdbqt_protein_file + ' -A checkhydrogens'
@@ -186,7 +187,8 @@ class Converter:
                     generate_pocket_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_result.stderr)
                 else:
                     pdbqt_convert_error = self.molecule+', There is no PDB file to convert.'
-                    generate_protein_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_convert_error)
+                    generate_pocket_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_convert_error)
+
             except:
                 if (not os.path.exists(pdbqt_pocket_file) or os.path.getsize(pdbqt_pocket_file) == 0) and os.path.exists(pdb_pocket_file):
                     command = settings.mgltools_dir + '/bin/pythonsh ' + settings.mgltools_dir + '/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor.py -r ' + pdb_pocket_file + ' -o ' + pdbqt_pocket_file + ' -A checkhydrogens'
@@ -195,7 +197,7 @@ class Converter:
                     generate_pocket_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_result.stderr)
                 else:
                     pdbqt_convert_error = self.molecule+', There is no PDB file to convert.'
-                    generate_protein_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_convert_error)
+                    generate_pocket_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_convert_error)
 
         if ligand == True:
             print('pdb to pdbqt ligand:\n ')
@@ -213,7 +215,7 @@ class Converter:
                 generate_ligand_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_result.stdout)
             else:
                 pdbqt_convert_error = self.molecule+', There is no PDB file to convert.'
-                generate_protein_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_convert_error)
+                generate_ligand_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_convert_error)
 
         if native_ligand == True:
             print('pdb to pdbqt native_ligand:\n ')
@@ -231,7 +233,7 @@ class Converter:
                 generate_native_ligand_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_result.stdout)
             else:
                 pdbqt_convert_error = self.molecule+', There is no PDB file to convert.'
-                generate_protein_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_convert_error)
+                generate_native_ligand_pdbqt_file_logger.info(self.molecule + ',' + pdbqt_convert_error)
     def pdb_to_seq(self,protein=True,pocket=False):
 
         if protein == False and pocket == False:
@@ -285,7 +287,7 @@ class Converter:
                 generate_pocket_mol2_file_logger.info(self.molecule + ',' + mol2_result.stderr)
             else:
                 mol2_convert_error = self.molecule + ', There is no PDB file to convert.'
-                generate_protein_mol2_file_logger.info(self.molecule + ',' + mol2_convert_error)
+                generate_pocket_mol2_file_logger.info(self.molecule + ',' + mol2_convert_error)
 
         if ligand == True:
             '''Generate Log File'''
@@ -302,7 +304,7 @@ class Converter:
                 generate_ligand_mol2_file_logger.info(self.molecule + ',' + mol2_result.stdout)
             else:
                 mol2_convert_error = self.molecule + ', There is no PDB file to convert.'
-                generate_protein_mol2_file_logger.info(self.molecule + ',' + mol2_convert_error)
+                generate_ligand_mol2_file_logger.info(self.molecule + ',' + mol2_convert_error)
 
         if native_ligand == True:
             '''Generate Log File'''
@@ -319,7 +321,7 @@ class Converter:
                 generate_native_ligand_mol2_file_logger.info(self.molecule + ',' + mol2_result.stdout)
             else:
                 mol2_convert_error = self.molecule + ', There is no PDB file to convert.'
-                generate_protein_mol2_file_logger.info(self.molecule + ',' + mol2_convert_error)
+                generate_native_ligand_mol2_file_logger.info(self.molecule + ',' + mol2_convert_error)
     def sdf_to_mol(self):
         '''To be done if needed'''
         return
