@@ -24,7 +24,7 @@ if settings.station == 'inka':
     df = pd.read_csv('/mnt/raid/mwisniewski/PhD/data/LP-PDBBind/dataset/BDB2020+/BDB2020+.csv')
 
 elif settings.station == 'eden':
-    df = pd.read_csv('/home/sfglab/mwisniewski/PhD/data/others/LP-PDBBind/dataset/BDB2020+/BDB2020+.csv')
+    df = pd.read_csv('/home2/sfglab/mwisniewski/PhD/data/others/LP-PDBBind/dataset/BDB2020+/BDB2020+.csv')
 ##################
 
 ### PIPELINES ###
@@ -39,6 +39,6 @@ lp_pdbbind_pipeline = False
 ### PIPELINES ###
 
 if bdb2020plus_pipeline:
-    bdb2020plus.diagonal_pipeline(datadir, bdb2020plus_datadir, df,50)
+    bdb2020plus.diagonal_pipeline(datadir, bdb2020plus_datadir, df,3)
 
 
