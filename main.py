@@ -48,6 +48,6 @@ if bdb2020plus_pipeline:
     bdb2020plus.diagonal_pipeline(datadir, bdb2020plus_datadir, bdb2020plus_df,50)
 
 if lp_pdbbind_pipeline:
-    lp_pdbbind.diagonal_pipeline(datadir,lp_pdbbind_dir,lp_pdbbind_df,50,'pdbid') #batch_start,batch_end
+    lp_pdbbind.diagonal_pipeline(datadir,lp_pdbbind_dir,lp_pdbbind_df,50,'pdbid',batch_start,batch_end) #batch_start,batch_end
 
 

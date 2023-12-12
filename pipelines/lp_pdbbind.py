@@ -10,7 +10,7 @@ convert_step=False                #ADD IF !!!!!!!!!!!!!!!!!!!!!!!!!! SUCH US DOC
 docking_step=True
 docking_programs=['smina']
 
-def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column): #batch_start,batch_end
+def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch_end): #batch_start,batch_end
   #prep DF step for Clear 1 or Clear 2 !!!!
   mask = df['CL1'] == True
   df=df[mask]
@@ -36,23 +36,21 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column): #batch_start,ba
 
   if docking_step:
     print('test_a')
+    df = df[batch_start:batch_end]
     df_prep = datasets.DatasetPreparation(df)  # Generate Molecule list Class - is it neccessery in this case?
     molecules = df_prep.get_molecules('pdbid')[:]  ##  Generating molecules list from PDB structure codes
     print(molecules)
     print('test_b')
     if 'smina' in docking_programs:
       smina_docking = docking.Smina(datadir)  # SMINA Docking Class
-      print('test_c')
       smina_docking.smina_dirs()  ## Generate output dirs for SMINA docking
-      print('test_d')
-      smina_matrix = smina_docking.create_smina_matrix(molecules,molecules,no_modes)
-      print(smina_matrix)
-      print('test_e')
+      #smina_matrix = smina_docking.create_smina_matrix(molecules,molecules,no_modes)
+      #print(smina_matrix)
 
     if 'rxdock' in docking_programs:
       rx_docking = docking.RxDock(datadir)
       rx_docking.rxdock_dirs()
-      rxdock_matrix = rx_docking.create_rxdock_matrix(molecules[:], molecules[:], no_modes)
+      #rxdock_matrix = rx_docking.create_rxdock_matrix(molecules[:], molecules[:], no_modes)
 
     for molecule_idx, molecule in enumerate(molecules[:]):  ## Docking Loop for molecules from list generated earlier
       print('Docking ' + molecule + ' to ' + molecule + '. With: \n', docking_programs)  ## Print PDB structure code
@@ -62,10 +60,10 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column): #batch_start,ba
           try:
             smina_docking.smina_files(molecule, molecule, molecule)  ## set variables for specific molecule files
             smina_docking.smina_docking(no_modes)  ## smina docking function
-            smina_docking.read_experimental_affinity(df, molecule,molecule)  ## reading experimental affinity data for specific molecule from dataframe
-            smina_docking.read_scoring_function()  ## reading scoring function predicted binding affinity from output
-            smina_docking.read_atom_term_function(no_modes)  ## reading atom terms sf's components from output
-            smina_docking.fill_smina_matrix(molecule_idx,molecule_idx)  ## fill smina matrix with output datas                      ### MAYBE inserts read_* functions into this one
+            #smina_docking.read_experimental_affinity(df, molecule,molecule)  ## reading experimental affinity data for specific molecule from dataframe
+            #smina_docking.read_scoring_function()  ## reading scoring function predicted binding affinity from output
+            #smina_docking.read_atom_term_function(no_modes)  ## reading atom terms sf's components from output
+            #smina_docking.fill_smina_matrix(molecule_idx,molecule_idx)  ## fill smina matrix with output datas                      ### MAYBE inserts read_* functions into this one
           except:
             smina_docking_error_number += 1
             print('Smina proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + str(smina_docking_error_number) + 'st time.')
@@ -79,14 +77,14 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column): #batch_start,ba
           try:
             rx_docking.rxdock_files(molecule, molecule, molecule)
             rx_docking.rxdock_docking(no_modes)
-            rx_docking.read_output(molecule_idx, molecule_idx)
+            #rx_docking.read_output(molecule_idx, molecule_idx)
           except:
             rx_docking_error_number += 1
             print('RxDock proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + rx_docking_error_number + 'st time.')
             continue
           break
 
-    if 'smina' in docking_programs:
-      smina_docking.save_matrix('smina_matrix')  ## save SMINA matrix
-    if 'rxdock' in docking_programs:
-      rx_docking.save_matrix('rxdock_matrix')
+    #if 'smina' in docking_programs:
+    #  smina_docking.save_matrix('smina_matrix')  ## save SMINA matrix
+    #if 'rxdock' in docking_programs:
+    #  rx_docking.save_matrix('rxdock_matrix')
