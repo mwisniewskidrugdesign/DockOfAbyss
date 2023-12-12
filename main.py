@@ -1,5 +1,4 @@
 import settings
-import sys
 from pipelines import bdb2020plus, lp_pdbbind
 
 import pandas as pd
