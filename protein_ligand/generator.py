@@ -182,8 +182,10 @@ class Converter:
                 if int(len(pdbqt_result.stderr)) > 0:
 
                         print('<POCKET> OPENBABEL PDB TO PDBQT:\n')
+
                         command = [settings.obabel_path,pdb_pocket_file,'-O',pdbqt_pocket_file]
                         pdbqt_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
+
                         print('error: ' + str(len(pdbqt_result.stderr)) + ' | ' + pdbqt_result.stderr)
                 else:
 
