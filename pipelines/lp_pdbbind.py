@@ -38,6 +38,7 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column): #batch_start,ba
     print('test_a')
     df_prep = datasets.DatasetPreparation(df)  # Generate Molecule list Class - is it neccessery in this case?
     molecules = df_prep.get_molecules('pdbid')[:]  ##  Generating molecules list from PDB structure codes
+    print(molecules)
     print('test_b')
     if 'smina' in docking_programs:
       smina_docking = docking.Smina(datadir)  # SMINA Docking Class
