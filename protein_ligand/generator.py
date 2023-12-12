@@ -153,7 +153,7 @@ class Converter:
             if (not os.path.exists(pdbqt_protein_file) or os.path.getsize(pdbqt_protein_file) == 0) and os.path.exists(pdb_protein_file):
                 command = [settings.mgltools_dir+'/bin/pythonsh',settings.mgltools_dir + '/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor4.py','-r',pdb_protein_file,'-o',pdbqt_protein_file,'-A','checkhydrogens']
                 pdbqt_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
-                print('error: '+int(len(pdbqt_result.stderr))+' | '+pdbqt_result.stderr)
+                print('error: '+str(len(pdbqt_result.stderr))+' | '+pdbqt_result.stderr)
 
                 if int(len(pdbqt_result.stderr)) > 0:
 
@@ -184,7 +184,7 @@ class Converter:
                         print('<POCKET> OPENBABEL PDB TO PDBQT:\n')
                         command = [settings.obabel_path,pdb_pocket_file,'-O',pdbqt_pocket_file]
                         pdbqt_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
-                        print('error: ' + int(len(pdbqt_result.stderr)) + ' | ' + pdbqt_result.stderr)
+                        print('error: ' + str(len(pdbqt_result.stderr)) + ' | ' + pdbqt_result.stderr)
                 else:
 
                     pdbqt_convert_error = self.molecule+', There is no PDB Pocket file to convert or file already exists..'
@@ -306,9 +306,74 @@ class Converter:
 
                 mol2_convert_error = self.molecule + ', There is no PDB file to convert or file already exists..'
                 print(mol2_convert_error)
-    def sdf_to_mol(self):
+    def mol_to_pdb(self,protein=False,pocket=False,ligand=False,native_ligand=False):
         '''To be done if needed'''
-        return
+
+        '''Convert mol2 files to pdb format'''
+
+        if protein == True:
+
+            pdb_protein_file = self.datadir + '/protein/pdb/' + self.molecule + '_protein.pdb'
+            mol2_protein_file = self.datadir + '/protein/mol2/' + self.molecule + '_protein.mol2'
+
+            if (not os.path.exists(mol2_protein_file) or os.path.getsize(mol2_protein_file) == 0) and os.path.exists(pdb_protein_file):
+
+                command = [settings.obabel_path,pdb_protein_file,'-O',mol2_protein_file]
+                mol2_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
+                print(mol2_result.stderr)
+
+            else:
+
+                mol2_convert_error = self.molecule+', There is no PDB file to convert or file already exists..'
+
+
+        if pocket == True:
+
+            pdb_pocket_file = self.datadir + '/pocket/pdb/' + self.molecule + '_pocket.pdb'
+            mol2_pocket_file = self.datadir + '/pocket/mol2/' + self.molecule + '_pocket.mol2'
+
+            if (not os.path.exists(mol2_pocket_file) or os.path.getsize(mol2_pocket_file) == 0) and os.path.exists(pdb_pocket_file):
+
+                command = [settings.obabel_path,pdb_pocket_file,'-O',mol2_pocket_file]
+                mol2_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
+                print(mol2_result.stderr)
+
+            else:
+
+                mol2_convert_error = self.molecule + ', There is no PDB file to convert or file already exists..'
+                print(mol2_convert_error)
+
+        if ligand == True:
+
+            pdb_ligand_file = self.datadir + '/ligand/pdb/' + self.molecule + '_ligand.pdb'
+            mol2_ligand_file = self.datadir + '/ligand/mol2/' + self.molecule + '_ligand.mol2'
+
+            if (not os.path.exists(mol2_ligand_file) or os.path.getsize(mol2_ligand_file) == 0) and os.path.exists(pdb_ligand_file):
+                command = [settings.obabel_path,pdb_ligand_file,'-O',mol2_ligand_file]
+                mol2_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
+                print(mol2_result.stderr)
+
+            else:
+
+                mol2_convert_error = self.molecule + ', There is no PDB file to convert or file already exists..'
+                print(mol2_convert_error)
+
+        if native_ligand == True:
+
+            pdb_native_ligand_file = self.datadir + '/native_ligand/pdb/' + self.molecule + '_ligand.pdb'
+            mol2_native_ligand_file = self.datadir + '/native_ligand/mol2/' + self.molecule + '_ligand.mol2'
+
+            if (not os.path.exists(mol2_native_ligand_file) or os.path.getsize(mol2_native_ligand_file) == 0) and os.path.exists(pdb_native_ligand_file):
+                command = [settings.obabel_path,pdb_native_ligand_file,'-O',mol2_native_ligand_file]
+                mol2_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
+                print(mol2_result.stdout)
+
+            else:
+
+                mol2_convert_error = self.molecule + ', There is no PDB file to convert or file already exists..'
+                print(mol2_convert_error)
+
+
 class Documents:
     def __init__(self,datadir):
         self.datadir = datadir
