@@ -161,7 +161,7 @@ class RxDock:
 
         command = ['rbcavity','-W','-d','-r',self.system_prepared_file]
         result = subprocess.run(command, shell=False, capture_output=True, text=True)
-        command = ['rbdock','-i',self.ligand_file,'-o',self.rx_output,'-r',self.system_prepared_file,'-p',self.dock_prm_file,'-n',no_modes]
+        command = ['rbdock','-i',self.ligand_file,'-o',self.rx_output,'-r',self.system_prepared_file,'-p',self.dock_prm_file,'-n',str(no_modes)]
         result = subprocess.run(command, shell=False, capture_output=True, text=True)
 
     def create_rxdock_matrix(self,proteins,ligands,no_modes):
