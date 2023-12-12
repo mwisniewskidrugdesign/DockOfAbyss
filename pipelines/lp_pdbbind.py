@@ -6,7 +6,7 @@ import pandas as pd
 pd.set_option('display.max_columns', None)
 
 generate_library_step = True
-convert_step=True                #ADD IF !!!!!!!!!!!!!!!!!!!!!!!!!! SUCH US DOCKING PROGRAMS LIST
+convert_step=False                #ADD IF !!!!!!!!!!!!!!!!!!!!!!!!!! SUCH US DOCKING PROGRAMS LIST
 docking_step=False
 docking_programs=['smina','rxdock']
 
