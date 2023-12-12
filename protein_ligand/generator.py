@@ -152,14 +152,15 @@ class Converter:
             try:
                 if (not os.path.exists(pdbqt_protein_file) or os.path.getsize(pdbqt_protein_file) == 0) and os.path.exists(pdb_protein_file):
                     command = [setting.mgltools_dir+'/bin/pythonsh',settings.mgltools_dir + '/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor4.py','-r',pdb_protein_file,'-o',pdbqt_protein_file,'-A','checkhydrogens']
-                    #command = settings.mgltools_dir + '/bin/pythonsh ' + settings.mgltools_dir + '/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor4.py -r ' + pdb_protein_file + ' -o ' + pdbqt_protein_file + ' -A checkhydrogens'
-                    pdbqt_result = subprocess.run([command], shell=False, capture_output=True, text=True, close_fds=True)
+                    #### command = settings.mgltools_dir + '/bin/pythonsh ' + settings.mgltools_dir + '/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor4.py -r ' + pdb_protein_file + ' -o ' + pdbqt_protein_file + ' -A checkhydrogens'
+                    pdbqt_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
                     print('error: '+len(pdbqt_result.stderr)+' | '+pdbqt_result.stderr)
 
                     if pdbqt_result.stderr == True:
                         print('opebabel protein:\n')
-                        command = settings.obabel_path+' '+pdb_protein_file+' -O '+pdbqt_protein_file
-                        pdbqt_result = subprocess.run([command], shell=False, capture_output=True, text=True, close_fds=True)
+                        command = [settings.obabel_path,pdb_protein_file,'-O',pdbqt_protein_file]
+                        #### command = settings.obabel_path+' '+pdb_protein_file+' -O '+pdbqt_protein_file
+                        pdbqt_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
                         print('error: ' + len(pdbqt_result.stderr) + ' | ' + pdbqt_result.stderr)
 
                 else:
@@ -168,10 +169,12 @@ class Converter:
 
             except:
                 if (not os.path.exists(pdbqt_protein_file) or os.path.getsize(pdbqt_protein_file) == 0) and os.path.exists(pdb_protein_file):
-                    command = settings.mgltools_dir + '/bin/pythonsh ' + settings.mgltools_dir + '/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor.py -r ' + pdb_protein_file + ' -o ' + pdbqt_protein_file + ' -A checkhydrogens'
-                    pdbqt_result = subprocess.run([command], shell=False, capture_output=True, text=True, close_fds=True)
+                    command = [setting.mgltools_dir + '/bin/pythonsh',
+                               settings.mgltools_dir + '/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor.py',
+                               '-r', pdb_protein_file, '-o', pdbqt_protein_file, '-A', 'checkhydrogens']
+                    #### command = settings.mgltools_dir + '/bin/pythonsh ' + settings.mgltools_dir + '/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor.py -r ' + pdb_protein_file + ' -o ' + pdbqt_protein_file + ' -A checkhydrogens'
+                    pdbqt_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
                     print(pdbqt_result.stderr)
-
                 else:
                     pdbqt_convert_error = self.molecule+', There is no PDB Protein file to convert.'
                     print(pdbqt_convert_error)
@@ -183,41 +186,54 @@ class Converter:
             pdb_pocket_file = self.datadir + '/pocket/pdb/' + self.molecule + '_pocket.pdb'
             pdbqt_pocket_file = self.datadir + '/pocket/pdbqt/' + self.molecule + '_pocket.pdbqt'
             try:
+
                 if (not os.path.exists(pdbqt_pocket_file) or os.path.getsize(pdbqt_pocket_file) == 0) and os.path.exists(pdb_pocket_file):
-                    command = settings.mgltools_dir + '/bin/pythonsh ' + settings.mgltools_dir + '/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor4.py -r ' + pdb_pocket_file + ' -o ' + pdbqt_pocket_file + ' -A checkhydrogens'
-                    pdbqt_result = subprocess.run([command], shell=False, capture_output=True, text=True, close_fds=True)
+                    command = [setting.mgltools_dir + '/bin/pythonsh',
+                               settings.mgltools_dir + '/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor4.py',
+                               '-r', pdb_pocket_file, '-o', pdbqt_pocket_file, '-A', 'checkhydrogens']
+                    #### command = settings.mgltools_dir + '/bin/pythonsh ' + settings.mgltools_dir + '/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor4.py -r ' + pdb_pocket_file + ' -o ' + pdbqt_pocket_file + ' -A checkhydrogens'
+                    pdbqt_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
                     print(pdbqt_result.stderr)
 
                     if pdbqt_result.stderr == True:
+
                         print('opebabel pocket:\n')
-                        command = settings.obabel_path+' '+pdb_pocket_file+' -O '+pdbqt_pocket_file
-                        pdbqt_result = subprocess.run([command], shell=False, capture_output=True, text=True, close_fds=True)
+                        command = [settings.obabel_path,pdb_pocket_file,'-O',pdbqt_pocket_file]
+                        #### command = settings.obabel_path+' '+pdb_pocket_file+' -O '+pdbqt_pocket_file
+                        pdbqt_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
                         print('error: ' + len(pdbqt_result.stderr) + ' | ' + pdbqt_result.stderr)
 
                 else:
+
                     pdbqt_convert_error = self.molecule+', There is no PDB Pocket file to convert.'
                     print(pdbqt_convert_error)
 
-
             except:
+
                 if (not os.path.exists(pdbqt_pocket_file) or os.path.getsize(pdbqt_pocket_file) == 0) and os.path.exists(pdb_pocket_file):
-                    command = settings.mgltools_dir + '/bin/pythonsh ' + settings.mgltools_dir + '/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor.py -r ' + pdb_pocket_file + ' -o ' + pdbqt_pocket_file + ' -A checkhydrogens'
-                    pdbqt_result = subprocess.run([command], shell=False, capture_output=True, text=True, close_fds=True)
+                    command = [setting.mgltools_dir + '/bin/pythonsh',
+                               settings.mgltools_dir + '/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor.py',
+                               '-r', pdb_pocket_file, '-o', pdbqt_pocket_file, '-A', 'checkhydrogens']
+                    #### command = settings.mgltools_dir + '/bin/pythonsh ' + settings.mgltools_dir + '/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor.py -r ' + pdb_pocket_file + ' -o ' + pdbqt_pocket_file + ' -A checkhydrogens'
+                    pdbqt_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
                     print(pdbqt_result.stderr)
 
                 else:
+
                     pdbqt_convert_error = self.molecule+', There is no PDB Pocket file to convert.'
                     print(pdbqt_convert_error)
 
         if ligand == True:
+
             print('pdb to pdbqt ligand:\n ')
 
             pdb_ligand_file = self.datadir + '/ligand/pdb/' + self.molecule + '_ligand.pdb'
             pdbqt_ligand_file = self.datadir + '/ligand/pdbqt/' + self.molecule + '_ligand.pdbqt'
 
             if (not os.path.exists(pdbqt_ligand_file) or os.path.getsize(pdbqt_ligand_file) == 0) and os.path.exists(pdb_ligand_file):
-                command = settings.obabel_path+' '+pdb_ligand_file+' -O '+pdbqt_ligand_file
-                pdbqt_result = subprocess.run([command], shell=False, capture_output=True, text=True, close_fds=True)
+                command = [settings.obabel_path,pdb_ligand_file,'-0',pdbqt_ligand_file]
+                #### command = settings.obabel_path+' '+pdb_ligand_file+' -O '+pdbqt_ligand_file
+                pdbqt_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
                 print(pdbqt_result.stderr)
 
             else:
@@ -232,8 +248,9 @@ class Converter:
             pdbqt_native_ligand_file = self.datadir + '/native_ligand/pdbqt/' + self.molecule + '_ligand.pdbqt'
 
             if (not os.path.exists(pdbqt_native_ligand_file) or os.path.getsize(pdbqt_native_ligand_file) == 0) and os.path.exists(pdb_native_ligand_file):
-                command = settings.obabel_path +' '+ pdb_native_ligand_file + ' -O ' + pdbqt_native_ligand_file
-                pdbqt_result = subprocess.run([command], shell=False, capture_output=True, text=True, close_fds=True)
+                command = [settings.obabel_path, pdb_native_ligand_file, '-0', pdbqt_native_ligand_file]
+                #### command = settings.obabel_path +' '+ pdb_native_ligand_file + ' -O ' + pdbqt_native_ligand_file
+                pdbqt_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
                 print(pdbqt_result.stdout)
 
             else:
