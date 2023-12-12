@@ -8,13 +8,14 @@ pd.set_option('display.max_columns', None)
 generate_library_step=False
 convert_step=False                #ADD IF !!!!!!!!!!!!!!!!!!!!!!!!!! SUCH US DOCKING PROGRAMS LIST
 docking_step=True
-docking_programs=['rxdock']
+docking_programs=['smina','rxdock']
 
 def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch_end): #batch_start,batch_end
   #prep DF step for Clear 1 or Clear 2 !!!!
   mask = df['CL1'] == True
   df=df[mask]
   print(df)
+  df = df[batch_start:batch_end]
 
   if generate_library_step:
     '''Generate the library for LP_PDBBIND operations'''
@@ -23,7 +24,6 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch
     workspace.lp_pdbbind()                                                    #copy files to workspace
 
   if convert_step:
-    df=df[:] #to edit
     for index,row in df.iterrows():
       print(str(index) + '.' + row['pdbid'])
       library = generator.Converter(row['pdbid'],datadir)
@@ -36,7 +36,6 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch
 
   if docking_step:
     print('test_a')
-    df = df[batch_start:batch_end]
     df_prep = datasets.DatasetPreparation(df)  # Generate Molecule list Class - is it neccessery in this case?
     molecules = df_prep.get_molecules('pdbid')  ##  Generating molecules list from PDB structure codes
     print(molecules)
