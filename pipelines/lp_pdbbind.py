@@ -31,7 +31,7 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch
       library.pdb_to_mol(protein=True, pocket=True, ligand=False, native_ligand=False)
       library.mol_to_pdb(protein=False,pocket=False,ligand=True,native_ligand=True)
       library.pdb_to_pdbqt(protein=False,pocket=False,ligand=True,native_ligand=True)
-
+      library.mol_to_sdf(protein=False,pocket=False,ligand=True,native_ligand=True)
       ### add for other
 
   if docking_step:
