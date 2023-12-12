@@ -187,10 +187,10 @@ class Converter:
                         pdbqt_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
 
                         print('error: ' + str(len(pdbqt_result.stderr)) + ' | ' + pdbqt_result.stderr)
-                else:
+            else:
 
-                    pdbqt_convert_error = self.molecule+', There is no PDB Pocket file to convert or file already exists..'
-                    print(pdbqt_convert_error)
+                pdbqt_convert_error = self.molecule+', There is no PDB Pocket file to convert or file already exists..'
+                print(pdbqt_convert_error)
 
         if ligand == True:
 
