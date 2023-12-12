@@ -35,13 +35,17 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column): #batch_start,ba
       ### add for other
 
   if docking_step:
+    print('test_a')
     df_prep = datasets.DatasetPreparation(df)  # Generate Molecule list Class - is it neccessery in this case?
     molecules = df_prep.get_molecules('pdbid')[:]  ##  Generating molecules list from PDB structure codes
-
+    print('test_b')
     if 'smina' in docking_programs:
       smina_docking = docking.Smina(datadir)  # SMINA Docking Class
+      print('test_c')
       smina_docking.smina_dirs()  ## Generate output dirs for SMINA docking
-      smina_matrix = smina_docking.create_smina_matrix(molecules[:], molecules[:],no_modes)  ## Generate empty SMINA outputs matrix
+      print('test_d')
+      smina_matrix = smina_docking.create_smina_matrix(molecules, molecules,no_modes)  ## Generate empty SMINA outputs matrix
+      print('test_e')
 
     if 'rxdock' in docking_programs:
       rx_docking = docking.RxDock(datadir)
