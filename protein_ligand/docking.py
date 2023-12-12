@@ -83,10 +83,13 @@ class Smina:
         values = ['Predicted Binding Affinity','Gauss1','Gauss2','Repulsion','Hydrophobic','Non_dir_h_bond']
 
         no_proteins = len(proteins)
+        print(no_proteins)
         no_ligands = len(ligands)
+        print(no_ligands)
         no_modes = no_modes
-
+        print(no_modes)
         self.matrix = np.empty((no_proteins,no_ligands,no_modes),dtype=object)
+        print('elo')
         return self.matrix
     def fill_smina_matrix(self,pidx,lidx):
 

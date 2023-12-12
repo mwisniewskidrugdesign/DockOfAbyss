@@ -45,7 +45,8 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column): #batch_start,ba
       print('test_c')
       smina_docking.smina_dirs()  ## Generate output dirs for SMINA docking
       print('test_d')
-      smina_matrix = smina_docking.create_smina_matrix(molecules, molecules,no_modes)  ## Generate empty SMINA outputs matrix
+      smina_matrix = smina_docking.create_smina_matrix(molecules,molecules,no_modes)
+      print(smina_matrix)
       print('test_e')
 
     if 'rxdock' in docking_programs:
