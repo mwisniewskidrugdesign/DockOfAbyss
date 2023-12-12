@@ -201,7 +201,7 @@ class Converter:
 
             if (not os.path.exists(pdbqt_ligand_file) or os.path.getsize(pdbqt_ligand_file) == 0) and os.path.exists(pdb_ligand_file):
 
-                command = [settings.obabel_path,pdb_ligand_file,'-0',pdbqt_ligand_file]
+                command = [settings.obabel_path,pdb_ligand_file,'-O',pdbqt_ligand_file]
                 pdbqt_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
                 print('error: '+str(len(pdbqt_result.stderr))+' | '+pdbqt_result.stderr)
 
@@ -219,7 +219,7 @@ class Converter:
 
             if (not os.path.exists(pdbqt_native_ligand_file) or os.path.getsize(pdbqt_native_ligand_file) == 0) and os.path.exists(pdb_native_ligand_file):
 
-                command = [settings.obabel_path, pdb_native_ligand_file, '-0', pdbqt_native_ligand_file]
+                command = [settings.obabel_path, pdb_native_ligand_file, '-O', pdbqt_native_ligand_file]
                 pdbqt_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
                 print('error: '+str(len(pdbqt_result.stderr))+' | '+pdbqt_result.stderr)
 
