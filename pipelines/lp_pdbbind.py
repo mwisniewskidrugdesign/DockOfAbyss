@@ -6,8 +6,8 @@ import pandas as pd
 pd.set_option('display.max_columns', None)
 
 generate_library_step=False
-convert_step=True                #ADD IF !!!!!!!!!!!!!!!!!!!!!!!!!! SUCH US DOCKING PROGRAMS LIST
-docking_step=False
+convert_step=False                #ADD IF !!!!!!!!!!!!!!!!!!!!!!!!!! SUCH US DOCKING PROGRAMS LIST
+docking_step=True
 docking_programs=['rxdock']
 
 def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch_end): #batch_start,batch_end
@@ -26,11 +26,11 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch
     df=df[:] #to edit
     for index,row in df.iterrows():
       print(str(index) + '.' + row['pdbid'])
-      #library = generator.Converter(row['pdbid'],datadir)
-      #library.pdb_to_pdbqt(protein=True,pocket=True,ligand=False,native_ligand=False)
-      #library.pdb_to_mol(protein=True, pocket=True, ligand=False, native_ligand=False)
-      #library.mol_to_pdb(protein=False,pocket=False,ligand=True,native_ligand=True)
-      #library.pdb_to_pdbqt(protein=False,pocket=False,ligand=True,native_ligand=True)
+      library = generator.Converter(row['pdbid'],datadir)
+      library.pdb_to_pdbqt(protein=True,pocket=True,ligand=False,native_ligand=False)
+      library.pdb_to_mol(protein=True, pocket=True, ligand=False, native_ligand=False)
+      library.mol_to_pdb(protein=False,pocket=False,ligand=True,native_ligand=True)
+      library.pdb_to_pdbqt(protein=False,pocket=False,ligand=True,native_ligand=True)
       library.mol_to_sdf(protein=False,pocket=False,ligand=True,native_ligand=True)
       ### add for other
 
