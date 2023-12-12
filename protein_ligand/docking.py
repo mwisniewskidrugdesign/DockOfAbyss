@@ -108,7 +108,7 @@ class Smina:
         np.save(output, self.matrix)
 
 class RxDock:
-    def __init__(self,datadir,system_file='configs/rxdock_config.prm'):
+    def __init__(self,datadir,system_file='/home2/sfglab/mwisniewski/PhD/DockOfAbyss/configs/rxdock_config.prm'):
 
         self.datadir = datadir
         self.rxdock_dir = datadir + '/docking_scores/rxdock'
