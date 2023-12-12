@@ -214,8 +214,8 @@ class Converter:
 
             print('<NATIVE LIGAND> PDB TO PDBQT:')
 
-            pdb_ligand_file = self.datadir + '/native_ligand/pdb/' + self.molecule + '_ligand.pdb'
-            pdbqt_ligand_file = self.datadir + '/native_ligand/pdbqt/' + self.molecule + '_ligand.pdbqt'
+            pdb_native_ligand_file = self.datadir + '/native_ligand/pdb/' + self.molecule + '_ligand.pdb'
+            pdbqt_native_ligand_file = self.datadir + '/native_ligand/pdbqt/' + self.molecule + '_ligand.pdbqt'
 
             if (not os.path.exists(pdbqt_native_ligand_file) or os.path.getsize(pdbqt_native_ligand_file) == 0) and os.path.exists(pdb_native_ligand_file):
 
