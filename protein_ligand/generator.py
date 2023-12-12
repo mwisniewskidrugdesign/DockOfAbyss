@@ -203,7 +203,7 @@ class Converter:
 
                 command = [settings.obabel_path,pdb_ligand_file,'-0',pdbqt_ligand_file]
                 pdbqt_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
-                print(pdbqt_result.stderr)
+                print('error: '+str(len(pdbqt_result.stderr))+' | '+pdbqt_result.stderr)
 
             else:
 
@@ -218,7 +218,7 @@ class Converter:
 
                 command = [settings.obabel_path, pdb_native_ligand_file, '-0', pdbqt_native_ligand_file]
                 pdbqt_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
-                print(pdbqt_result.stdout)
+                print('error: '+str(len(pdbqt_result.stderr))+' | '+pdbqt_result.stderr)
 
             else:
                 pdbqt_convert_error = self.molecule+', There is no PDB Native Ligand file to convert or file already exists..'
