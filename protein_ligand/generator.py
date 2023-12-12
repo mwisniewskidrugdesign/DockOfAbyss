@@ -193,7 +193,7 @@ class Converter:
                                '-r', pdb_pocket_file, '-o', pdbqt_pocket_file, '-A', 'checkhydrogens']
                     #### command = settings.mgltools_dir + '/bin/pythonsh ' + settings.mgltools_dir + '/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor4.py -r ' + pdb_pocket_file + ' -o ' + pdbqt_pocket_file + ' -A checkhydrogens'
                     pdbqt_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
-                    print('error: 'pdbqt_result.stderr)
+                    print('error: '+pdbqt_result.stderr)
 
                     if pdbqt_result.stderr == True:
 
