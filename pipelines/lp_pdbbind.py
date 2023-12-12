@@ -6,8 +6,8 @@ import pandas as pd
 pd.set_option('display.max_columns', None)
 
 generate_library_step=False
-convert_step=False                #ADD IF !!!!!!!!!!!!!!!!!!!!!!!!!! SUCH US DOCKING PROGRAMS LIST
-docking_step=True
+convert_step=True                #ADD IF !!!!!!!!!!!!!!!!!!!!!!!!!! SUCH US DOCKING PROGRAMS LIST
+docking_step=False
 docking_programs=['rxdock']
 
 def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch_end): #batch_start,batch_end
