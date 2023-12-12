@@ -181,7 +181,7 @@ class Converter:
 
                 if int(len(pdbqt_result.stderr)) > 0:
 
-                        print('<POCKET> OPENBABEL PDB TO PDBQT:\n')
+                        print('<POCKET> OPENBABEL PDB TO PDBQT:')
 
                         command = [settings.obabel_path,pdb_pocket_file,'-O',pdbqt_pocket_file]
                         pdbqt_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
@@ -194,7 +194,7 @@ class Converter:
 
         if ligand == True:
 
-            print('<LIGAND> OPENBABEL PDB TO PDBQT:\n ')
+            print('<LIGAND> OPENBABEL PDB TO PDBQT: ')
 
             pdb_ligand_file = self.datadir + '/ligand/pdb/' + self.molecule + '_ligand.pdb'
             pdbqt_ligand_file = self.datadir + '/ligand/pdbqt/' + self.molecule + '_ligand.pdbqt'
@@ -212,7 +212,7 @@ class Converter:
 
         if native_ligand == True:
 
-            print('<NATIVE LIGAND> PDB TO PDBQT:\n')
+            print('<NATIVE LIGAND> PDB TO PDBQT:')
 
             if (not os.path.exists(pdbqt_native_ligand_file) or os.path.getsize(pdbqt_native_ligand_file) == 0) and os.path.exists(pdb_native_ligand_file):
 
