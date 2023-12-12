@@ -121,6 +121,7 @@ class RxDock:
         self.ligand_file=''
         self.native_ligand_file=''
 
+        self.dock_prm_file = '/home2/sfglab/mwisniewski/anaconda3/envs/dock_of_abyss/share/rxdock-2013.1.1_148c5bd1-1/data/scripts/dock.prm'
         self.system_file = system_file          #rx_dock raw system filepath
         self.system_prepared_file = None        #rx_dock prepared system filepath
         self.rx_output = None                   #rx_dock output filepath
@@ -158,10 +159,11 @@ class RxDock:
     def rxdock_docking(self,no_modes):
         os.environ['RBT_HOME'] = self.datadir
 
-        command = 'rbcavity -W -d -r %s' % self.system_prepared_file
-        result = subprocess.run([command], shell=True, capture_output=True, text=True)
-        command = 'rbdock -i %s -o %s -r %s -p dock.prm -n %s' % (self.ligand_file, self.rx_output, self.system_prepared_file, no_modes)
-        result = subprocess.run([command], shell=True, capture_output=True, text=True)
+        command = ['rbcavity','-W','-d','-r',self.system_prepared_file]
+        result = subprocess.run(command, shell=False, capture_output=True, text=True)
+        command = ['rbdock','-i',self.ligand_file,'-o',self.rx_output,'-r',self.system_prepared_file,'-p',self.dock_prm_file,'-n',no_modes]
+        result = subprocess.run(command, shell=False, capture_output=True, text=True)
+
     def create_rxdock_matrix(self,proteins,ligands,no_modes):
 
         self.values = ['<SCORE>', '<SCORE.INTER>>', '<SCORE.INTER.CONST>', '<SCORE.INTER.POLAR>',
