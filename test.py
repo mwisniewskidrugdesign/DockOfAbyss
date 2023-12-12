@@ -43,26 +43,4 @@ for molecule in df:
     if molecule+'_ligand.pdbqt' not in pdbqt_native_ligands:
         pdbqt_native_ligands_to_fix.append(molecule)
 
-with open('pdbqt_proteins', 'w') as f:
-    for line in pdbqt_proteins_to_fix:
-        f.write(f"{line}\n")
 
-with open('mol_proteins', 'w') as f:
-    for line in mol_proteins_to_fix:
-        f.write(f"{line}\n")
-
-with open('pdb_ligands', 'w') as f:
-    for line in pdb_ligands_to_fix:
-        f.write(f"{line}\n")
-
-with open('pdbqt_ligands', 'w') as f:
-    for line in pdbqt_ligands_to_fix:
-        f.write(f"{line}\n")
-
-with open('pdb_native_ligands', 'w') as f:
-    for line in pdb_native_ligands_to_fix:
-        f.write(f"{line}\n")
-
-with open('pdbqt_native_ligands', 'w') as f:
-    for line in pdbqt_native_ligands_to_fix:
-        f.write(f"{line}\n")
