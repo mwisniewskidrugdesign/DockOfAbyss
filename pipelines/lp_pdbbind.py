@@ -41,8 +41,7 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column): #batch_start,ba
     if 'smina' in docking_programs:
       smina_docking = docking.Smina(datadir)  # SMINA Docking Class
       smina_docking.smina_dirs()  ## Generate output dirs for SMINA docking
-      smina_matrix = smina_docking.create_smina_matrix(molecules[:], molecules[:],
-                                                       no_modes)  ## Generate empty SMINA outputs matrix
+      smina_matrix = smina_docking.create_smina_matrix(molecules[:], molecules[:],no_modes)  ## Generate empty SMINA outputs matrix
 
     if 'rxdock' in docking_programs:
       rx_docking = docking.RxDock(datadir)
@@ -61,12 +60,10 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column): #batch_start,ba
                                                      molecule)  ## reading experimental affinity data for specific molecule from dataframe
             smina_docking.read_scoring_function()  ## reading scoring function predicted binding affinity from output
             smina_docking.read_atom_term_function(no_modes)  ## reading atom terms sf's components from output
-            smina_docking.fill_smina_matrix(molecule_idx,
-                                            molecule_idx)  ## fill smina matrix with output datas                      ### MAYBE inserts read_* functions into this one
+            smina_docking.fill_smina_matrix(molecule_idx,molecule_idx)  ## fill smina matrix with output datas                      ### MAYBE inserts read_* functions into this one
           except:
             smina_docking_error_number += 1
-            print('Smina proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + str(
-              smina_docking_error_number) + 'st time.')
+            print('Smina proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + str(smina_docking_error_number) + 'st time.')
             continue
           break
       if 'rxdock' in docking_programs:
@@ -80,8 +77,7 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column): #batch_start,ba
             rx_docking.read_output(molecule_idx, molecule_idx)
           except:
             rx_docking_error_number += 1
-            print(
-              'RxDock proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + rx_docking_error_number + 'st time.')
+            print('RxDock proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + rx_docking_error_number + 'st time.')
             continue
           break
 
