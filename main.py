@@ -2,7 +2,6 @@ import settings
 from pipelines import bdb2020plus, lp_pdbbind
 import sys
 import pandas as pd
-#TEST
 
 pd.set_option('display.max_columns', None)      # wyświetlanie df
 settings.init()                                 # inicjalizacja zmiennych odnośnie ścieżek i innych w przyszłości

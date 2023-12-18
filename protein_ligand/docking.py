@@ -112,7 +112,6 @@ class Smina:
     def save_matrix(self,output):
         output = self.datadir+'/docs/'+output
         np.save(output, self.matrix)
-
 class RxDock:
     def __init__(self,datadir,system_file='/home2/sfglab/mwisniewski/PhD/DockOfAbyss/configs/rxdock_config.prm'):
 
@@ -205,6 +204,23 @@ class RxDock:
     def save_matrix(self,output):
         output = self.datadir+'/docs/'+output
         np.save(output, self.matrix)
+class DiffDock:
+    def __init__(self,datadir):
+        self.datadir = datadir
+        self.diffdock_dir = datadir + '/docking_scores/diffdock'
+        self.pdbqt_smina_dir = self.smina_dir + '/pdbqt'
+        self.atom_terms_smina_dir = self.smina_dir + '/atom_terms'
+        self.logs_smina_dir = self.smina_dir + '/logs'
+        self.protein_file = ''
+        self.ligand_file = ''
+        self.native_ligand_file = ''
+        self.pdbqt_output_file = ''
+        self.atom_terms_output_file = ''
+        self.log_output_file = ''
+        self.matrix = None
+        self.experimental_affinity = None
+        self.predicted_binding_affinity = None
+        self.sf_components = None
 
 
 
