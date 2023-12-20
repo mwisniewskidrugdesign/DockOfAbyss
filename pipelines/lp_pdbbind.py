@@ -64,10 +64,11 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch
 
     for molecule_idx, molecule in enumerate(molecules[:]):  ## Docking Loop for molecules from list generated earlier
 
-      checker = smina_docking.files_checker()
+      smina_checker = smina_docking.files_checker()
+      print(smina_checker)
       print('Docking ' + molecule + ' to ' + molecule + '. With: \n', docking_programs)  ## Print PDB structure code
 
-      if 'smina' in docking_programs and checker == True:
+      if 'smina' in docking_programs and smina_checker == True:
 
         smina_docking_error_number = 0
         while True:  ## Loop - necessery to generate exactly 100 modes, sometimes with random seed it's generating smaller number of conforms
@@ -91,7 +92,7 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch
 
           break
 
-      if 'rxdock' in docking_programs and checker == True:
+      if 'rxdock' in docking_programs and smina_checker == True:
 
         rx_docking_error_number = 0
         rx_docking.rxdock_files(molecule, molecule, molecule)
