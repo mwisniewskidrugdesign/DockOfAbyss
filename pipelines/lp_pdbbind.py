@@ -86,7 +86,7 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch
               continue
           break
 
-      if 'rxdock' in docking_programs and smina_checker == True:
+      if 'rxdock' in docking_programs:
 
         rx_docking_error_number = 0
         rx_docking.rxdock_files(molecule, molecule, molecule)

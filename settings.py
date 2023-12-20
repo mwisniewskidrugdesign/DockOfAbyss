@@ -3,11 +3,14 @@ def init():
     ##### Software Paths #####
 
     global station
+
     global pdb2fasta_path
     global mgltools_dir
     global cdhit_dir
-    global smina_tools_dir
     global obabel_path
+
+    global smina_tools_dir
+    global gnina_container
     global rxdock
 
     station='eden'
@@ -25,6 +28,7 @@ def init():
         mgltools_dir = '/home2/sfglab/mwisniewski/Software/mgltools'
         cdhit_dir = '/home2/sfglab/mwisniewski/Software/cd-hit-v4.8.1-2019-0228'
         smina_tools_dir = 'smina'
+        gnina_container = '/home2/sfglab/mwisniewski/Software/gnina/gnina.sif'
         obabel_path = 'obabel'
 
     ##########################

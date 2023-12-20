@@ -41,6 +41,7 @@ class Smina:
         if os.path.exists(self.log_output_file):
             with open(self.log_output_file, 'r') as fp:
                 x = len(fp.readlines())
+                print(x)
         checker = not os.path.exists(self.log_output_file) or x != 75
         return checker
     def smina_docking(self,no_modes):
@@ -135,7 +136,6 @@ class RxDock:
         self.mode_values = None
         self.values = None
         self.experimental_affinity = None
-
     def rxdock_dirs(self):
         if not os.path.exists(self.rxdock_dir):
             makedir = subprocess.run(['mkdir ' + self.rxdock_dir], shell=True, capture_output=True, text=True)
@@ -168,7 +168,6 @@ class RxDock:
         result = subprocess.run(command, shell=False, capture_output=True, text=True)
         command = ['rbdock','-i',self.ligand_file,'-o',self.rx_output,'-r',self.system_prepared_file,'-p',self.dock_prm_file,'-n',str(no_modes)]
         result = subprocess.run(command, shell=False, capture_output=True, text=True)
-
     def create_rxdock_matrix(self,proteins,ligands,no_modes):
 
         self.values = ['<SCORE>', '<SCORE.INTER>>', '<SCORE.INTER.CONST>', '<SCORE.INTER.POLAR>',
@@ -200,28 +199,44 @@ class RxDock:
             self.mode_values = np.array(self.mode_values)
             self.mode_values = tf.convert_to_tensor(self.mode_values)
             self.fill_rxdock_matrix(protein_index,ligand_index,mode_index)
-
     def save_matrix(self,output):
         output = self.datadir+'/docs/'+output
         np.save(output, self.matrix)
-class DiffDock:
+class Gnina:
     def __init__(self,datadir):
         self.datadir = datadir
-        self.diffdock_dir = datadir + '/docking_scores/diffdock'
-        self.pdbqt_smina_dir = self.smina_dir + '/pdbqt'
-        self.atom_terms_smina_dir = self.smina_dir + '/atom_terms'
-        self.logs_smina_dir = self.smina_dir + '/logs'
-        self.protein_file = ''
-        self.ligand_file = ''
-        self.native_ligand_file = ''
+        self.gnina_dir = datadir + '/docking_scores/gnina'
+        self.pdbqt_gnina_dir = self.gnina_dir + '/pdbqt'
+        self.atom_terms_gnina_dir = self.gnina_dir + '/atom_terms'
+        self.logs_gnina_dir = self.gnina_dirs() + '/logs'
+        self.protein_file=''
+        self.ligand_file=''
+        self.native_ligand_file=''
         self.pdbqt_output_file = ''
-        self.atom_terms_output_file = ''
+        self.atom_terms_output_file =''
         self.log_output_file = ''
         self.matrix = None
         self.experimental_affinity = None
         self.predicted_binding_affinity = None
-        self.sf_components = None
+        self.sf_components=None
+    def gnina_dirs(self):
+        if not os.path.exists(self.gnina_dir):
+            makedir = subprocess.run(['mkdir ' + self.gnina_dir], shell=True, capture_output=True, text=True)
+            makedir = subprocess.run(['mkdir ' + self.pdbqt_gnina_dir], shell=True, capture_output=True, text=True)
+            makedir = subprocess.run(['mkdir ' + self.atom_terms_gnina_dir], shell=True, capture_output=True, text=True)
+            makedir = subprocess.run(['mkdir ' + self.logs_gnina_dir], shell=True, capture_output=True, text=True)
+    def gnina_files(self,protein,ligand,native_ligand):
 
+        self.protein_file = self.datadir+'/protein/pdbqt/'+protein+'_protein.pdbqt'
+        self.ligand_file = self.datadir+'/ligand/pdbqt/'+ligand+'_ligand.pdbqt'
+        self.native_ligand_file = self.datadir+'/native_ligand/pdbqt/'+native_ligand+'_ligand.pdbqt'
 
-
-
+        self.pdbqt_output_file = self.pdbqt_gnina_dir + '/' + protein + '_' + ligand + '.pdbqt'
+        self.atom_terms_output_file = self.atom_terms_gnina_dir + '/' + protein + '_' + ligand + '_atom_terms.txt'
+        self.log_output_file = self.logs_gnina_dir + '/' + protein + '_' + ligand + '.log'
+    def gnina_files_checker(self):
+        checker = not os.path.exists(self.log_output_file)
+        return checker
+    def gniina_docking(self,no_modes):
+        #gnina_command=['singularity','run',settings.gnina_container,'gnina','-r',self.protein_file,'-l',self.ligand_file,'--autobox_ligand',self.native_ligand_file,'--autobox_add','8','--exhaustiveness','32','--num_modes',str(no_modes),'-o',self.pdbqt_output_file,'--atom_terms',self.atom_terms_output_file,'--log',self.log_output_file,'--atom_term_data','--cpu','3','--min_rmsd_filter','0','--energy_range','10000']
+        #docking = subprocess.run(smina_command, shell=False, capture_output=True, text=True)
