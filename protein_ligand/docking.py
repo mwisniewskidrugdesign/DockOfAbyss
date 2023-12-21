@@ -158,13 +158,16 @@ class RxDock:
         system_filedata = system_filedata.replace('{receptor_file}', self.protein_file)                   #define receptor.mol2 filepath
         system_filedata = system_filedata.replace('{native_ligand_file}', self.native_ligand_file)
 
-
         with open(self.system_prepared_file, 'w') as file:
             file.write(system_filedata)
+    def files_checker(self):
+        check_file=self.datadir+'/docs/temp/'+self.protein+'-'+self.ligand+'_cav1.grd'
+        if not os.path.exists(check_file):
+            return True
+
     def rxdock_docking(self,no_modes):
         os.environ['RBT_HOME'] = self.datadir
-
-        command = ['rbcavity','-W','-d','-r',self.system_prepared_file]
+        command = ['rbcavity','-was','-d','-r',self.system_prepared_file]
         result = subprocess.run(command, shell=False, capture_output=True, text=True)
         command = ['rbdock','-i',self.ligand_file,'-o',self.rx_output,'-r',self.system_prepared_file,'-p',self.dock_prm_file,'-n',str(no_modes)]
         result = subprocess.run(command, shell=False, capture_output=True, text=True)

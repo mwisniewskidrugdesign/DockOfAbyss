@@ -91,8 +91,11 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch
         rx_docking_error_number = 0
         rx_docking.rxdock_files(molecule, molecule, molecule)
         rx_docking.rxdock_system_preparation()
+        rxdock_checker = rx_docking.files_checker()
+        print(rxdock_checker)
+
         while True:
-          if smina_checker == True:
+          if rxdock_checker == True:
             try:
               rx_docking.rxdock_docking(no_modes)
               #rx_docking.read_output(molecule_idx, molecule_idx)
