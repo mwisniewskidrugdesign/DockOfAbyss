@@ -81,10 +81,10 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch
               print('Smina proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + str(smina_docking_error_number) + 'st time.')
               continue
           break
-        smina_docking.read_experimental_affinity(df, molecule,molecule)  ## reading experimental affinity data for specific molecule from dataframe
-        smina_docking.read_scoring_function()  ## reading scoring function predicted binding affinity from output
-        smina_docking.read_atom_term_function(no_modes)  ## reading atom terms sf's components from output
-        smina_docking.fill_smina_matrix(molecule_idx,molecule_idx)  ## fill smina matrix with output datas                      ### MAYBE inserts read_* functions into this one
+        #smina_docking.read_experimental_affinity(df, molecule,molecule)  ## reading experimental affinity data for specific molecule from dataframe
+        #smina_docking.read_scoring_function()  ## reading scoring function predicted binding affinity from output
+        #smina_docking.read_atom_term_function(no_modes)  ## reading atom terms sf's components from output
+        #smina_docking.fill_smina_matrix(molecule_idx,molecule_idx)  ## fill smina matrix with output datas                      ### MAYBE inserts read_* functions into this one
 
       if 'rxdock' in docking_programs:
 
@@ -104,9 +104,9 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch
               continue
           break
 
-        rx_docking.read_output(molecule_idx, molecule_idx)
+        #rx_docking.read_output(molecule_idx, molecule_idx)
 
-    if 'smina' in docking_programs:
-      smina_docking.save_matrix('smina_matrix')  ## save SMINA matrix
-    if 'rxdock' in docking_programs:
-      rx_docking.save_matrix('rxdock_matrix')
+    #if 'smina' in docking_programs:
+    #  smina_docking.save_matrix('smina_matrix')  ## save SMINA matrix
+    #if 'rxdock' in docking_programs:
+    #  rx_docking.save_matrix('rxdock_matrix')
