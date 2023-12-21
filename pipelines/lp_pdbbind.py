@@ -8,7 +8,7 @@ pd.set_option('display.max_columns', None)
 generate_library_step=False
 convert_step=False                #ADD IF !!!!!!!!!!!!!!!!!!!!!!!!!! SUCH US DOCKING PROGRAMS LIST
 docking_step=True
-docking_programs=['smina','rxdock']
+docking_programs=['rxdock']
 
 def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch_end): #batch_start,batch_end
   #prep DF step for Clear 1 or Clear 2 !!!!
@@ -71,7 +71,7 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch
         smina_docking_error_number = 0
         smina_docking.smina_files(molecule, molecule, molecule)
         smina_checker = smina_docking.files_checker()
-        print(smina_checker)
+        #print(smina_checker)
         while True:  ## Loop - necessery to generate exactly 100 modes, sometimes with random seed it's generating smaller number of conforms
           if smina_checker == True:
             try:
