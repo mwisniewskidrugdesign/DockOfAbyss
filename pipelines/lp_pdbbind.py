@@ -71,7 +71,7 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch
         smina_docking_error_number = 0
         smina_docking.smina_files(molecule, molecule, molecule)
         smina_checker = smina_docking.files_checker()
-        #print(smina_checker)
+        #print('Smina Checker: ',smina_checker)
         while True:  ## Loop - necessery to generate exactly 100 modes, sometimes with random seed it's generating smaller number of conforms
           if smina_checker == True:
             try:
@@ -92,7 +92,7 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch
         rx_docking.rxdock_files(molecule, molecule, molecule)
         rx_docking.rxdock_system_preparation()
         rxdock_checker = rx_docking.files_checker()
-        print(rxdock_checker)
+        print('RxDock Checker: ',rxdock_checker)
 
         while True:
           if rxdock_checker == True:
