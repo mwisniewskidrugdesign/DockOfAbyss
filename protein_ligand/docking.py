@@ -164,6 +164,8 @@ class RxDock:
         check_file=self.datadir+'/docs/temp/'+self.protein+'-'+self.ligand+'_cav1.grd'
         if not os.path.exists(check_file):
             return True
+        else:
+            return False
 
     def rxdock_docking(self,no_modes):
         os.environ['RBT_HOME'] = self.datadir
