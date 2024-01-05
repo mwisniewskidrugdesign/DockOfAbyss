@@ -213,7 +213,7 @@ class Gnina:
         self.gnina_dir = datadir + '/docking_scores/gnina'
         self.sdf_gz_gnina_dir = self.gnina_dir + '/sdf_gz'
         self.atom_terms_gnina_dir = self.gnina_dir + '/atom_terms'
-        self.logs_gnina_dir = self.gnina_dir + '/logs'
+        self.logs_gnina_dir = self.gnina_dir+ '/logs'
         self.protein_file=''
         self.ligand_file=''
         self.native_ligand_file=''
