@@ -8,7 +8,7 @@ pd.set_option('display.max_columns', None)
 generate_library_step = True
 convert_step=True                #ADD IF !!!!!!!!!!!!!!!!!!!!!!!!!! SUCH US DOCKING PROGRAMS LIST
 docking_step=True
-docking_programs=['smina','rxdock']
+docking_programs=['gnina']
 
 def diagonal_pipeline(datadir,rawdir,df,no_modes):
 
@@ -38,6 +38,10 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes):
             rx_docking = docking.RxDock(datadir)
             rx_docking.rxdock_dirs()
             rxdock_matrix = rx_docking.create_rxdock_matrix(molecules[:],molecules[:],no_modes)
+
+        if 'gnina' in docking_programs:
+            gnina_docking = docking.Gnina(datadir)
+            gnina_docking.gnina_dirs()
 
         for molecule_idx,molecule in enumerate(molecules[:]):                                      ## Docking Loop for molecules from list generated earlier
             print('Docking '+molecule+' to '+molecule+'. With: \n',docking_programs)                ## Print PDB structure code
@@ -71,6 +75,17 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes):
                         continue
                     break
 
+            if 'gnina' in docking_programs:
+                gnina_docking_error_number = 0
+                while True:                                                                         ## Loop - necessery to generate exactly 100 modes, sometimes with random seed it's generating smaller number of conforms
+                    try:
+                        gnina_docking.gnina_files(molecule,molecule,molecule)
+                        gnina_docking.gnina_docking(no_modes)
+                    except:
+                        gnina_docking_error_number+=1
+                        print('Smina proposed less modes than expected for docking '+molecule+' to '+molecule+'. '+str(smina_docking_error_number)+'st time.')
+                        continue
+                    break
         if 'smina' in docking_programs:
             smina_docking.save_matrix('smina_matrix')                                       ## save SMINA matrix
         if 'rxdock' in docking_programs:

@@ -211,13 +211,13 @@ class Gnina:
     def __init__(self,datadir):
         self.datadir = datadir
         self.gnina_dir = datadir + '/docking_scores/gnina'
-        self.pdbqt_gnina_dir = self.gnina_dir + '/pdbqt'
+        self.sdf_gz_gnina_dir = self.gnina_dir + '/sdf_gz'
         self.atom_terms_gnina_dir = self.gnina_dir + '/atom_terms'
         self.logs_gnina_dir = self.gnina_dirs() + '/logs'
         self.protein_file=''
         self.ligand_file=''
         self.native_ligand_file=''
-        self.pdbqt_output_file = ''
+        self.sdf_gz_output_file = ''
         self.atom_terms_output_file =''
         self.log_output_file = ''
         self.matrix = None
@@ -227,21 +227,21 @@ class Gnina:
     def gnina_dirs(self):
         if not os.path.exists(self.gnina_dir):
             makedir = subprocess.run(['mkdir ' + self.gnina_dir], shell=True, capture_output=True, text=True)
-            makedir = subprocess.run(['mkdir ' + self.pdbqt_gnina_dir], shell=True, capture_output=True, text=True)
+            makedir = subprocess.run(['mkdir ' + self.sdf_gz_gnina_dir], shell=True, capture_output=True, text=True)
             makedir = subprocess.run(['mkdir ' + self.atom_terms_gnina_dir], shell=True, capture_output=True, text=True)
             makedir = subprocess.run(['mkdir ' + self.logs_gnina_dir], shell=True, capture_output=True, text=True)
     def gnina_files(self,protein,ligand,native_ligand):
 
-        self.protein_file = self.datadir+'/protein/pdbqt/'+protein+'_protein.pdbqt'
-        self.ligand_file = self.datadir+'/ligand/pdbqt/'+ligand+'_ligand.pdbqt'
-        self.native_ligand_file = self.datadir+'/native_ligand/pdbqt/'+native_ligand+'_ligand.pdbqt'
+        self.protein_file = self.datadir+'/protein/pdb/'+protein+'_protein.pdb'
+        self.ligand_file = self.datadir+'/ligand/sdf/'+ligand+'_ligand.sdf'
+        self.native_ligand_file = self.datadir+'/native_ligand/pdbqt/'+native_ligand+'_ligand.sdf'
 
-        self.pdbqt_output_file = self.pdbqt_gnina_dir + '/' + protein + '_' + ligand + '.pdbqt'
+        self.sdf_gz_output_file = self.sdf_gz_gnina_dir + '/' + protein + '_' + ligand + '.sdf.gz'
         self.atom_terms_output_file = self.atom_terms_gnina_dir + '/' + protein + '_' + ligand + '_atom_terms.txt'
         self.log_output_file = self.logs_gnina_dir + '/' + protein + '_' + ligand + '.log'
     def gnina_files_checker(self):
         checker = not os.path.exists(self.log_output_file)
         return checker
-    #def gnina_docking(self,no_modes):
-        #gnina_command=['singularity','run',settings.gnina_container,'gnina','-r',self.protein_file,'-l',self.ligand_file,'--autobox_ligand',self.native_ligand_file,'--autobox_add','8','--exhaustiveness','32','--num_modes',str(no_modes),'-o',self.pdbqt_output_file,'--atom_terms',self.atom_terms_output_file,'--log',self.log_output_file,'--atom_term_data','--cpu','3','--min_rmsd_filter','0','--energy_range','10000']
-        #docking = subprocess.run(smina_command, shell=False, capture_output=True, text=True)
+    def gnina_docking(self,no_modes):
+        gnina_command=['singularity','run',settings.gnina_container,'gnina','-r',self.protein_file,'-l',self.ligand_file,'--autobox_ligand',self.native_ligand_file,'--autobox_add','8','--exhaustiveness','32','--num_modes',str(no_modes),'-o',self.sdf_gz_output_file,'--atom_terms',self.atom_terms_output_file,'--log',self.log_output_file,'--atom_term_data','--cpu','3','--min_rmsd_filter','0']
+        docking = subprocess.run(gnina_command, shell=False, capture_output=True, text=True)

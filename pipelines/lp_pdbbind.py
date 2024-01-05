@@ -8,7 +8,7 @@ pd.set_option('display.max_columns', None)
 generate_library_step=False
 convert_step=False                #ADD IF !!!!!!!!!!!!!!!!!!!!!!!!!! SUCH US DOCKING PROGRAMS LIST
 docking_step=True
-docking_programs=['rxdock']
+docking_programs=['gnina']
 
 def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch_end): #batch_start,batch_end
   #prep DF step for Clear 1 or Clear 2 !!!!
@@ -105,6 +105,19 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch
           break
 
         #rx_docking.read_output(molecule_idx, molecule_idx)
+
+      if 'gnina' in docking_programs:
+        gnina_docking_error_number = 0
+        while True:  ## Loop - necessery to generate exactly 100 modes, sometimes with random seed it's generating smaller number of conforms
+          try:
+            gnina_docking.gnina_files(molecule, molecule, molecule)
+            gnina_docking.gnina_docking(no_modes)
+          except:
+            gnina_docking_error_number += 1
+            print('Smina proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + str(
+              smina_docking_error_number) + 'st time.')
+            continue
+          break
 
     #if 'smina' in docking_programs:
     #  smina_docking.save_matrix('smina_matrix')  ## save SMINA matrix
