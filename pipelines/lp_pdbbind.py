@@ -62,6 +62,10 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch
       rx_docking.rxdock_dirs()
       #rxdock_matrix = rx_docking.create_rxdock_matrix(molecules[:], molecules[:], no_modes)
 
+    if 'gnina' in docking_programs:
+      gnina_docking = docking.Gnina(datadir)
+      gnina_docking.gnina_dirs()
+
     for molecule_idx, molecule in enumerate(molecules[:]):  ## Docking Loop for molecules from list generated earlier
 
       print('Docking ' + molecule + ' to ' + molecule + '. With: \n', docking_programs)  ## Print PDB structure code
