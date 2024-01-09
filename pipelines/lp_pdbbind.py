@@ -63,6 +63,7 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch
       #rxdock_matrix = rx_docking.create_rxdock_matrix(molecules[:], molecules[:], no_modes)
 
     if 'gnina' in docking_programs:
+
       gnina_docking = docking.Gnina(datadir)
       gnina_docking.gnina_dirs()
 
@@ -114,13 +115,13 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch
         gnina_docking_error_number = 0
         gnina_docking.gnina_files(molecule, molecule, molecule)
         gnina_checker = gnina_docking.gnina_files_checker()
-        while True:  ## Loop - necessery to generate exactly 100 modes, sometimes with random seed it's generating smaller number of conforms
+        while True:  ## Loop - necessery to generate exactly 50 modes, sometimes with random seed it's generating smaller number of conforms
           if gnina_checker == True:
             try:
               gnina_docking.gnina_docking(no_modes)
             except:
               gnina_docking_error_number += 1
-              print('Smina proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + str(smina_docking_error_number) + 'st time.')
+              print('Smina proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + str(gnina_docking_error_number) + 'st time.')
               continue
           break
 
