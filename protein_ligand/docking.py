@@ -234,7 +234,7 @@ class Gnina:
 
         self.protein_file = self.datadir+'/protein/pdb/'+protein+'_protein.pdb'
         self.ligand_file = self.datadir+'/ligand/sdf/'+ligand+'_ligand.sdf'
-        self.native_ligand_file = self.datadir+'/native_ligand/pdbqt/'+native_ligand+'_ligand.sdf'
+        self.native_ligand_file = self.datadir+'/native_ligand/sdf/'+native_ligand+'_ligand.sdf'
 
         self.sdf_gz_output_file = self.sdf_gz_gnina_dir + '/' + protein + '_' + ligand + '.sdf.gz'
         self.atom_terms_output_file = self.atom_terms_gnina_dir + '/' + protein + '_' + ligand + '_atom_terms.txt'
