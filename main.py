@@ -35,8 +35,8 @@ elif settings.station == 'eden':
 bdb2020plus_pipeline = False
 mpro_pipeline = False
 egfr_pipeline = False
-lp_pdbbind_pipeline = True
-verification_pipeline=False
+lp_pdbbind_pipeline = False
+verification_pipeline=True
 
 #############
 batch_start = int(sys.argv[1])
@@ -56,5 +56,5 @@ if bdb2020plus_pipeline:
 if lp_pdbbind_pipeline:
     lp_pdbbind.diagonal_pipeline(datadir,lp_pdbbind_dir,lp_pdbbind_df,50,'pdbid',batch_start,batch_end,programs) #batch_start,batch_end
 
-#if verification_pipeline:
-    #docking_outputs.
+if verification_pipeline:
+    docking_outputs.non_docked(datadir,lp_pdbbind_df,type='diag')
