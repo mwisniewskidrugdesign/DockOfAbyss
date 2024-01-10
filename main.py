@@ -32,26 +32,34 @@ elif settings.station == 'eden':
 
 ### PIPELINES ###
 # na to zrobię $1 argument w prompt
+pipeline = sys.argv[1]
 bdb2020plus_pipeline = False
 mpro_pipeline = False
 egfr_pipeline = False
 lp_pdbbind_pipeline = False
-verification_pipeline=True
+verification_pipeline = False
+
+if pipeline == 'bdb2020':
+    bdb2020plus_pipeline = True
+elif pipeline == 'lp_pdbbind':
+    lp_pdbbind_pipeline = True
+elif pipeline == 'verification':
+    verification_pipeline = True
 
 #############
 
 
 ### SYS argv ###
-batch_start = int(sys.argv[1])
+batch_start = int(sys.argv[2])
 if batch_start==0:
     batch_start=None
 
-batch_end = int(sys.argv[2])
+batch_end = int(sys.argv[3])
 if batch_end==0:
     batch_end=None
 
 try:
-    programs = list(sys.argv[3].split(','))
+    programs = list(sys.argv[4].split(','))
     print(programs)
 except:
     print('podaj programy!!')
