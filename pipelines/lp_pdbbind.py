@@ -8,9 +8,9 @@ pd.set_option('display.max_columns', None)
 generate_library_step=False
 convert_step=False                #ADD IF !!!!!!!!!!!!!!!!!!!!!!!!!! SUCH US DOCKING PROGRAMS LIST
 docking_step=True
-docking_programs=['gnina']
+#docking_programs=['gnina']
 
-def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch_end): #batch_start,batch_end
+def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch_end,docking_programs=[]): #batch_start,batch_end
   #prep DF step for Clear 1 or Clear 2 !!!!
   mask = df['CL1'] == True
   df=df[mask]
