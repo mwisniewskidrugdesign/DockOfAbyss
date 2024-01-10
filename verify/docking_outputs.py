@@ -28,6 +28,8 @@ def rxdock_verification(rxdockdir: str, molecule_dockings: List) -> List:
     rxdockdir = os.listdir(rxdockdir)
 
     for molecule_docking in molecule_dockings:
+        molecule_docking=molecule_docking.replace('_','-')
+
         if molecule_docking+'.sd' not in rxdockdir:
             rxdock_problems.append(molecule_docking)
 

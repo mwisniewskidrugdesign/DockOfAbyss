@@ -39,6 +39,9 @@ lp_pdbbind_pipeline = False
 verification_pipeline=True
 
 #############
+
+
+### SYS argv ###
 batch_start = int(sys.argv[1])
 if batch_start==0:
     batch_start=None
@@ -52,7 +55,7 @@ try:
     print(programs)
 except:
     print('podaj programy!!')
-
+###########
 
 ### PIPELINES ###
 

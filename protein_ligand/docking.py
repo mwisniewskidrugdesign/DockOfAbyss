@@ -148,20 +148,20 @@ class RxDock:
         self.protein_file = self.datadir + '/protein/mol2/' + protein + '_protein.mol2'
         self.ligand_file = self.datadir + '/ligand/sdf/' + ligand + '_ligand.sdf'
         self.native_ligand_file = self.datadir + '/native_ligand/sdf/' + native_ligand + '_ligand.sdf'
-        self.system_prepared_file = self.datadir+'/docs/temp/'+self.protein+'-'+self.ligand+'.prm'
-        self.rx_output = self.rxdock_dir + '/' + self.protein + '-' + self.ligand
+        self.system_prepared_file = self.datadir+'/docs/temp/'+self.protein+'_'+self.ligand+'.prm'
+        self.rx_output = self.rxdock_dir + '/' + self.protein + '_' + self.ligand
     def rxdock_system_preparation(self):
         with open(self.system_file,'r') as file:
             system_filedata = file.read()
 
-        system_filedata = system_filedata.replace('{title}', self.protein+'-'+self.ligand)                          #define title
+        system_filedata = system_filedata.replace('{title}', self.protein+'_'+self.ligand)                          #define title
         system_filedata = system_filedata.replace('{receptor_file}', self.protein_file)                   #define receptor.mol2 filepath
         system_filedata = system_filedata.replace('{native_ligand_file}', self.native_ligand_file)
 
         with open(self.system_prepared_file, 'w') as file:
             file.write(system_filedata)
     def files_checker(self):
-        check_file=self.datadir+'/docs/temp/'+self.protein+'-'+self.ligand+'_cav1.grd'
+        check_file=self.datadir+'/docs/temp/'+self.protein+'_'+self.ligand+'_cav1.grd'
         if not os.path.exists(check_file):
             return True
         else:
