@@ -6,7 +6,7 @@ import pandas as pd
 pd.set_option('display.max_columns', None)
 
 generate_library_step=False
-convert_step=False                #ADD IF !!!!!!!!!!!!!!!!!!!!!!!!!! SUCH US DOCKING PROGRAMS LIST
+convert_step=False
 docking_step=True
 #docking_programs=['gnina']
 

@@ -1,5 +1,6 @@
 import settings
 from pipelines import bdb2020plus, lp_pdbbind
+from verify import docking_outputs
 import sys
 import pandas as pd
 
@@ -35,6 +36,7 @@ bdb2020plus_pipeline = False
 mpro_pipeline = False
 egfr_pipeline = False
 lp_pdbbind_pipeline = True
+verification_pipeline=False
 
 #############
 batch_start = int(sys.argv[1])
@@ -54,4 +56,5 @@ if bdb2020plus_pipeline:
 if lp_pdbbind_pipeline:
     lp_pdbbind.diagonal_pipeline(datadir,lp_pdbbind_dir,lp_pdbbind_df,50,'pdbid',batch_start,batch_end,programs) #batch_start,batch_end
 
-
+#if verification_pipeline:
+    #docking_outputs.
