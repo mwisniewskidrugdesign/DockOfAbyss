@@ -47,14 +47,12 @@ batch_end = int(sys.argv[2])
 if batch_end==0:
     batch_end=None
 
-print(sys.argv[3])
 try:
-    programs = list(sys.arg[3].split(','))
+    programs = list(sys.argv[3].split(','))
     print(programs)
 except:
     print('podaj programy!!')
 
-print(batch_start)
 
 ### PIPELINES ###
 
