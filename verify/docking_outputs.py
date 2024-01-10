@@ -10,16 +10,13 @@ def smina_verification(sminadir: str,molecule_dockings: List) -> List:
     smina_problems = []
 
     pdbqt_files = os.listdir(sminadir+'/pdbqt')
-    print(pdbqt_files)
     log_files = os.listdir(sminadir+'/logs')
     atom_term_files = os.listdir(sminadir+'/atom_terms')
 
     molecule_dockings = molecule_dockings
 
     for molecule_docking in molecule_dockings:
-        if (molecule_docking+'.log' not in log_files
-                or molecule_docking+'.pdbqt' not in pdbqt_files
-                or molecule_docking+'_atom_terms.txt' not in atom_term_files):
+        if (molecule_docking+'.log' not in log_files or molecule_docking+'.pdbqt' not in pdbqt_files or molecule_docking+'_atom_terms.txt' not in atom_term_files):
             smina_problems.append(molecule_docking)
 
     return smina_problems
@@ -71,7 +68,8 @@ def save_problems(datadir: str, smina: List, rxdock: List, gnina: List):
         for row in gnina:
             output.write(str(row) + '\n')
 def non_docked(datadir: str, dataframe: pd.DataFrame, type='diag') -> List:
-
+    mask = dataframe['CL1'] == True
+    dataframe = dataframe[mask]
     sminadir = datadir + '/docking_scores/smina'
     rxdockdir = datadir + '/docking_scores/rxdock'
     gninadir = datadir + '/docking_scores/gnina'
