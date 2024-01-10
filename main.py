@@ -40,7 +40,11 @@ verification_pipeline=True
 
 #############
 batch_start = int(sys.argv[1])
+if batch_start=='0':
+    batch_start=None
 batch_end = int(sys.argv[2])
+if batch_end=='0':
+    batch_end=None
 try:
     programs = list(sys.arg[3].split(','))
 except:
