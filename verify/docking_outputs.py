@@ -47,7 +47,7 @@ def gnina_verification(gninadir: str,molecule_dockings: List) -> List:
 
     for molecule_docking in molecule_dockings:
         if (molecule_docking+'.log' not in log_files
-                or molecule_docking+'.sdf.gz' not in pdbqt_files
+                or molecule_docking+'.sdf.gz' not in sdf_gz_files
                 or molecule_docking+'_atom_terms.txt' not in atom_term_files):
             gnina_problems.append(molecule_docking)
 

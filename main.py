@@ -49,6 +49,7 @@ if batch_end==0:
 
 try:
     programs = list(sys.arg[3].split(','))
+    print(programs)
 except:
     print('podaj programy!!')
 
