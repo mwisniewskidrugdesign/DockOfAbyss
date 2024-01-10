@@ -58,15 +58,15 @@ def save_problems(datadir: str, smina: List, rxdock: List, gnina: List):
 
     with open(smina_doc, 'w') as output:
         for index,row in enumerate(smina):
-            output.write(str(index+1),'.',str(row) + '\n')
+            output.write(str(index+1)+'.'+str(row) + '\n')
 
     with open(rxdock_doc, 'w') as output:
         for index,row in enumerate(rxdock):
-            output.write(str(index+1),'.',str(row) + '\n')
+            output.write(str(index+1)+'.'+str(row) + '\n')
 
     with open(gnina_doc, 'w') as output:
         for index,row in enumerate(gnina):
-            output.write(str(index+1),'.',str(row) + '\n')
+            output.write(str(index+1)+'.'+str(row) + '\n')
 def non_docked(datadir: str, dataframe: pd.DataFrame, type='diag') -> List:
     mask = dataframe['CL1'] == True
     dataframe = dataframe[mask]
