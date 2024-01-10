@@ -57,16 +57,16 @@ def save_problems(datadir: str, smina: List, rxdock: List, gnina: List):
     gnina_doc = datadir+'/docs/gnina_problems.txt'
 
     with open(smina_doc, 'w') as output:
-        for row in smina:
-            output.write(str(row) + '\n')
+        for index,row in enumerate(smina):
+            output.write(str(index+1),'.',str(row) + '\n')
 
     with open(rxdock_doc, 'w') as output:
-        for row in rxdock:
-            output.write(str(row) + '\n')
+        for index,row in enumerate(rxdock):
+            output.write(str(index+1),'.',str(row) + '\n')
 
     with open(gnina_doc, 'w') as output:
-        for row in gnina:
-            output.write(str(row) + '\n')
+        for index,row in enumerate(gnina):
+            output.write(str(index+1),'.',str(row) + '\n')
 def non_docked(datadir: str, dataframe: pd.DataFrame, type='diag') -> List:
     mask = dataframe['CL1'] == True
     dataframe = dataframe[mask]
@@ -85,7 +85,6 @@ def non_docked(datadir: str, dataframe: pd.DataFrame, type='diag') -> List:
             for ligand in molecules:
                 molecule_dockings.append(str(protein)+'_'+str(ligand))
         print('There was: ',str(len(molecule_dockings)),' dockings conducted.')
-    print(molecule_dockings)
     smina_problems = smina_verification(sminadir,molecule_dockings)
     rxdock_problems = rxdock_verification(rxdockdir,molecule_dockings)
     gnina_problems = gnina_verification(gninadir,molecule_dockings)
