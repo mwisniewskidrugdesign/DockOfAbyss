@@ -93,4 +93,3 @@ def non_docked(datadir: str, dataframe: pd.DataFrame, type='diag') -> List:
 
     save_problems(datadir, smina_problems,rxdock_problems,gnina_problems)
 
-smina_verification('try','try')
