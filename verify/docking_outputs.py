@@ -10,6 +10,7 @@ def smina_verification(sminadir: str,molecule_dockings: List) -> List:
     smina_problems = []
 
     pdbqt_files = os.listdir(sminadir+'/pdbqt')
+    print(pdbqt_files)
     log_files = os.listdir(sminadir+'/logs')
     atom_term_files = os.listdir(sminadir+'/atom_terms')
 
