@@ -87,7 +87,7 @@ def non_docked(datadir: str, dataframe: pd.DataFrame, type='diag') -> List:
             for ligand in molecules:
                 molecule_dockings.append(str(protein)+'_'+str(ligand))
         print('There was: ',str(len(molecule_dockings)),' dockings conducted.')
-
+    print(molecule_dockings)
     smina_problems = smina_verification(sminadir,molecule_dockings)
     rxdock_problems = rxdock_verification(rxdockdir,molecule_dockings)
     gnina_problems = gnina_verification(gninadir,molecule_dockings)
