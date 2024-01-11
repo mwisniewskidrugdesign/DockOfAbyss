@@ -107,7 +107,6 @@ class Smina:
         self.matrix = np.empty((no_proteins,no_ligands,no_modes),dtype=object)
         print('elo')
         return self.matrix
-
     def fill_smina_matrix(self,pidx,lidx):
 
         for mode_idx in range(len(self.matrix[0][0])):
@@ -120,7 +119,6 @@ class Smina:
             mode_values = np.array(mode_values)
             mode_values = tf.convert_to_tensor(mode_values)
             self.matrix[pidx,lidx,mode_idx] = mode_values
-
     def save_matrix(self,output):
         output = self.datadir+'/docs/'+output
         np.save(output, self.matrix)

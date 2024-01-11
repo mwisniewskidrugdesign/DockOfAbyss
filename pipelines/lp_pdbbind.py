@@ -86,16 +86,19 @@ def diagonal_pipeline(datadir: str,rawdir: str,df: pd.DataFrame,no_modes: int,pd
           smina_checker = smina_docking.files_checker()
 
           if smina_checker == True:
+            print('files: brakuje plikow lub ponizej 50 modow')
             smina_docking.smina_docking(no_modes)  ## smina docking function
-
             smina_modes_checker = smina_docking.modes_checker()
 
             if smina_modes_checker == False:
+              print('wszystko ok')
               break
             else:
               smina_docking_error_number +=1
               print('Smina proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + str(smina_docking_error_number) + 'st time.')
               continue
+          else:
+            break
 
       if 'rxdock' in docking_programs:
 
