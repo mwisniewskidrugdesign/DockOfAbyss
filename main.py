@@ -19,11 +19,8 @@ batch_end = int(sys.argv[3])
 if batch_end==0:
     batch_end=None
 
-try:
-    programs = list(sys.argv[4].split(','))
-    print(programs)
-except:
-    print('podaj programy!!')
+programs = list(sys.argv[4].split(','))
+steps = list(sys.argv[5].split(','))
 
 ###########
 
@@ -75,7 +72,7 @@ if bdb2020plus_pipeline:
     bdb2020plus.diagonal_pipeline(datadir, bdb2020plus_datadir, bdb2020plus_df,50)
 
 if lp_pdbbind_pipeline:
-    lp_pdbbind.diagonal_pipeline(datadir,lp_pdbbind_dir,lp_pdbbind_df,50,'pdbid',batch_start,batch_end,programs) #batch_start,batch_end
+    lp_pdbbind.diagonal_pipeline(datadir,lp_pdbbind_dir,lp_pdbbind_df,50,'pdbid',batch_start,batch_end,programs,steps) #batch_start,batch_end
 
 if verification_pipeline:
     docking_outputs.non_docked(datadir,lp_pdbbind_df,type='diag')

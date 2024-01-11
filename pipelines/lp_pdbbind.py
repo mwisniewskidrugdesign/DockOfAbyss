@@ -5,15 +5,28 @@ import pandas as pd
 
 pd.set_option('display.max_columns', None)
 
-generate_library_step=False
-convert_step=False
-docking_step=False
-matrix_step=True
 
-def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch_end,docking_programs=[]): #batch_start,batch_end
+def diagonal_pipeline(datadir: str,rawdir: str,df: pd.DataFrame,no_modes: int,pdb_id_column: str,batch_start,batch_end,docking_programs=[],steps=[]):
+
+  generate_library_step = False
+  convert_step = False
+  docking_step = False
+  matrix_step = True
+
+  steps=steps
+  if 'generate_library' in steps:
+    generate_library_step = True
+  if 'convert' in steps:
+    convert_step = True
+  if 'docking' in steps:
+    docking_step = True
+  if 'matrix' in steps:
+    matrix_step = True
+
   #prep DF step for Clear 1 or Clear 2 !!!!
   mask = df['CL1'] == True
   df=df[mask]
+
 
   if generate_library_step:
     '''Generate the workspace for LP_PDBBIND operations'''
