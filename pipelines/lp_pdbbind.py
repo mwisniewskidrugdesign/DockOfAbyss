@@ -65,6 +65,7 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch
 
       print('Docking ' + molecule + ' to ' + molecule + '. With: \n', docking_programs)  ## Print PDB structure code
 
+      ### DOCKING SUB-MODULE ###
       if 'smina' in docking_programs:
 
         smina_docking_error_number = 0
@@ -113,6 +114,7 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch
               continue
           break
 
+      ### FILLING MATRIX SUB-MODULE ###
       if 'smina' in docking_programs:
         smina_docking.read_experimental_affinity(df, molecule,molecule)  ## reading experimental affinity data for specific molecule from dataframe
         smina_docking.read_scoring_function()  ## reading scoring function predicted binding affinity from output
