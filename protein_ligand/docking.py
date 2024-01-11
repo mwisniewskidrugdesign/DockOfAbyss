@@ -38,7 +38,7 @@ class Smina:
         self.atom_terms_output_file = self.atom_terms_smina_dir + '/' + protein + '_' + ligand + '_atom_terms.txt'
         self.log_output_file = self.logs_smina_dir + '/' + protein + '_' + ligand + '.log'
     def files_checker(self):
-        if os.path.exists(self.log_output_file):
+        if os.path.exists(self.log_output_file) and os.path.exists(self.pdbqt_output_file) and os.path.exists(self.atom_terms_output_file):
             with open(self.log_output_file, 'r') as fp:
                 x = len(fp.readlines())
                 print(x)

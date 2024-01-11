@@ -31,8 +31,9 @@ elif settings.station == 'eden':
 ##################
 
 ### PIPELINES ###
-# na to zrobię $1 argument w prompt
+
 pipeline = sys.argv[1]
+
 bdb2020plus_pipeline = False
 mpro_pipeline = False
 egfr_pipeline = False
