@@ -38,7 +38,9 @@ class Smina:
         self.atom_terms_output_file = self.atom_terms_smina_dir + '/' + protein + '_' + ligand + '_atom_terms.txt'
         self.log_output_file = self.logs_smina_dir + '/' + protein + '_' + ligand + '.log'
     def files_checker(self):
-        checker = not (os.path.exists(self.log_output_file) and os.path.exists(self.pdbqt_output_file) and os.path.exists(self.atom_terms_output_file))
+        with open(self.log_output_file,'r') as fp:
+            x = len(fp.readlines())
+        checker = x != 75 or not (os.path.exists(self.log_output_file) and os.path.exists(self.pdbqt_output_file) and os.path.exists(self.atom_terms_output_file))
         print('File checker: ',checker)
         return checker
     def modes_checker(self):
