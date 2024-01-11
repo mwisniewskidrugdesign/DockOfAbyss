@@ -47,7 +47,6 @@ class Smina:
             print(x)
         checker = x != 75
         return checker
-
     def smina_docking(self,no_modes):
         smina_command=[settings.smina_tools_dir,'-r',self.protein_file,'-l',self.ligand_file,'--autobox_ligand',self.native_ligand_file,'--autobox_add','8','--exhaustiveness','32','--num_modes',str(no_modes),'-o',self.pdbqt_output_file,'--atom_terms',self.atom_terms_output_file,'--log',self.log_output_file,'--atom_term_data','--cpu','3','--min_rmsd_filter','0','--energy_range','10000']
         docking = subprocess.run(smina_command, shell=False, capture_output=True, text=True)
@@ -116,6 +115,7 @@ class Smina:
             mode_values = np.array(mode_values)
             mode_values = tf.convert_to_tensor(mode_values)
             self.matrix[pidx,lidx,mode_idx] = mode_values
+
     def save_matrix(self,output):
         output = self.datadir+'/docs/'+output
         np.save(output, self.matrix)
