@@ -180,8 +180,14 @@ class RxDock:
         os.environ['RBT_HOME'] = self.datadir
         command = ['rbcavity','-was','-d','-r',self.system_prepared_file]
         result = subprocess.run(command, shell=False, capture_output=True, text=True)
+        print('cavity:')
+        print(result.stderr)
+        print(result.stdout)
         command = ['rbdock','-i',self.ligand_file,'-o',self.rx_output,'-r',self.system_prepared_file,'-p',self.dock_prm_file,'-n',str(no_modes)]
         result = subprocess.run(command, shell=False, capture_output=True, text=True)
+        print('rbdock:')
+        print(result.stderr)
+        print(result.stdout)
     def create_rxdock_matrix(self,proteins,ligands,no_modes):
 
         self.values = ['<SCORE>', '<SCORE.INTER>>', '<SCORE.INTER.CONST>', '<SCORE.INTER.POLAR>',
