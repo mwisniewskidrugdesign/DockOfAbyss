@@ -79,12 +79,14 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch
         while True:  ## Loop - necessery to generate exactly 100 modes, sometimes with random seed it's generating smaller number of conforms
           smina_checker = smina_docking.files_checker()
           if smina_checker == True:
-            smina_docking.smina_docking(no_modes)  ## smina docking function
-          else:
-            smina_docking_error_number +=1
-            print('Smina proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + str(smina_docking_error_number) + 'st time.')
-            continue
-          break
+            smina_modes_checker = smina_docking.modes_checker()
+            if smina_modes_checker == True:
+              smina_docking.smina_docking(no_modes)## smina docking function
+            else:
+              smina_docking_error_number +=1
+              print('Smina proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + str(smina_docking_error_number) + 'st time.')
+              continue
+            break
         #smina_docking.read_experimental_affinity(df, molecule,molecule)  ## reading experimental affinity data for specific molecule from dataframe
         #smina_docking.read_scoring_function()  ## reading scoring function predicted binding affinity from output
         #smina_docking.read_atom_term_function(no_modes)  ## reading atom terms sf's components from output
