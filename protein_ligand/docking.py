@@ -38,11 +38,11 @@ class Smina:
         self.atom_terms_output_file = self.atom_terms_smina_dir + '/' + protein + '_' + ligand + '_atom_terms.txt'
         self.log_output_file = self.logs_smina_dir + '/' + protein + '_' + ligand + '.log'
     def files_checker(self):
-        if os.path.exists(self.log_output_file) and os.path.exists(self.pdbqt_output_file) and os.path.exists(self.atom_terms_output_file):
+        if os.path.exists(self.log_output_file):
             with open(self.log_output_file, 'r') as fp:
                 x = len(fp.readlines())
                 print(x)
-        checker = not os.path.exists(self.log_output_file) or x != 75
+        checker = not (os.path.exists(self.log_output_file) and os.path.exists(self.pdbqt_output_file) and os.path.exists(self.atom_terms_output_file)) or x != 75
         return checker
     def smina_docking(self,no_modes):
         smina_command=[settings.smina_tools_dir,'-r',self.protein_file,'-l',self.ligand_file,'--autobox_ligand',self.native_ligand_file,'--autobox_add','8','--exhaustiveness','32','--num_modes',str(no_modes),'-o',self.pdbqt_output_file,'--atom_terms',self.atom_terms_output_file,'--log',self.log_output_file,'--atom_term_data','--cpu','3','--min_rmsd_filter','0','--energy_range','10000']
