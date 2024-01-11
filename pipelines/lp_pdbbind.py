@@ -155,7 +155,7 @@ def diagonal_pipeline(datadir: str,rawdir: str,df: pd.DataFrame,no_modes: int,pd
           smina_matrix.fill_smina_matrix(molecule_idx,molecule_idx)  ## fill smina matrix with output datas
         else:
           smina_matrix.read_experimental_affinity(df,molecule,molecule)
-          smina_matrix.predicted_binding_affinity = None
+          smina_matrix.predicted_binding_affinity = [None*no_modes]
           smina_matrix.sf_components = [None, None, None, None, None]
           smina_matrix.fill_smina_matrix(molecule_idx,molecule_idx)
       smina_matrix.save_matrix('smina_matrix')
