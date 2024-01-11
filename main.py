@@ -76,3 +76,5 @@ if lp_pdbbind_pipeline:
 
 if verification_pipeline:
     docking_outputs.non_docked(datadir,lp_pdbbind_df,type='diag')
+
+print('~~~~Fin~~~~~')

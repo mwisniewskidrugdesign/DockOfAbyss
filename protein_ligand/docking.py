@@ -2,7 +2,7 @@ import os
 import subprocess
 import numpy as np
 import tensorflow as tf
-
+from typing import List
 import settings
 
 class Smina:
@@ -23,12 +23,15 @@ class Smina:
         self.predicted_binding_affinity = None
         self.sf_components=None
     def smina_dirs(self):
+        '''Create Directories for SMINA outputs'''
+
         if not os.path.exists(self.smina_dir):
             makedir = subprocess.run(['mkdir ' + self.smina_dir], shell=True, capture_output=True, text=True)
             makedir = subprocess.run(['mkdir ' + self.pdbqt_smina_dir], shell=True, capture_output=True, text=True)
             makedir = subprocess.run(['mkdir ' + self.atom_terms_smina_dir], shell=True, capture_output=True, text=True)
             makedir = subprocess.run(['mkdir ' + self.logs_smina_dir], shell=True, capture_output=True, text=True)
     def smina_files(self,protein,ligand,native_ligand):
+        '''Specify Input and Output files for SMINA'''
 
         self.protein_file = self.datadir+'/protein/pdbqt/'+protein+'_protein.pdbqt'
         self.ligand_file = self.datadir+'/ligand/pdbqt/'+ligand+'_ligand.pdbqt'
@@ -38,29 +41,37 @@ class Smina:
         self.atom_terms_output_file = self.atom_terms_smina_dir + '/' + protein + '_' + ligand + '_atom_terms.txt'
         self.log_output_file = self.logs_smina_dir + '/' + protein + '_' + ligand + '.log'
     def files_checker(self):
+        '''Check whether files exist and are correct'''
         with open(self.log_output_file,'r') as fp:
             x = len(fp.readlines())
         checker = x != 75 or not (os.path.exists(self.log_output_file) and os.path.exists(self.pdbqt_output_file) and os.path.exists(self.atom_terms_output_file))
         print('File checker: ',checker)
         return checker
     def modes_checker(self):
+        '''Check whether the appropriate number of conformations has been generated'''
         with open(self.log_output_file, 'r') as fp:
             x = len(fp.readlines())
             print(x)
         checker = x != 75 or not os.path.exists(self.log_output_file)
         return checker
     def smina_docking(self,no_modes):
+        '''Autodock Smina's docking function'''
+
         smina_command=[settings.smina_tools_dir,'-r',self.protein_file,'-l',self.ligand_file,'--autobox_ligand',self.native_ligand_file,'--autobox_add','8','--exhaustiveness','32','--num_modes',str(no_modes),'-o',self.pdbqt_output_file,'--atom_terms',self.atom_terms_output_file,'--log',self.log_output_file,'--atom_term_data','--cpu','3','--min_rmsd_filter','0','--energy_range','10000']
         docking = subprocess.run(smina_command, shell=False, capture_output=True, text=True)
         print(docking.stderr)
         print(docking.stdout)
         return docking
-    def read_scoring_function(self):
+    def read_scoring_function(self) -> List:
+        ''' Read the Predicted Binding Affinities from pdbqt file'''
+
         print('\tscoring - started')
         pdbqt_output = open(self.pdbqt_output_file,'r')
-        self.predicted_binding_affinity = [line.replace('REMARK minimizedAffinity ', '').replace('\n', '') for line in pdbqt_output.readlines() if 'REMARK minimizedAffinity' in line]
+        self.predicted_binding_affinity = [float(line.replace('REMARK minimizedAffinity ', '').replace('\n', ''))for line in pdbqt_output.readlines() if 'REMARK minimizedAffinity' in line]
         return self.predicted_binding_affinity
-    def read_atom_term_function(self,no_modes):
+    def read_atom_term_function(self,no_modes: int) -> List:
+        '''Read Atom Terms from _atom_terms.txt file'''
+
         print('\tatom term - started')
         atom_term_output = open(self.atom_terms_output_file,'r')
 
@@ -91,12 +102,14 @@ class Smina:
             non_dir_h_bond[idx] = float(sum(non_dir_h_bond[idx]))
         self.sf_components = [gauss,gauss2,repulsion,hydrophobic,non_dir_h_bond]
         return self.sf_components
-    def read_experimental_affinity(self,df,protein,ligand,affinity_column='value'):
+    def read_experimental_affinity(self,df,protein,ligand,affinity_column='value') -> float:
+        '''Read Experimental Affinity from PDBbind dataframe'''
+
         print('\texperimental - started')
         if protein == ligand:
-            self.experimental_affinity = df[df['pdbid']==protein][affinity_column].values[0]
+            self.experimental_affinity = float(df[df['pdbid']==protein][affinity_column].values[0])
     def create_smina_matrix(self,proteins,ligands,no_modes):
-
+        '''Create a template for Smina Matrix'''
         values = ['Predicted Binding Affinity','Gauss1','Gauss2','Repulsion','Hydrophobic','Non_dir_h_bond']
 
         no_proteins = len(proteins)
@@ -109,7 +122,7 @@ class Smina:
         print('elo')
         return self.matrix
     def fill_smina_matrix(self,pidx,lidx):
-
+        '''Fill the smina matrix in specific location'''
         for mode_idx in range(len(self.matrix[0][0])):
             if pidx == lidx:
                 mode_values = [float(self.predicted_binding_affinity[mode_idx])]
@@ -121,6 +134,7 @@ class Smina:
             mode_values = tf.convert_to_tensor(mode_values)
             self.matrix[pidx,lidx,mode_idx] = mode_values
     def save_matrix(self,output):
+        '''Save the Smina matrix'''
         output = self.datadir+'/docs/'+output
         np.save(output, self.matrix)
 class RxDock:
