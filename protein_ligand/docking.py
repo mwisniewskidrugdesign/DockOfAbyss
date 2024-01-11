@@ -48,6 +48,8 @@ class Smina:
     def smina_docking(self,no_modes):
         smina_command=[settings.smina_tools_dir,'-r',self.protein_file,'-l',self.ligand_file,'--autobox_ligand',self.native_ligand_file,'--autobox_add','8','--exhaustiveness','32','--num_modes',str(no_modes),'-o',self.pdbqt_output_file,'--atom_terms',self.atom_terms_output_file,'--log',self.log_output_file,'--atom_term_data','--cpu','3','--min_rmsd_filter','0','--energy_range','10000']
         docking = subprocess.run(smina_command, shell=False, capture_output=True, text=True)
+        print(docking.stderr)
+        print(docking.stdout)
     def read_scoring_function(self):
 
         pdbqt_output = open(self.pdbqt_output_file,'r')
