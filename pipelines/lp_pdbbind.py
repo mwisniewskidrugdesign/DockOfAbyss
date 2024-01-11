@@ -9,7 +9,6 @@ generate_library_step=False
 convert_step=False
 docking_step=False
 matrix_step=True
-#docking_programs=['gnina']
 
 def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch_end,docking_programs=[]): #batch_start,batch_end
   #prep DF step for Clear 1 or Clear 2 !!!!
@@ -40,8 +39,8 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch
       library.mol_to_sdf(ligand=True,native_ligand=True)
 
   if docking_step:
-    df = df[batch_start:batch_end]
-    df_prep = datasets.DatasetPreparation(df)  # Generate Molecule list Class - is it neccessery in this case?
+    docking_df = df[batch_start:batch_end]
+    df_prep = datasets.DatasetPreparation(docking_df)  # Generate Molecule list Class - is it neccessery in this case?
     molecules = df_prep.get_molecules('pdbid')  ##  Generating molecules list from PDB structure codes
 
     if 'smina' in docking_programs:
@@ -132,8 +131,8 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch
       smina_matrix = docking.Smina(datadir)
       smina_matrix.create_smina_matrix(molecules,molecules,no_modes)
 
-      for molecule_idx, molecule in enumerate(molecules[:]):
-        smina_matix.smina_files(molecule, molecule, molecule)
+      for molecule_idx, molecule in enumerate(molecules):
+        smina_matrix.smina_files(molecule, molecule, molecule)
         smina_matrix.read_experimental_affinity(df, molecule,molecule)  ## reading experimental affinity data for specific molecule from dataframe
         smina_matrix.read_scoring_function()  ## reading scoring function predicted binding affinity from output
         smina_matrix.read_atom_term_function(no_modes)  ## reading atom terms sf's components from output
