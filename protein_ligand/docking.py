@@ -123,13 +123,17 @@ class Smina:
         return self.matrix
     def fill_smina_matrix(self,pidx,lidx):
         '''Fill the smina matrix in specific location'''
+        print('\t\tScoring function: ',type(self.predicted_binding_affinity))
+        for value in self.sf_components:
+            print('\t\tComponents: ',type(value))
+        print('\t\tExperimental Affinity: ',type(self.experimental_affinity))
         for mode_idx in range(len(self.matrix[0][0])):
             if pidx == lidx:
                 mode_values = [self.predicted_binding_affinity[mode_idx]]
             else:
-                mode_values = [float(self.predicted_binding_affinity[mode_idx])]
+                mode_values = [self.predicted_binding_affinity[mode_idx]]
             for i in range(5):
-                mode_values.append(float(self.sf_components[i][mode_idx]))
+                mode_values.append(self.sf_components[i][mode_idx])
             mode_values = np.array(mode_values)
             mode_values = tf.convert_to_tensor(mode_values)
             self.matrix[pidx,lidx,mode_idx] = mode_values
