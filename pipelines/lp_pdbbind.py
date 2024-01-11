@@ -14,7 +14,6 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch
   #prep DF step for Clear 1 or Clear 2 !!!!
   mask = df['CL1'] == True
   df=df[mask]
-  print(df)
 
   if generate_library_step:
     '''Generate the workspace for LP_PDBBIND operations'''
@@ -74,20 +73,17 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch
           smina_checker = smina_docking.files_checker()
 
           if smina_checker == True:
+            smina_docking.smina_docking(no_modes)  ## smina docking function
 
             smina_modes_checker = smina_docking.modes_checker()
 
-            if smina_modes_checker == True:
-
-              smina_docking.smina_docking(no_modes)## smina docking function
-
+            if smina_modes_checker == False:
+              break
             else:
-
               smina_docking_error_number +=1
               print('Smina proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + str(smina_docking_error_number) + 'st time.')
               continue
 
-          break
       if 'rxdock' in docking_programs:
 
         rx_docking_error_number = 0

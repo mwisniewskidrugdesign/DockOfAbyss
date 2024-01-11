@@ -45,7 +45,7 @@ class Smina:
         with open(self.log_output_file, 'r') as fp:
             x = len(fp.readlines())
             print(x)
-        checker = x != 75
+        checker = x != 75 or not os.path.exists(self.log_output_file)
         return checker
     def smina_docking(self,no_modes):
         smina_command=[settings.smina_tools_dir,'-r',self.protein_file,'-l',self.ligand_file,'--autobox_ligand',self.native_ligand_file,'--autobox_add','8','--exhaustiveness','32','--num_modes',str(no_modes),'-o',self.pdbqt_output_file,'--atom_terms',self.atom_terms_output_file,'--log',self.log_output_file,'--atom_term_data','--cpu','3','--min_rmsd_filter','0','--energy_range','10000']
@@ -53,12 +53,12 @@ class Smina:
         print(docking.stderr)
         print(docking.stdout)
     def read_scoring_function(self):
-
+        print('\tscoring - started')
         pdbqt_output = open(self.pdbqt_output_file,'r')
         self.predicted_binding_affinity = [line.replace('REMARK minimizedAffinity ', '').replace('\n', '') for line in pdbqt_output.readlines() if 'REMARK minimizedAffinity' in line]
         return self.predicted_binding_affinity
-
     def read_atom_term_function(self,no_modes):
+        print('\tatom term - started')
         atom_term_output = open(self.atom_terms_output_file,'r')
 
         gauss = [list() for i in range(no_modes)]
@@ -89,6 +89,7 @@ class Smina:
         self.sf_components = [gauss,gauss2,repulsion,hydrophobic,non_dir_h_bond]
         return self.sf_components
     def read_experimental_affinity(self,df,protein,ligand,affinity_column='value'):
+        print('\texperimental - started')
         if protein == ligand:
             self.experimental_affinity = df[df['pdbid']==protein][affinity_column].values[0]
     def create_smina_matrix(self,proteins,ligands,no_modes):
