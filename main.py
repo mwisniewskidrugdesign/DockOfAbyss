@@ -49,7 +49,6 @@ elif pipeline == 'verification':
 
 #############
 
-
 ### SYS argv ###
 batch_start = int(sys.argv[2])
 if batch_start==0:
