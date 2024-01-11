@@ -11,9 +11,8 @@ def diagonal_pipeline(datadir: str,rawdir: str,df: pd.DataFrame,no_modes: int,pd
   generate_library_step = False
   convert_step = False
   docking_step = False
-  matrix_step = True
+  matrix_step = False
 
-  steps=steps
   if 'generate_library' in steps:
     generate_library_step = True
   if 'convert' in steps:
@@ -51,6 +50,7 @@ def diagonal_pipeline(datadir: str,rawdir: str,df: pd.DataFrame,no_modes: int,pd
       library.mol_to_sdf(ligand=True,native_ligand=True)
 
   if docking_step:
+    print('oho')
     docking_df = df[batch_start:batch_end]
     df_prep = datasets.DatasetPreparation(docking_df)  # Generate Molecule list Class - is it neccessery in this case?
     molecules = df_prep.get_molecules('pdbid')  ##  Generating molecules list from PDB structure codes
