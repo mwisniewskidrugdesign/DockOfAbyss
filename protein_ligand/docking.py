@@ -125,7 +125,7 @@ class Smina:
         '''Fill the smina matrix in specific location'''
         for mode_idx in range(len(self.matrix[0][0])):
             if pidx == lidx:
-                mode_values = [float(self.predicted_binding_affinity[mode_idx])]
+                mode_values = [self.predicted_binding_affinity[mode_idx]]
             else:
                 mode_values = [float(self.predicted_binding_affinity[mode_idx])]
             for i in range(5):
