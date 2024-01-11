@@ -147,9 +147,11 @@ def diagonal_pipeline(datadir: str,rawdir: str,df: pd.DataFrame,no_modes: int,pd
       for molecule_idx, molecule in enumerate(molecules):
         print(molecule)
         smina_matrix.smina_files(molecule, molecule, molecule)
-        smina_matrix.read_experimental_affinity(df, molecule,molecule)  ## reading experimental affinity data for specific molecule from dataframe
-        smina_matrix.read_scoring_function()  ## reading scoring function predicted binding affinity from output
-        smina_matrix.read_atom_term_function(no_modes)  ## reading atom terms sf's components from output
-        smina_matrix.fill_smina_matrix(molecule_idx,molecule_idx)  ## fill smina matrix with output datas
+        checker = smina_matrix.files_checker()
+        if checker:
+          smina_matrix.read_experimental_affinity(df, molecule,molecule)  ## reading experimental affinity data for specific molecule from dataframe
+          smina_matrix.read_scoring_function()  ## reading scoring function predicted binding affinity from output
+          smina_matrix.read_atom_term_function(no_modes)  ## reading atom terms sf's components from output
+          smina_matrix.fill_smina_matrix(molecule_idx,molecule_idx)  ## fill smina matrix with output datas
 
       smina_matrix.save_matrix('smina_matrix')
