@@ -148,7 +148,7 @@ def diagonal_pipeline(datadir: str,rawdir: str,df: pd.DataFrame,no_modes: int,pd
         print(molecule)
         smina_matrix.smina_files(molecule, molecule, molecule)
         checker = smina_matrix.files_checker()
-        if checker:
+        if checker == False:
           smina_matrix.read_experimental_affinity(df, molecule,molecule)  ## reading experimental affinity data for specific molecule from dataframe
           smina_matrix.read_scoring_function()  ## reading scoring function predicted binding affinity from output
           smina_matrix.read_atom_term_function(no_modes)  ## reading atom terms sf's components from output
