@@ -132,6 +132,7 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes,pdb_id_column,batch_start,batch
       smina_matrix.create_smina_matrix(molecules,molecules,no_modes)
 
       for molecule_idx, molecule in enumerate(molecules):
+        print(molecule)
         smina_matrix.smina_files(molecule, molecule, molecule)
         smina_matrix.read_experimental_affinity(df, molecule,molecule)  ## reading experimental affinity data for specific molecule from dataframe
         smina_matrix.read_scoring_function()  ## reading scoring function predicted binding affinity from output

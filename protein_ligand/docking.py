@@ -57,6 +57,7 @@ class Smina:
         pdbqt_output = open(self.pdbqt_output_file,'r')
         self.predicted_binding_affinity = [line.replace('REMARK minimizedAffinity ', '').replace('\n', '') for line in pdbqt_output.readlines() if 'REMARK minimizedAffinity' in line]
         return self.predicted_binding_affinity
+
     def read_atom_term_function(self,no_modes):
         atom_term_output = open(self.atom_terms_output_file,'r')
 
@@ -103,6 +104,7 @@ class Smina:
         self.matrix = np.empty((no_proteins,no_ligands,no_modes),dtype=object)
         print('elo')
         return self.matrix
+
     def fill_smina_matrix(self,pidx,lidx):
 
         for mode_idx in range(len(self.matrix[0][0])):
