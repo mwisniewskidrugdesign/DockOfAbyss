@@ -54,6 +54,7 @@ class Smina:
         docking = subprocess.run(smina_command, shell=False, capture_output=True, text=True)
         print(docking.stderr)
         print(docking.stdout)
+        return docking
     def read_scoring_function(self):
         print('\tscoring - started')
         pdbqt_output = open(self.pdbqt_output_file,'r')
@@ -175,7 +176,6 @@ class RxDock:
             return True
         else:
             return False
-
     def rxdock_docking(self,no_modes):
         os.environ['RBT_HOME'] = self.datadir
         command = ['rbcavity','-was','-d','-r',self.system_prepared_file]

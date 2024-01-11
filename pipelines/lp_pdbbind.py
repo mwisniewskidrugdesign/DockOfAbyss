@@ -22,10 +22,8 @@ def diagonal_pipeline(datadir: str,rawdir: str,df: pd.DataFrame,no_modes: int,pd
   if 'matrix' in steps:
     matrix_step = True
 
-  #prep DF step for Clear 1 or Clear 2 !!!!
   mask = df['CL1'] == True
   df=df[mask]
-
 
   if generate_library_step:
     '''Generate the workspace for LP_PDBBIND operations'''
@@ -50,7 +48,7 @@ def diagonal_pipeline(datadir: str,rawdir: str,df: pd.DataFrame,no_modes: int,pd
       library.mol_to_sdf(ligand=True,native_ligand=True)
 
   if docking_step:
-    print('oho')
+    print('Docking Step')
     docking_df = df[batch_start:batch_end]
     df_prep = datasets.DatasetPreparation(docking_df)  # Generate Molecule list Class - is it neccessery in this case?
     molecules = df_prep.get_molecules('pdbid')  ##  Generating molecules list from PDB structure codes
@@ -86,14 +84,17 @@ def diagonal_pipeline(datadir: str,rawdir: str,df: pd.DataFrame,no_modes: int,pd
           smina_checker = smina_docking.files_checker()
 
           if smina_checker == True:
-            print('files: brakuje plikow lub ponizej 50 modow')
-            smina_docking.smina_docking(no_modes)  ## smina docking function
+            print('\tFiles Checker: Brakuje Plikow lub Powstało ponizej 50 konformacji')
+            results = smina_docking.smina_docking(no_modes)  ## smina docking function
             smina_modes_checker = smina_docking.modes_checker()
 
             if smina_modes_checker == False:
-              print('wszystko ok')
+              print('\tModes Checker: Dokowanie zakończone sukcesem')
               break
             else:
+              if 'Parse error' in results.stderr:
+                print('\tDocking Error')
+                break
               smina_docking_error_number +=1
               print('Smina proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + str(smina_docking_error_number) + 'st time.')
               continue
