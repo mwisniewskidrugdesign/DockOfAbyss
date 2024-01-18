@@ -1,3 +1,5 @@
+import sys
+
 from protein_ligand import generator
 from protein_ligand import docking
 from protein_ligand import datasets
@@ -62,7 +64,6 @@ def diagonal_pipeline(datadir: str,rawdir: str,df: pd.DataFrame,no_modes: int,pd
 
       rx_docking = docking.RxDock(datadir)
       rx_docking.rxdock_dirs()
-      #rxdock_matrix = rx_docking.create_rxdock_matrix(molecules[:], molecules[:], no_modes)
 
     if 'gnina' in docking_programs:
 
@@ -159,3 +160,6 @@ def diagonal_pipeline(datadir: str,rawdir: str,df: pd.DataFrame,no_modes: int,pd
           smina_matrix.sf_components = [[0. for i in range(no_modes)]] * 5
           smina_matrix.fill_smina_matrix(molecule_idx,molecule_idx)
       smina_matrix.save_matrix('smina_matrix')
+
+    if 'gnina' in docking_programs:
+      sys.exit()

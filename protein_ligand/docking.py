@@ -281,3 +281,7 @@ class Gnina:
         docking = subprocess.run(gnina_command, shell=False, capture_output=True, text=True)
         print(docking.stdout)
         print(docking.stderr)
+
+    # def read_scoring_function(self) -> List:
+    #     print('\tscoring - started')
+    #     sdf_ = open(self.sdf_gz_output_file)
