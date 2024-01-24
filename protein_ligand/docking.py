@@ -6,9 +6,10 @@ from typing import List
 import settings
 
 class Smina:
-    def __init__(self,datadir):
+    def __init__(self,datadir,outputdir):
         self.datadir = datadir
-        self.smina_dir = datadir + '/docking_scores/smina'
+        self.outputdir = outputdir
+        self.smina_dir = outputdir + '/docking_scores/smina'
         self.pdbqt_smina_dir = self.smina_dir + '/pdbqt'
         self.atom_terms_smina_dir = self.smina_dir + '/atom_terms'
         self.logs_smina_dir = self.smina_dir + '/logs'
@@ -139,13 +140,14 @@ class Smina:
             self.matrix[pidx,lidx,mode_idx] = mode_values
     def save_matrix(self,output):
         '''Save the Smina matrix'''
-        output = self.datadir+'/docs/'+output
+        output = self.outputdir+'/docs/'+output
         np.save(output, self.matrix)
 class RxDock:
-    def __init__(self,datadir,system_file='/home2/sfglab/mwisniewski/PhD/DockOfAbyss/configs/rxdock_config.prm'):
+    def __init__(self,datadir,outputdir,system_file='/home2/sfglab/mwisniewski/PhD/DockOfAbyss/configs/rxdock_config.prm'):
 
         self.datadir = datadir
-        self.rxdock_dir = datadir + '/docking_scores/rxdock'
+        self.outputdir = outputdir
+        self.rxdock_dir = outputdir + '/docking_scores/rxdock'
 
         self.protein = None
         self.ligand = None
@@ -176,8 +178,8 @@ class RxDock:
         self.protein_file = self.datadir + '/protein/mol2/' + protein + '_protein.mol2'
         self.ligand_file = self.datadir + '/ligand/sdf/' + ligand + '_ligand.sdf'
         self.native_ligand_file = self.datadir + '/native_ligand/sdf/' + native_ligand + '_ligand.sdf'
-        self.system_prepared_file = self.datadir+'/docs/temp/'+self.protein+'_'+self.ligand+'.prm'
-        self.rx_output = self.rxdock_dir + '/' + self.protein + '_' + self.ligand
+        self.system_prepared_file = self.outputdir+'/docs/temp/'+self.protein+'_'+self.ligand+'.prm'
+        self.rx_output = self.outputdir + '/' + self.protein + '_' + self.ligand
     def rxdock_system_preparation(self):
         with open(self.system_file,'r') as file:
             system_filedata = file.read()
@@ -189,7 +191,7 @@ class RxDock:
         with open(self.system_prepared_file, 'w') as file:
             file.write(system_filedata)
     def files_checker(self):
-        check_file=self.datadir+'/docs/temp/'+self.protein+'_'+self.ligand+'_cav1.grd'
+        check_file=self.output+'/docs/temp/'+self.protein+'_'+self.ligand+'_cav1.grd'
         if not os.path.exists(check_file):
             return True
         else:
@@ -238,12 +240,13 @@ class RxDock:
             self.mode_values = tf.convert_to_tensor(self.mode_values)
             self.fill_rxdock_matrix(protein_index,ligand_index,mode_index)
     def save_matrix(self,output):
-        output = self.datadir+'/docs/'+output
+        output = self.outputdir+'/docs/'+output
         np.save(output, self.matrix)
 class Gnina:
-    def __init__(self,datadir):
+    def __init__(self,datadir,outputdir):
         self.datadir = datadir
-        self.gnina_dir = datadir + '/docking_scores/gnina'
+        self.outputdir = outputdir
+        self.gnina_dir = self.outputdir + '/docking_scores/gnina'
         self.sdf_gz_gnina_dir = self.gnina_dir + '/sdf_gz'
         self.atom_terms_gnina_dir = self.gnina_dir + '/atom_terms'
         self.logs_gnina_dir = self.gnina_dir+ '/logs'
@@ -281,7 +284,3 @@ class Gnina:
         docking = subprocess.run(gnina_command, shell=False, capture_output=True, text=True)
         print(docking.stdout)
         print(docking.stderr)
-
-    # def read_scoring_function(self) -> List:
-    #     print('\tscoring - started')
-    #     sdf_ = open(self.sdf_gz_output_file)
