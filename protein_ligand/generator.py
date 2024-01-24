@@ -132,7 +132,7 @@ class GetDataset:
         except IndexError:
             print('Error!')
 class Converter:
-    def __init__(self,molecule,datadir):
+    def __init__(self,datadir,molecule):
         self.molecule = molecule
         self.datadir = datadir
         settings.init()
