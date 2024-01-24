@@ -31,7 +31,7 @@ if settings.station == 'inka':
     bdb2020plus_datadir = '/mnt/raid/mwisniewski/PhD/data/LP-PDBBind/dataset/BDB2020+/dataset'
 
 elif settings.station == 'eden':
-    datadir='/home2/sfglab/mwisniewski/PhD/data/lp_pdbbind'
+    datadir='/mnt/evafs/groups/sfglab/mwisniewski/lp_pdbbind'
     bdb2020plus_datadir='/home2/sfglab/mwisniewski/PhD/data/raw/bdb2020plus'
     lp_pdbbind_dir='/home2/sfglab/mwisniewski/PhD/data/raw/PDBbind'
 
