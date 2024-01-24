@@ -51,7 +51,7 @@ def init():
         to_pdbqt={
             'protein':False,
             'pocket': False,
-            'ligand':False,
+            'ligand':True,
             'native_ligand':False
         }
         to_pdb={
