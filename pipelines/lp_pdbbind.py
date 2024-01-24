@@ -43,12 +43,12 @@ def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,p
     settings.init()
 
     df = df[batch_start:batch_end]
+    print(settings.to_pdbqt['ligand'])
     for index,row in df.iterrows():
 
       print(str(index) + '.' + row['pdbid'])
 
-      library = generator.Converter(datadir,
-                                    row['pdbid'])
+      library = generator.Converter(datadir,row['pdbid'])
 
       library.pdb_to_pdbqt(protein=settings.to_pdbqt['protein'],
                            pocket=settings.to_pdbqt['pocket'])
