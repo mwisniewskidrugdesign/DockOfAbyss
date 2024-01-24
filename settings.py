@@ -39,8 +39,8 @@ def init():
 
     number_of_models = 50
     pipeline='lp_pdbbind'
-    steps=['convert']
-    docking_programs=[]
+    steps=['docking']
+    docking_programs=['rxdock']
 
     if 'convert' in steps: #'convert' in steps:
         global to_pdbqt

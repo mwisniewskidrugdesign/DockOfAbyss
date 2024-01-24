@@ -189,7 +189,7 @@ class RxDock:
         with open(self.system_prepared_file, 'w') as file:
             file.write(system_filedata)
     def files_checker(self):
-        check_file=self.output+'/docs/temp/'+self.protein+'_'+self.ligand+'_cav1.grd'
+        check_file=self.rx_output+'/docs/temp/'+self.protein+'_'+self.ligand+'_cav1.grd'
         if not os.path.exists(check_file):
             return True
         else:
