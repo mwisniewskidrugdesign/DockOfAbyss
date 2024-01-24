@@ -142,7 +142,7 @@ class Smina:
         output = self.datadir+'/docs/'+output
         np.save(output, self.matrix)
 class RxDock:
-    def __init__(self,datadir,system_file='/home2/sfglab/mwisniewski/PhD/DockOfAbyss/configs/rxdock_config.prm'):
+    def __init__(self,datadir,system_file='/mnt/evafs/groups/sfglab/mwisniewski/PhD/DockOfAbyss/configs/rxdock_config.prm'):
 
         self.datadir = datadir
         self.rxdock_dir = datadir + '/docking_scores/rxdock'
@@ -155,7 +155,7 @@ class RxDock:
         self.ligand_file=''
         self.native_ligand_file=''
 
-        self.dock_prm_file = '/home2/sfglab/mwisniewski/anaconda3/envs/dock_of_abyss/share/rxdock-2013.1.1_148c5bd1-1/data/scripts/dock.prm'
+        self.dock_prm_file = '/mnt/evafs/groups/sfglab/mwisniewski/anaconda3/envs/abyss/share/rxdock-2013.1.1_148c5bd1-1/data/scripts/dock.prm'
         self.system_file = system_file          #rx_dock raw system filepath
         self.system_prepared_file = None        #rx_dock prepared system filepath
         self.rx_output = None                   #rx_dock output filepath
