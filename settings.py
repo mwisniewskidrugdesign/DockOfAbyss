@@ -30,3 +30,14 @@ def init():
         obabel_path = 'obabel'
 
     ##########################
+
+    ###### VARIABLES #########
+
+    batch_start = 0
+    batch_end = 0
+    pipeline=[]
+    steps=[]
+
+    if 'convert' in steps:
+
+        print('elo')

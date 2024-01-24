@@ -1,0 +1,10 @@
+#  pandas
+#  numpy
+#  shutil
+#  logging
+#  subprocess
+#  smina
+#  obabel
+#  rxdock
+#  tensorflow-gpu
+#  tensorflow
