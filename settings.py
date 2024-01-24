@@ -18,15 +18,15 @@ def init():
         pdb2fasta_path = 'pdb2fasta'
         mgltools_dir = '/mnt/raid/mwisniewski/software/mgl'
         cdhit_dir = '/mnt/raid/mwisniewski/software/cd-hit-v4.8.1-2019-0228'
-        smina_tools_dir = 'smina'
-        obabel_path = 'obabel'
+        smina_tools_dir = ''
+        obabel_path = ''
     if station=='eden':
-        pdb2fasta_path = '/home2/sfglab/mwisniewski/Software/pdb2fasta'
+        pdb2fasta_path = ''
         mgltools_dir = '/home2/sfglab/mwisniewski/Software/mgltools'
-        cdhit_dir = '/home2/sfglab/mwisniewski/Software/cd-hit-v4.8.1-2019-0228'
-        smina_tools_dir = 'smina'
-        gnina_container = '/home2/sfglab/mwisniewski/Software/gnina/gnina.sif'
-        obabel_path = 'obabel'
+        cdhit_dir = ''
+        smina_tools_dir = '/mnt/evafs/groups/sfglab/mwisniewski/software/smina/smina'
+        gnina_container = ''
+        obabel_path = '/mnt/evafs/groups/sfglab/mwisniewski/software/openbabel/bin/obabel'
 
     ##########################
 
