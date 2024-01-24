@@ -32,7 +32,6 @@ if settings.station == 'inka':
 
 elif settings.station == 'eden':
     datadir='/home2/sfglab/mwisniewski/PhD/data/lp_pdbbind'
-    outputdir='/mnt/evafs/groups/sfglab/mwisniewski/lp_pdbbind'
     bdb2020plus_datadir='/home2/sfglab/mwisniewski/PhD/data/raw/bdb2020plus'
     lp_pdbbind_dir='/home2/sfglab/mwisniewski/PhD/data/raw/PDBbind'
 
@@ -73,7 +72,7 @@ if bdb2020plus_pipeline:
     bdb2020plus.diagonal_pipeline(datadir, bdb2020plus_datadir, bdb2020plus_df,50)
 
 if lp_pdbbind_pipeline:
-    lp_pdbbind.diagonal_pipeline(datadir,outputdir,lp_pdbbind_dir,lp_pdbbind_df,50,'pdbid',batch_start,batch_end,programs,steps) #batch_start,batch_end
+    lp_pdbbind.diagonal_pipeline(datadir,lp_pdbbind_dir,lp_pdbbind_df,50,'pdbid',batch_start,batch_end,programs,steps) #batch_start,batch_end
 
 if verification_pipeline:
     docking_outputs.non_docked(datadir,lp_pdbbind_df,type='diag')

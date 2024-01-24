@@ -8,7 +8,7 @@ import pandas as pd
 pd.set_option('display.max_columns', None)
 
 
-def diagonal_pipeline(datadir: str,outputdir: str, rawdir: str,df: pd.DataFrame,no_modes: int,pdb_id_column: str,batch_start,batch_end,docking_programs=[],steps=[]):
+def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,pdb_id_column: str,batch_start,batch_end,docking_programs=[],steps=[]):
 
   generate_library_step = False
   convert_step = False
@@ -31,7 +31,7 @@ def diagonal_pipeline(datadir: str,outputdir: str, rawdir: str,df: pd.DataFrame,
     '''Generate the workspace for LP_PDBBIND operations'''
     df = df[batch_start:batch_end]
     generator.generate_libraray(datadir)
-    workspace = generator.GetDataset(datadir,outputdir,rawdir,df,pdb_id_column)                                    #create workspace
+    workspace = generator.GetDataset(datadir,rawdir,df,pdb_id_column)                                    #create workspace
     workspace.lp_pdbbind()                                                    #copy files to workspace
 
   if convert_step:
@@ -57,17 +57,17 @@ def diagonal_pipeline(datadir: str,outputdir: str, rawdir: str,df: pd.DataFrame,
 
     if 'smina' in docking_programs:
 
-      smina_docking = docking.Smina(datadir,outputdir)  # SMINA Docking Class
+      smina_docking = docking.Smina(datadir)  # SMINA Docking Class
       smina_docking.smina_dirs()  ## Generate output dirs for SMINA docking
 
     if 'rxdock' in docking_programs:
 
-      rx_docking = docking.RxDock(datadir,outputdir)
+      rx_docking = docking.RxDock(datadir)
       rx_docking.rxdock_dirs()
 
     if 'gnina' in docking_programs:
 
-      gnina_docking = docking.Gnina(datadir,outputdir)
+      gnina_docking = docking.Gnina(datadir)
       gnina_docking.gnina_dirs()
 
     for molecule_idx, molecule in enumerate(molecules[:]):  ## Docking Loop for molecules from list generated earlier
