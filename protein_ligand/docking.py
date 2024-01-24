@@ -276,7 +276,7 @@ class Gnina:
         self.atom_terms_output_file = self.atom_terms_gnina_dir + '/' + protein + '_' + ligand + '_atom_terms.txt'
         self.log_output_file = self.logs_gnina_dir + '/' + protein + '_' + ligand + '.log'
     def gnina_files_checker(self):
-        checker = not os.path.exists(self.log_output_file)
+        checker = not os.path.exists(self.log_output_file) or not os.path.exists(self.atom_terms_output_file) or not os.path.exists(self.sdf_gz_output_file)
         return checker
     def gnina_docking(self,no_modes):
         gnina_command=['singularity','run','--nv',settings.gnina_container,'gnina','-r',self.protein_file,'-l',self.ligand_file,'--autobox_ligand',self.native_ligand_file,'--autobox_add','8','--exhaustiveness','32','--num_modes',str(no_modes),'-o',self.sdf_gz_output_file,'--atom_terms',self.atom_terms_output_file,'--log',self.log_output_file,'--atom_term_data','--cpu','3','--min_rmsd_filter','0']
