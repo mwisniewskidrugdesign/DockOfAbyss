@@ -11,14 +11,13 @@ settings.init()                                 # inicjalizacja zmiennych odnoś
 
 # pipeline = sys.argv[1]
 #
-# batch_start = int(sys.argv[2])
-# if batch_start==0:
-#     batch_start=None
-#
-# batch_end = int(sys.argv[3])
-# if batch_end==0:
-#     batch_end=None
-#
+batch_start = int(sys.argv[1])
+if batch_start==0:
+    batch_start=None
+batch_end = int(sys.argv[2])
+if batch_end==0:
+    batch_end=None
+
 # programs = list(sys.argv[4].split(','))
 # steps = list(sys.argv[5].split(','))
 
@@ -82,7 +81,7 @@ if lp_pdbbind_pipeline:
                                  lp_pdbbind_df,
                                  settings.number_of_models,
                                  'pdbid',
-                                 settings.batch_start,settings.batch_end,
+                                 batch_start,batch_end,
                                  settings.docking_programs,
                                  settings.steps)
 

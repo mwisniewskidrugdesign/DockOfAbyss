@@ -32,15 +32,11 @@ def init():
 
     ###### VARIABLES #########
 
-    global batch_start
-    global batch_end
     global number_of_models
     global pipeline
     global steps
     global docking_programs
 
-    batch_start = 0
-    batch_end = 0
     number_of_models = 50
     pipeline='lp_pdbbind'
     steps=['convert']
