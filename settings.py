@@ -25,7 +25,7 @@ def init():
         mgltools_dir = '/home2/sfglab/mwisniewski/Software/mgltools'
         cdhit_dir = ''
         smina_tools_dir = '/mnt/evafs/groups/sfglab/mwisniewski/software/smina/smina'
-        gnina_container = ''
+        gnina_container = '/mnt/evafs/groups/sfglab/mwisniewski/software/gnina/gnina.sif'
         obabel_path = '/mnt/evafs/groups/sfglab/mwisniewski/software/openbabel/bin/obabel'
 
     ##########################
