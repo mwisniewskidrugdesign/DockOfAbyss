@@ -9,18 +9,18 @@ settings.init()                                 # inicjalizacja zmiennych odnoś
 
 ### SYS argv ###
 
-pipeline = sys.argv[1]
-
-batch_start = int(sys.argv[2])
-if batch_start==0:
-    batch_start=None
-
-batch_end = int(sys.argv[3])
-if batch_end==0:
-    batch_end=None
-
-programs = list(sys.argv[4].split(','))
-steps = list(sys.argv[5].split(','))
+# pipeline = sys.argv[1]
+#
+# batch_start = int(sys.argv[2])
+# if batch_start==0:
+#     batch_start=None
+#
+# batch_end = int(sys.argv[3])
+# if batch_end==0:
+#     batch_end=None
+#
+# programs = list(sys.argv[4].split(','))
+# steps = list(sys.argv[5].split(','))
 
 ###########
 
@@ -57,11 +57,13 @@ egfr_pipeline = False
 lp_pdbbind_pipeline = False
 verification_pipeline = False
 
-if pipeline == 'bdb2020':
+if settings.pipeline == 'bdb2020':
     bdb2020plus_pipeline = True
-elif pipeline == 'lp_pdbbind':
+
+elif settings.pipeline == 'lp_pdbbind':
     lp_pdbbind_pipeline = True
-elif pipeline == 'verification':
+
+elif settings.pipeline == 'verification':
     verification_pipeline = True
 
 #############
@@ -69,12 +71,24 @@ elif pipeline == 'verification':
 ### PIPELINES ###
 
 if bdb2020plus_pipeline:
-    bdb2020plus.diagonal_pipeline(datadir, bdb2020plus_datadir, bdb2020plus_df,50)
+    bdb2020plus.diagonal_pipeline(datadir,
+                                  bdb2020plus_datadir,
+                                  bdb2020plus_df,
+                                  settings.number_of_models)
 
 if lp_pdbbind_pipeline:
-    lp_pdbbind.diagonal_pipeline(datadir,lp_pdbbind_dir,lp_pdbbind_df,50,'pdbid',batch_start,batch_end,programs,steps) #batch_start,batch_end
+    lp_pdbbind.diagonal_pipeline(datadir,
+                                 lp_pdbbind_dir,
+                                 lp_pdbbind_df,
+                                 settings.number_of_models,
+                                 'pdbid',
+                                 settings.batch_start,settings.batch_end,
+                                 settings.docking_programs,
+                                 settings.steps)
 
 if verification_pipeline:
-    docking_outputs.non_docked(datadir,lp_pdbbind_df,type='diag')
+    docking_outputs.non_docked(datadir,
+                               lp_pdbbind_df,
+                               type='diag')
 
 print('~~~~Fin~~~~~')

@@ -8,7 +8,6 @@ def init():
     global mgltools_dir
     global cdhit_dir
     global obabel_path
-
     global smina_tools_dir
     global gnina_container
     global rxdock
@@ -33,11 +32,48 @@ def init():
 
     ###### VARIABLES #########
 
+    global batch_start
+    global batch_end
+    global number_of_models
+    global pipeline
+    global steps
+    global docking_programs
+
     batch_start = 0
     batch_end = 0
-    pipeline=[]
-    steps=[]
+    number_of_models = 50
+    pipeline='lp_pdbbind'
+    steps=['convert']
+    docking_programs=[]
 
     if 'convert' in steps:
+        global to_pdbqt
+        global to_pdb
+        global to_mol
+        global to_sdf
 
-        print('elo')
+        to_pdbqt={
+            'protein':False,
+            'pocket': False,
+            'ligand':False,
+            'native_ligand':False
+        }
+        to_pdb={
+            'protein':False,
+            'pocket': False,
+            'ligand':False,
+            'native_ligand':False
+        }
+        to_mol={
+            'protein':False,
+            'pocket': False,
+            'ligand':False,
+            'native_ligand':False
+        }
+        to_sdf={
+            'protein':False,
+            'pocket': False,
+            'ligand':False,
+            'native_ligand':False
+        }
+

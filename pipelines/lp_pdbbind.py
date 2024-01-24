@@ -1,12 +1,11 @@
 import sys
-
+import settings
 from protein_ligand import generator
 from protein_ligand import docking
 from protein_ligand import datasets
 import pandas as pd
 
 pd.set_option('display.max_columns', None)
-
 
 def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,pdb_id_column: str,batch_start,batch_end,docking_programs=[],steps=[]):
 
@@ -31,23 +30,36 @@ def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,p
     '''Generate the workspace for LP_PDBBIND operations'''
     df = df[batch_start:batch_end]
     generator.generate_libraray(datadir)
-    workspace = generator.GetDataset(datadir,rawdir,df,pdb_id_column)                                    #create workspace
-    workspace.lp_pdbbind()                                                    #copy files to workspace
+    workspace = generator.GetDataset(datadir,
+                                     rawdir,
+                                     df,
+                                     pdb_id_column)
+    workspace.lp_pdbbind()
 
   if convert_step:
+
     '''Convert all nessesscery files for LP_PDBBIND operations'''
+
+    settings.init()
+
     df = df[batch_start:batch_end]
     for index,row in df.iterrows():
 
       print(str(index) + '.' + row['pdbid'])
 
-      library = generator.Converter(row['pdbid'],datadir)
+      library = generator.Converter(datadir,
+                                    row['pdbid'])
 
-      library.pdb_to_pdbqt(protein=True,pocket=True)
-      library.pdb_to_mol(protein=True, pocket=True)
-      library.mol_to_pdb(ligand=True,native_ligand=True)
-      library.pdb_to_pdbqt(ligand=True,native_ligand=True)
-      library.mol_to_sdf(ligand=True,native_ligand=True)
+      library.pdb_to_pdbqt(protein=settings.to_pdbqt['protein'],
+                           pocket=settings.to_pdbqt['pocket'])
+      library.pdb_to_mol(protein=settings.to_mol['protein'],
+                         pocket=settings.to_mol['pocket'])
+      library.mol_to_pdb(ligand=settings.to_pdb['ligand'],
+                         native_ligand=settings.to_pdb['native_ligand'])
+      library.pdb_to_pdbqt(ligand=settings.to_pdbqt['ligand'],
+                           native_ligand=settings.to_pdbqt['native_ligand'])
+      library.mol_to_sdf(ligand=settings.to_sdf['ligand'],
+                         native_ligand=settings.to_sdf['native_ligand'])
 
   if docking_step:
     print('Docking Step')
