@@ -135,6 +135,7 @@ class Converter:
     def __init__(self,molecule,datadir):
         self.molecule = molecule
         self.datadir = datadir
+        settings.init()
     def pdb_to_pdbqt(self,protein=False,pocket=False,ligand=False,native_ligand=False):
         '''
         U will need MGL Tools Package and Obabel

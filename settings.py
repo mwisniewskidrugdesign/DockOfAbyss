@@ -42,7 +42,7 @@ def init():
     steps=['convert']
     docking_programs=[]
 
-    if True: #'convert' in steps:
+    if 'convert' in steps: #'convert' in steps:
         global to_pdbqt
         global to_pdb
         global to_mol
