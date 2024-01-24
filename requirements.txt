@@ -3,8 +3,13 @@
 #  shutil
 #  logging
 #  subprocess
-#  smina
-#  obabel
 #  rxdock
+#  biopython
 #  tensorflow-gpu
 #  tensorflow
+
+
+
+#  Programs:
+#    - smina v.
+#    - openbabel 3.1

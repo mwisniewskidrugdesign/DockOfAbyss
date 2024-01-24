@@ -9,7 +9,6 @@ settings.init()                                 # inicjalizacja zmiennych odnoś
 
 ### SYS argv ###
 
-# pipeline = sys.argv[1]
 #
 batch_start = int(sys.argv[1])
 if batch_start==0:
@@ -26,25 +25,25 @@ if batch_end==0:
 ### DIRS ###
 
 if settings.station == 'inka':
-    datadir='/mnt/raid/mwisniewski/PhD/data/bdb2020plus'
-    bdb2020plus_datadir = '/mnt/raid/mwisniewski/PhD/data/LP-PDBBind/dataset/BDB2020+/dataset'
+    datadir='/mnt/evafs/groups/sfglab/mwisniewski/PhD/data/bdb2020plus'
+    bdb2020plus_datadir = ''
 
 elif settings.station == 'eden':
     datadir='/mnt/evafs/groups/sfglab/mwisniewski/PhD/data/lp_pdbbind'
-    bdb2020plus_datadir='/home2/sfglab/mwisniewski/PhD/data/raw/bdb2020plus'
-    lp_pdbbind_dir='/home2/sfglab/mwisniewski/PhD/data/raw/PDBbind'
+    bdb2020plus_datadir=''
+    lp_pdbbind_dir='/mnt/evafs/groups/sfglab/mwisniewski/PhD/data/raw/PDBbind'
 
 ############
 
 ### DATAFRAMES ###
 
 if settings.station == 'inka':
-    bdb2020plus_df = pd.read_csv('/mnt/raid/mwisniewski/PhD/data/LP-PDBBind/dataset/BDB2020+/BDB2020+.csv')
-    lp_pdbbind_df = pd.read_csv('/home2/sfglab/mwisniewski/PhD/data/others/PDBbind')
+    bdb2020plus_df = pd.read_csv('')
+    lp_pdbbind_df = pd.read_csv('')
 
 elif settings.station == 'eden':
-    bdb2020plus_df = pd.read_csv('/home2/sfglab/mwisniewski/PhD/data/dataframes/BDB2020+.csv')
-    lp_pdbbind_df = pd.read_csv('/home2/sfglab/mwisniewski/PhD/data/dataframes/LP_PDBBind.csv')
+    bdb2020plus_df = pd.read_csv('/mnt/evafs/groups/sfglab/mwisniewski/PhD/data/dataframes/BDB2020+.csv')
+    lp_pdbbind_df = pd.read_csv('/mnt/evafs/groups/sfglab/mwisniewski/PhD/data/dataframes/LP_PDBBind.csv')
 
 ##################
 
