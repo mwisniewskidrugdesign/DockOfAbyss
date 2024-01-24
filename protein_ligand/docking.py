@@ -196,7 +196,7 @@ class RxDock:
             return False
     def rxdock_docking(self,no_modes):
         os.environ['RBT_HOME'] = self.datadir
-        command = ['rbcavity','-was','-d','-r',self.system_prepared_file]
+        command = ['rbcavity','-W','-d','-r',self.system_prepared_file]
         result = subprocess.run(command, shell=False, capture_output=True, text=True)
         print('cavity:')
         print(result.stderr)
