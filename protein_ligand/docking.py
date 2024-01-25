@@ -7,21 +7,27 @@ import settings
 
 class Smina:
     def __init__(self,datadir):
+        #  dirs
         self.datadir = datadir
         self.smina_dir = datadir + '/docking_scores/smina'
         self.pdbqt_smina_dir = self.smina_dir + '/pdbqt'
         self.atom_terms_smina_dir = self.smina_dir + '/atom_terms'
         self.logs_smina_dir = self.smina_dir + '/logs'
+        #  input files
         self.protein_file=''
         self.ligand_file=''
         self.native_ligand_file=''
+        #  output files
         self.pdbqt_output_file = ''
         self.atom_terms_output_file =''
         self.log_output_file = ''
+        #  matrix processing
         self.matrix = None
         self.experimental_affinity = None
         self.predicted_binding_affinity = None
         self.sf_components=None
+        self.lb_rmsds = None
+        self.ub_rmsds = None
     def smina_dirs(self):
         '''Create Directories for SMINA outputs'''
 
@@ -66,8 +72,8 @@ class Smina:
         ''' Read the Predicted Binding Affinities from pdbqt file'''
 
         print('\tscoring - started')
-        pdbqt_output = open(self.pdbqt_output_file,'r')
-        self.predicted_binding_affinity = [float(line.replace('REMARK minimizedAffinity ', '').replace('\n', ''))for line in pdbqt_output.readlines() if 'REMARK minimizedAffinity' in line]
+        with open(self.pdbqt_output_file,'r') as pdbqt_output:
+            self.predicted_binding_affinity = [float(line.replace('REMARK minimizedAffinity ', '').replace('\n', ''))for line in pdbqt_output.readlines() if 'REMARK minimizedAffinity' in line]
         return self.predicted_binding_affinity
     def read_atom_term_function(self,no_modes: int) -> List:
         '''Read Atom Terms from _atom_terms.txt file'''
@@ -108,9 +114,19 @@ class Smina:
         print('\texperimental - started')
         if protein == ligand:
             self.experimental_affinity = float(df[df['pdbid']==protein][affinity_column].values[0])
+    def read_rmsd(self):
+        ''' Read the Root-Mean Square Distance from log file'''
+
+        with open(self.log_output_file,'r') as log_output:
+            lines = [line for lines in log_output.readlines()[25:]]
+            self.lb_rmsds = [line[19:24] for line in lines]
+            self.ub_rmsds = [line[30:35] for line in lines]
+
+        return self.lb_rmsds,self.ub_rmsds
     def create_smina_matrix(self,proteins,ligands,no_modes):
         '''Create a template for Smina Matrix'''
-        values = ['Predicted Binding Affinity','Gauss1','Gauss2','Repulsion','Hydrophobic','Non_dir_h_bond']
+        scoring_values = ['Predicted Binding Affinity','Gauss1','Gauss2','Repulsion','Hydrophobic','Non_dir_h_bond']
+        rmsd_values = ['RMSD']
 
         no_proteins = len(proteins)
         print(no_proteins)
@@ -119,9 +135,8 @@ class Smina:
         no_modes = no_modes
         print(no_modes)
         self.matrix = np.empty((no_proteins,no_ligands,no_modes),dtype=object)
-        print('elo')
         return self.matrix
-    def fill_smina_matrix(self,pidx,lidx):
+    def fill_scoring_matrix(self,pidx,lidx):
         '''Fill the smina matrix in specific location'''
         print('\t\tScoring function: ',type(self.predicted_binding_affinity))
         for value in self.sf_components:
@@ -137,6 +152,18 @@ class Smina:
             mode_values = np.array(mode_values)
             mode_values = tf.convert_to_tensor(mode_values)
             self.matrix[pidx,lidx,mode_idx] = mode_values
+    def fill_rmsd_matrix(self,pidx,lidx):
+        for value in self.lb_rmsds:
+            print('\t\tRMSD l.b.:',value)
+        for value in self.ub_rmsds:
+            print('\t\tRMSD u.b.:', value)
+        for mode_idx in range(len(self.matrix[0][0])):
+            mode_rmsds = [self.lb_rmsds[mode_idx]]
+            mode_rmsds = mode_rmsds.append(self.ub_rmsds[mode_idx])
+            mode_rmsds = np.array(mode_rmsds)
+            mode_rmsds = tf.convert_to_tensor(mode_rmsds)
+            self.matrix[pidx,lidx,mode_idx] = mode_rmsds
+
     def save_matrix(self,output):
         '''Save the Smina matrix'''
         output = self.datadir+'/docs/'+output
@@ -281,3 +308,14 @@ class Gnina:
         docking = subprocess.run(gnina_command, shell=False, capture_output=True, text=True)
         print(docking.stdout)
         print(docking.stderr)
+
+# class DiffDock:
+#     def __init(self,datadir):
+#         self.datadir = datadir
+#         self.diffdock_dir = self.datadir + '/docking_scores/diffdock'
+#
+#         self.protein_file=''
+#         self.ligand_file=''
+#         self.native_ligand_file=''
+#
+#         self.matrix = matrix

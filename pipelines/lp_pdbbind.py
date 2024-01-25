@@ -1,4 +1,7 @@
 import sys
+
+import numpy as np
+
 import settings
 from protein_ligand import generator
 from protein_ligand import docking
@@ -7,7 +10,7 @@ import pandas as pd
 
 pd.set_option('display.max_columns', None)
 
-def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,pdb_id_column: str,batch_start,batch_end,docking_programs=[],steps=[]):
+def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,pdb_id_column: str,batch_start,batch_end,docking_programs=[],steps=[],matrix_type=[]):
 
   generate_library_step = False
   convert_step = False
@@ -82,6 +85,10 @@ def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,p
       gnina_docking = docking.Gnina(datadir)
       gnina_docking.gnina_dirs()
 
+    if 'diffdock' in docking_programs:
+      diffdock_docking = docking.DiffDock(datadir)
+      diffdock_docking.diffdock_dirs()
+
     for molecule_idx, molecule in enumerate(molecules[:]):  ## Docking Loop for molecules from list generated earlier
 
       print('Docking ' + molecule + ' to ' + molecule + '. With: \n', docking_programs)  ## Print PDB structure code
@@ -113,7 +120,6 @@ def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,p
               continue
           else:
             break
-
       if 'rxdock' in docking_programs:
 
         rx_docking_error_number = 0
@@ -146,6 +152,19 @@ def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,p
               print('Smina proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + str(gnina_docking_error_number) + 'st time.')
               continue
           break
+      if 'diffdock' in docking_programs:
+        diffdock_docking_error_number = 0
+        diffdock_docking.diffdock_files(molecule, molecule, molecule)
+        diffdock_checker = diffdock_docking.diffdock_files_checker()
+        while True:  ## Loop - necessery to generate exactly 50 modes, sometimes with random seed it's generating smaller number of conforms
+          if diffdock_checker == True:
+            try:
+              diffdock_docking.diffdock_docking(no_modes)
+            except:
+              diffdock_docking_error_number += 1
+              print('Smina proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + str(diffdock_docking_error_number) + 'st time.')
+              continue
+          break
 
   if matrix_step:
 
@@ -162,16 +181,28 @@ def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,p
         smina_matrix.smina_files(molecule, molecule, molecule)
         checker = smina_matrix.files_checker()
         if checker == False:
-          smina_matrix.read_experimental_affinity(df, molecule,molecule)  ## reading experimental affinity data for specific molecule from dataframe
-          smina_matrix.read_scoring_function()  ## reading scoring function predicted binding affinity from output
-          smina_matrix.read_atom_term_function(no_modes)  ## reading atom terms sf's components from output
-          smina_matrix.fill_smina_matrix(molecule_idx,molecule_idx)  ## fill smina matrix with output datas
+          if matrix_type == 'scoring':
+            smina_matrix.read_experimental_affinity(df, molecule,molecule)  ## reading experimental affinity data for specific molecule from dataframe
+            smina_matrix.read_scoring_function()  ## reading scoring function predicted binding affinity from output
+            smina_matrix.read_atom_term_function(no_modes)  ## reading atom terms sf's components from output
+            smina_matrix.fill_scoring_matrix(molecule_idx,molecule_idx)  ## fill smina matrix with output datas
+          elif matrix_type == 'rmsd':
+            smina_matrix.read_rmsd()
+            smina_matrix.fill_rmsd_matrix(molecule_idx,molecule_idx)
         else:
-          smina_matrix.read_experimental_affinity(df,molecule,molecule)
-          smina_matrix.predicted_binding_affinity = [0.] * no_modes
-          smina_matrix.sf_components = [[0. for i in range(no_modes)]] * 5
-          smina_matrix.fill_smina_matrix(molecule_idx,molecule_idx)
-      smina_matrix.save_matrix('smina_matrix')
+          if matrix_type == 'scoring':
+            smina_matrix.read_experimental_affinity(df,molecule,molecule)
+            smina_matrix.predicted_binding_affinity = [0.] * no_modes
+            smina_matrix.sf_components = [[0. for i in range(no_modes)]] * 5
+            smina_matrix.fill_scoring_matrix(molecule_idx,molecule_idx)
+          elif matrix_type=='rmsd':
+            smina_matrix.lb_rmsds=[np.NaN] * no_modes
+            smina_matrix.ub_rmsds=[np.NaN] * no_modes
+            smina_matrix.fill_rmsd_matrix(molecule_idx,molecule_idx)
+      if matrix_type == 'scoring':
+        smina_matrix.save_matrix('smina_scoring_matrix')
+      elif matrix_type =='rmsd':
+        smina_matrix.save_matrix('smina_rmsd_matrix')
 
     if 'gnina' in docking_programs:
       sys.exit()
