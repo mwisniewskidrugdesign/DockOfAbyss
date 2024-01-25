@@ -65,7 +65,9 @@ def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,p
                          native_ligand=settings.to_sdf['native_ligand'])
 
   if docking_step:
+
     print('Docking Step')
+
     docking_df = df[batch_start:batch_end]
     df_prep = datasets.DatasetPreparation(docking_df)  # Generate Molecule list Class - is it neccessery in this case?
     molecules = df_prep.get_molecules('pdbid')  ##  Generating molecules list from PDB structure codes
@@ -126,7 +128,7 @@ def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,p
         rx_docking_error_number = 0
         rx_docking.rxdock_files(molecule, molecule, molecule)
         rx_docking.rxdock_system_preparation()
-        rxdock_checker = rx_docking.files_checker()
+        rxdock_checker = rx_docking.cavity_files_checker()
         print('RxDock Checker: ',rxdock_checker)
 
         while True:
@@ -212,8 +214,8 @@ def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,p
         print(molecule)
         rxdock_matrix.rxdock_files(molecule, molecule, molecule)
 
-        checker = rxdock_matrix.matrix_file_checker()
-        if checker == True:
+        output_checker = rxdock_matrix.output_file_checker()
+        if output_checker == True:
           if matrix_type == 'scoring':
             rxdock_matrix.read_scoring_output(molecule_idx,molecule_idx)
           elif matrix_type == 'rmsd':
@@ -221,7 +223,7 @@ def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,p
             if rmsd_checker == False:
               rxdock_matrix.rxdock_rmsd()
             rxdock_matrix.read_rmsd_output(molecule_idx,molecule_idx)
-        elif checker == False:
+        elif output_checker == False:
           if matrix_type == 'scoring':
             for mode_idx in range(no_modes):
               rxdock_matrix.mode_values = tf.convert_to_tensor(np.array([np.NaN] * 300))
@@ -235,5 +237,6 @@ def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,p
         rxdock_matrix.save_matrix('rxdock_scoring_matrix')
       elif matrix_type == 'rmsd':
         rxdock_matrix.save_matrix('rxdock_rmsd_matrix')
+
     if 'gnina' in docking_programs:
       sys.exit()

@@ -216,14 +216,21 @@ class RxDock:
 
         with open(self.system_prepared_file, 'w') as file:
             file.write(system_filedata)
-    def files_checker(self):
+    def cavity_files_checker(self):
+
         check_file=self.datadir+'/docs/temp/'+self.protein+'_'+self.ligand+'_cav1.grd'
         if not os.path.exists(check_file):
             return True
         else:
             return False
-    def matrix_file_checker(self):
-        check_file=self.rx_output='.sd'
+    def output_file_checker(self):
+        check_file=self.rx_output+'.sd'
+        if os.path.exists(check_file):
+            return True
+        else:
+            return False
+    def rmsd_file_checker(self):
+        check_file = self.rx_output+'_rmsd.sdf'
         if os.path.exists(check_file):
             return True
         else:
@@ -240,12 +247,6 @@ class RxDock:
         print('rbdock:')
         print(result.stderr)
         print(result.stdout)
-    def rmsd_file_checker(self):
-        check_file = self.rx_output = '_rmsd.sdf'
-        if os.path.exists(check_file):
-            return True
-        else:
-            return False
     def rxdock_rmsd(self):
         os.environ['RBT_HOME'] = self.datadir
         rmsd_output = self.rx_output+'_rmsd.sdf'
