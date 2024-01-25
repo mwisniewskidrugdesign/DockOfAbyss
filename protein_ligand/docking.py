@@ -191,6 +191,7 @@ class RxDock:
         self.mode_values = None
         self.values = None
         self.experimental_affinity = None
+        self.rmsd=None
     def rxdock_dirs(self):
         if not os.path.exists(self.rxdock_dir):
             makedir = subprocess.run(['mkdir ' + self.rxdock_dir], shell=True, capture_output=True, text=True)
@@ -239,6 +240,21 @@ class RxDock:
         print('rbdock:')
         print(result.stderr)
         print(result.stdout)
+    def rmsd_file_checker(self):
+        check_file = self.rx_output = '_rmsd.sdf'
+        if os.path.exists(check_file):
+            return True
+        else:
+            return False
+    def rxdock_rmsd(self):
+        os.environ['RBT_HOME'] = self.datadir
+        rmsd_output = self.rx_output+'_rmsd.sdf'
+        docking_output=self.rx_output+'.sd'
+        command = ['sdrmsd','-o',rmsd_output,self.native_ligand_file,docking_output]
+        result = subprocess.run(command,shell=False,capture_output=True,text=True)
+        print('sdrmsd:')
+        print(result.stderr)
+        print(result.stdout)
     def create_rxdock_matrix(self,proteins,ligands,no_modes):
 
         self.values = ['<SCORE>', '<SCORE.INTER>>', '<SCORE.INTER.CONST>', '<SCORE.INTER.POLAR>',
@@ -271,10 +287,12 @@ class RxDock:
                 self.mode_values = tf.convert_to_tensor(self.mode_values)
                 self.fill_rxdock_matrix(protein_index,ligand_index,mode_index)
     def read_rmsd_output(self,protein_index,ligand_index):
-        self.rx_output = self.rx_output+'.sd'
-        with open(self.rx_output,'r') as output_file:
+        rmsd_output = self.rx_output+'_rmsd.sdf'
+        with open(rmsd_output,'r') as output_file:
             list_of_modes = output_file.read().split('$$$$')[:-1]
-            # to be done...
+            for mode_index,mode in enumerate(list_of_modes[:]):
+                self.rmsd = mode.split('> <RMSD>')[-1].split('\n')[1]
+                self.fill_rxdock_matrix(protein_index,ligand_index,mode_index)
     def save_matrix(self,output):
         output = self.datadir+'/docs/'+output
         np.save(output, self.matrix)

@@ -1,8 +1,5 @@
 with open('text.txt','r') as test:
-    list_of_lines = [line for line in test.readlines()]
-    rmsd=[x[1:3] for x in list_of_lines]
-    print(rmsd)
-
-
+    list_of_modes = test.read().split('RMSD\n')[-1].split('\n')[0]
+    print(list_of_modes)
 
     # 19:24

@@ -217,6 +217,9 @@ def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,p
           if matrix_type == 'scoring':
             rxdock_matrix.read_scoring_output(molecule_idx,molecule_idx)
           elif matrix_type == 'rmsd':
+            rmsd_checker = rxdock_matrix.rmsd_file_checker()
+            if rmsd_checker == False:
+              rxdock_matrix.rxdock_rmsd()
             rxdock_matrix.read_rmsd_output(molecule_idx,molecule_idx)
         elif checker == False:
           if matrix_type == 'scoring':
@@ -224,7 +227,12 @@ def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,p
               rxdock_matrix.mode_values = tf.convert_to_tensor(np.array([np.NaN] * 300))
               rxdock_matrix.fill_rxdock_matrix(molecule_idx,molecule_idx,mode_idx)
           elif matrix_type == 'rmsd':
-            sys.exit()
-
+            rxdock_matrix.rmsd=np.NaN
+            for mode_idx in range(no_modes):
+              rxdock_matrix.fill_rxdock_matrix(molecule_idx,molecule,mode_idx)
+      if matrix_type == 'scoring':
+        rxdock_matrix.save_matrix('rxdock_scoring_matrix')
+      elif matrix_type =='rmsd':
+        rxdock_matrix.save_matrix('rxdock_rmsd_matrix')
     if 'gnina' in docking_programs:
       sys.exit()
