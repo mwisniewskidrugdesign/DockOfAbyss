@@ -1,3 +1,4 @@
+import os.path
 import sys
 
 import numpy as np
@@ -134,7 +135,9 @@ def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,p
         while True:
           if rxdock_checker == True:
             try:
-              rx_docking.rxdock_docking(no_modes)
+              output_checker = rx_docking.output_file_checker()
+              if not os.path.exists(output_checker):
+                rx_docking.rxdock_docking(no_modes)
             except:
               rx_docking_error_number += 1
               print('RxDock proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + str(rx_docking_error_number) + 'st time.')
