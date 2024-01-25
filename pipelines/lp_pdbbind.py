@@ -211,8 +211,8 @@ def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,p
       for molecule_idx, molecule in enumerate(molecules):
         print(molecule)
         rxdock_matrix.rxdock_files(molecule, molecule, molecule)
-        checker = rxdock_matrix.matrix_file_checker()
 
+        checker = rxdock_matrix.matrix_file_checker()
         if checker == True:
           if matrix_type == 'scoring':
             rxdock_matrix.read_scoring_output(molecule_idx,molecule_idx)
@@ -230,6 +230,7 @@ def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,p
             rxdock_matrix.rmsd=np.NaN
             for mode_idx in range(no_modes):
               rxdock_matrix.fill_rxdock_matrix(molecule_idx,molecule,mode_idx)
+
       if matrix_type == 'scoring':
         rxdock_matrix.save_matrix('rxdock_scoring_matrix')
       elif matrix_type == 'rmsd':
