@@ -10,7 +10,7 @@ import pandas as pd
 
 pd.set_option('display.max_columns', None)
 
-def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,pdb_id_column: str,batch_start,batch_end,docking_programs=[],steps=[],matrix_type=None):
+def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,pdb_id_column: str,batch_start,batch_end,docking_programs=[],steps=[],matrix_type=''):
 
   generate_library_step = False
   convert_step = False
