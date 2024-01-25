@@ -130,7 +130,6 @@ def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,p
         rx_docking.rxdock_files(molecule, molecule, molecule)
         rx_docking.rxdock_system_preparation()
         rxdock_checker = rx_docking.cavity_files_checker()
-        print('RxDock Checker: ',rxdock_checker)
 
         while True:
           if rxdock_checker == True:
