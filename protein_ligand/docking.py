@@ -204,7 +204,7 @@ class RxDock:
         self.ligand_file = self.datadir + '/ligand/sdf/' + ligand + '_ligand.sdf'
         self.native_ligand_file = self.datadir + '/native_ligand/sdf/' + native_ligand + '_ligand.sdf'
         self.system_prepared_file = self.datadir+'/docs/temp/'+self.protein+'_'+self.ligand+'.prm'
-        self.rx_output = self.datadir + '/' + self.protein + '_' + self.ligand
+        self.rx_output = self.datadir + '/docking_scores/rxdock/' + self.protein + '_' + self.ligand
     def rxdock_system_preparation(self):
         with open(self.system_file,'r') as file:
             system_filedata = file.read()
@@ -216,8 +216,14 @@ class RxDock:
         with open(self.system_prepared_file, 'w') as file:
             file.write(system_filedata)
     def files_checker(self):
-        check_file=self.rx_output+'/docs/temp/'+self.protein+'_'+self.ligand+'_cav1.grd'
+        check_file=self.datadir+'/docs/temp/'+self.protein+'_'+self.ligand+'_cav1.grd'
         if not os.path.exists(check_file):
+            return True
+        else:
+            return False
+    def matrix_file_checker(self):
+        check_file=self.rx_output='.sd'
+        if os.path.exists(check_file):
             return True
         else:
             return False
@@ -253,17 +259,22 @@ class RxDock:
     def read_experimental_affinity(self,df,protein,ligand,affinity_column='pKa'):
         if protein == ligand:
             self.experimental_affinity = df[df['pdbid']==protein][affinity_column].values[0]
-    def read_output(self, protein_index, ligand_index):
+    def read_scoring_output(self, protein_index, ligand_index):
 
         self.rx_output = self.rx_output + '.sd'
-        output_file = open(self.rx_output,'r')
-        list_of_modes = output_file.read().split('$$$$')[:-1]
+        with open(self.rx_output,'r') as output_file:
+            list_of_modes = output_file.read().split('$$$$')[:-1]
 
-        for mode_index, mode in enumerate(list_of_modes[:]):
-            self.mode_values = mode.split('>  <SCORE>')[-1].split('\n')[1:-2:3]
-            self.mode_values = np.array(self.mode_values)
-            self.mode_values = tf.convert_to_tensor(self.mode_values)
-            self.fill_rxdock_matrix(protein_index,ligand_index,mode_index)
+            for mode_index, mode in enumerate(list_of_modes[:]):
+                self.mode_values = mode.split('>  <SCORE>')[-1].split('\n')[1:-2:3]
+                self.mode_values = np.array(self.mode_values)
+                self.mode_values = tf.convert_to_tensor(self.mode_values)
+                self.fill_rxdock_matrix(protein_index,ligand_index,mode_index)
+    def read_rmsd_output(self,protein_index,ligand_index):
+        self.rx_output = self.rx_output+'.sd'
+        with open(self.rx_output,'r') as output_file:
+            list_of_modes = output_file.read().split('$$$$')[:-1]
+            # to be done...
     def save_matrix(self,output):
         output = self.datadir+'/docs/'+output
         np.save(output, self.matrix)

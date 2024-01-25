@@ -93,7 +93,8 @@ def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,p
 
       print('Docking ' + molecule + ' to ' + molecule + '. With: \n', docking_programs)  ## Print PDB structure code
 
-      ### DOCKING SUB-MODULE ###
+      #  Docking Sub-Module
+
       if 'smina' in docking_programs:
 
         smina_docking_error_number = 0
@@ -203,6 +204,27 @@ def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,p
         smina_matrix.save_matrix('smina_scoring_matrix')
       elif matrix_type =='rmsd':
         smina_matrix.save_matrix('smina_rmsd_matrix')
+    if 'rxdock' in docking_programs:
+      rxdock_matrix = docking.RxDock(datadir)
+      rxdock_matrix.create_rxdock_matrix(molecules,molecules,no_modes)
+
+      for molecule_idx, molecule in enumerate(molecules):
+        print(molecule)
+        rxdock_matrix.rxdock_files(molecule, molecule, molecule)
+        checker = rxdock_matrix.matrix_file_checker()
+
+        if checker == True:
+          if matrix_type == 'scoring':
+            rxdock_matrix.read_scoring_output(molecule_idx,molecule_idx)
+          elif matrix_type == 'rmsd':
+            rxdock_matrix.read_rmsd_output(molecule_idx,molecule_idx)
+        elif checker == False:
+          if matrix_type == 'scoring':
+            for mode_idx in range(no_modes):
+              rxdock_matrix.mode_values = tf.convert_to_tensor(np.array([np.NaN] * 300))
+              rxdock_matrix.fill_rxdock_matrix(molecule_idx,molecule_idx,mode_idx)
+          elif matrix_type == 'rmsd':
+            sys.exit()
 
     if 'gnina' in docking_programs:
       sys.exit()
