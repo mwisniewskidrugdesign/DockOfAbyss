@@ -72,7 +72,7 @@ def init():
             'ligand':False,
             'native_ligand':False
         }
+    global matrix_type
     if 'matrix' in steps:
-        global matrix_type
         matrix_type='scoring'   #  scoring/rmsd
 
