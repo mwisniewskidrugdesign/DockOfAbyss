@@ -10,7 +10,7 @@ import pandas as pd
 
 pd.set_option('display.max_columns', None)
 
-def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,pdb_id_column: str,batch_start,batch_end,docking_programs=[],steps=[],matrix_type=[]):
+def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,pdb_id_column: str,batch_start,batch_end,docking_programs=[],steps=[],matrix_type=None):
 
   generate_library_step = False
   convert_step = False
@@ -232,7 +232,7 @@ def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,p
               rxdock_matrix.fill_rxdock_matrix(molecule_idx,molecule,mode_idx)
       if matrix_type == 'scoring':
         rxdock_matrix.save_matrix('rxdock_scoring_matrix')
-      elif matrix_type =='rmsd':
+      elif matrix_type == 'rmsd':
         rxdock_matrix.save_matrix('rxdock_rmsd_matrix')
     if 'gnina' in docking_programs:
       sys.exit()

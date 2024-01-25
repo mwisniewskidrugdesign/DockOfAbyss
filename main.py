@@ -82,7 +82,8 @@ if lp_pdbbind_pipeline:
                                  'pdbid',
                                  batch_start,batch_end,
                                  settings.docking_programs,
-                                 settings.steps)
+                                 settings.steps,
+                                 settings.matrix_type)
 
 if verification_pipeline:
     docking_outputs.non_docked(datadir,

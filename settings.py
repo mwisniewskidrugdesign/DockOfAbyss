@@ -42,7 +42,7 @@ def init():
     steps=['docking']
     docking_programs=['rxdock']
 
-    if 'convert' in steps: #'convert' in steps:
+    if 'convert' in steps:
         global to_pdbqt
         global to_pdb
         global to_mol
@@ -72,4 +72,7 @@ def init():
             'ligand':False,
             'native_ligand':False
         }
+    if 'matrix' in steps:
+        global matrix_type
+        matrix_type='scoring'   #  scoring/rmsd
 
