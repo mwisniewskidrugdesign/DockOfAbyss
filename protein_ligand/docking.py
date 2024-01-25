@@ -221,13 +221,17 @@ class RxDock:
         check_file=self.datadir+'/docs/temp/'+self.protein+'_'+self.ligand+'_cav1.grd'
         if not os.path.exists(check_file):
             return True
+            print('Cavity doesn\'t exist')
         else:
+            print('Cavity exists')
             return False
     def output_file_checker(self):
         check_file=self.rx_output+'.sd'
         if os.path.exists(check_file):
+            print('Output exists')
             return True
         else:
+            print('Output doesnt exist')
             return False
     def rmsd_file_checker(self):
         check_file = self.rx_output+'_rmsd.sdf'

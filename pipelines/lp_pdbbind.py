@@ -136,7 +136,7 @@ def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,p
           if rxdock_checker == True:
             try:
               output_checker = rx_docking.output_file_checker()
-              if not os.path.exists(output_checker):
+              if output_checker==False:
                 rx_docking.rxdock_docking(no_modes)
             except:
               rx_docking_error_number += 1
