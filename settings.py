@@ -36,11 +36,13 @@ def init():
     global pipeline
     global steps
     global docking_programs
+    global matrix_type
 
     number_of_models = 50
     pipeline='lp_pdbbind'
     steps=['docking']
     docking_programs=['rxdock']
+    matrix_type=[]
 
     if 'convert' in steps:
         global to_pdbqt
@@ -72,7 +74,6 @@ def init():
             'ligand':False,
             'native_ligand':False
         }
-    global matrix_type
     if 'matrix' in steps:
         matrix_type='scoring'   #  scoring/rmsd
 
