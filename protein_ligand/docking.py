@@ -304,16 +304,19 @@ class RxDock:
 class Gnina:
     def __init__(self,datadir):
         self.datadir = datadir
-        self.gnina_dir = self.datadir + '/docking_scores/gnina'
-        self.sdf_gz_gnina_dir = self.gnina_dir + '/sdf_gz'
-        self.atom_terms_gnina_dir = self.gnina_dir + '/atom_terms'
-        self.logs_gnina_dir = self.gnina_dir+ '/logs'
+        self.gnina_dir = self.datadir+'/docking_scores/gnina'
+        self.sdf_gz_gnina_dir = self.gnina_dir+'/sdf_gz'
+        self.atom_terms_gnina_dir = self.gnina_dir +'/atom_terms'
+        self.logs_gnina_dir = self.gnina_dir+'/logs'
+        self.rmsd_gnina_dir = self.gnina_dir+'/rmsd'
         self.protein_file=''
         self.ligand_file=''
         self.native_ligand_file=''
         self.sdf_gz_output_file = ''
         self.atom_terms_output_file =''
         self.log_output_file = ''
+        self.rmsd_output_file=''
+
         self.matrix = None
         self.experimental_affinity = None
         self.predicted_binding_affinity = None
@@ -324,6 +327,7 @@ class Gnina:
             makedir = subprocess.run(['mkdir ' + self.sdf_gz_gnina_dir], shell=True, capture_output=True, text=True)
             makedir = subprocess.run(['mkdir ' + self.atom_terms_gnina_dir], shell=True, capture_output=True, text=True)
             makedir = subprocess.run(['mkdir ' + self.logs_gnina_dir], shell=True, capture_output=True, text=True)
+            makedir = subprocess.run(['mkdir ' + self.rmsd_gnina_dir], shell=True, capture_output=True, text=True)
     def gnina_files(self,protein,ligand,native_ligand):
 
         self.protein_file = self.datadir+'/protein/pdb/'+protein+'_protein.pdb'
@@ -331,17 +335,26 @@ class Gnina:
         self.native_ligand_file = self.datadir+'/native_ligand/sdf/'+native_ligand+'_ligand.sdf'
 
         self.sdf_gz_output_file = self.sdf_gz_gnina_dir + '/' + protein + '_' + ligand + '.sdf.gz'
-        self.atom_terms_output_file = self.atom_terms_gnina_dir + '/' + protein + '_' + ligand + '_atom_terms.txt'
+        self.atom_terms_output_file = self.atom_terms_gnina_dir+'/'+protein+'_'+ligand+'_atom_terms.txt'
         self.log_output_file = self.logs_gnina_dir + '/' + protein + '_' + ligand + '.log'
+        self.rmsd_output_file = self.rmsd_gnina_dir+'/'+protein+'_'+ligand+'_rmsd.txt'
     def gnina_output_checker(self):
         checker = not os.path.exists(self.log_output_file) or not os.path.exists(self.atom_terms_output_file) or not os.path.exists(self.sdf_gz_output_file)
         return checker
     def gnina_docking(self,no_modes):
-        gnina_command=['singularity','run','--nv',settings.gnina_container,'gnina','-r',self.protein_file,'-l',self.ligand_file,'--autobox_ligand',self.native_ligand_file,'--autobox_add','8','--exhaustiveness','32','--num_modes',str(no_modes),'-o',self.sdf_gz_output_file,'--atom_terms',self.atom_terms_output_file,'--log',self.log_output_file,'--atom_term_data','--cpu','3','--min_rmsd_filter','0']
-        print('running gnina')
+        '''GNINA docking'''
+        print('Gnina docking')
+        gnina_command=['singularity','run','--nv','--bind','/mnt',settings.gnina_container,'gnina','-r',self.protein_file,'-l',self.ligand_file,'--autobox_ligand',self.native_ligand_file,'--autobox_add','8','--exhaustiveness','32','--num_modes',str(no_modes),'-o',self.sdf_gz_output_file,'--atom_terms',self.atom_terms_output_file,'--log',self.log_output_file,'--atom_term_data','--cpu','3','--min_rmsd_filter','0']
         docking = subprocess.run(gnina_command, shell=False, capture_output=True, text=True)
         print(docking.stdout)
         print(docking.stderr)
+    def gnina_rmsd_calc(self):
+        '''GNINA output RMSD calculation'''
+        print('Gnina output RMSD calculation')
+        obrms_command=['singularity','run','--nv','--bind','/mnt',settings.gnina_container,'obrms','--firstonly',self.native_ligand_file,self.sdf_gz_output_file,'-o',self.rmsd_output_file]
+        rmsd_calculation = subprocess.run(obrms_command, shell=False, capture_output=True, text=True)
+        print(rmsd_calculation.stdout)
+        print(rmsd_calculation.stderr)
 
 # class DiffDock:
 #     def __init(self,datadir):

@@ -152,11 +152,14 @@ def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,p
           if gnina_checker == True:
             try:
               gnina_docking.gnina_docking(no_modes)
+              if gnina_checker==False:
+                gnina_docking.gnina_rmsd_calc()
             except:
               gnina_docking_error_number += 1
               print('Smina proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + str(gnina_docking_error_number) + 'st time.')
               continue
           break
+
       if 'diffdock' in docking_programs:
         diffdock_docking_error_number = 0
         diffdock_docking.diffdock_files(molecule, molecule, molecule)
