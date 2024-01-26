@@ -152,6 +152,8 @@ def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,p
           if gnina_checker == True:
             try:
               gnina_docking.gnina_docking(no_modes)
+
+              gnina_checker = gnina_docking.gnina_output_checker()
               if gnina_checker==False:
                 gnina_docking.gnina_rmsd_calc()
             except:
