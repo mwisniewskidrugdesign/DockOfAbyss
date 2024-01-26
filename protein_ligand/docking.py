@@ -333,7 +333,7 @@ class Gnina:
         self.sdf_gz_output_file = self.sdf_gz_gnina_dir + '/' + protein + '_' + ligand + '.sdf.gz'
         self.atom_terms_output_file = self.atom_terms_gnina_dir + '/' + protein + '_' + ligand + '_atom_terms.txt'
         self.log_output_file = self.logs_gnina_dir + '/' + protein + '_' + ligand + '.log'
-    def gnina_files_checker(self):
+    def gnina_output_checker(self):
         checker = not os.path.exists(self.log_output_file) or not os.path.exists(self.atom_terms_output_file) or not os.path.exists(self.sdf_gz_output_file)
         return checker
     def gnina_docking(self,no_modes):

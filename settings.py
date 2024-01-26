@@ -41,7 +41,7 @@ def init():
     number_of_models = 50
     pipeline='lp_pdbbind'
     steps=['docking']
-    docking_programs=['rxdock']
+    docking_programs=['gnina']
     matrix_type=[]
 
     if 'convert' in steps:
