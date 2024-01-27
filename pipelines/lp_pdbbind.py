@@ -151,6 +151,7 @@ def diagonal_pipeline(datadir: str, rawdir: str,df: pd.DataFrame,no_modes: int,p
         while True:  ## Loop - necessery to generate exactly 50 modes, sometimes with random seed it's generating smaller number of conforms
           if gnina_checker == True:
             try:
+              print(molecule_idx+'. '+molecule+' to '+molecule)
               gnina_docking.gnina_docking(no_modes)
             except:
               gnina_docking_error_number += 1
