@@ -4,7 +4,7 @@ from verify import docking_outputs
 import sys
 import pandas as pd
 
-pd.set_option('display.max_columns', None)      # wyświetlanie df
+pd.set_option('display.max_columns', None)      # Display
 settings.init()                                 # inicjalizacja zmiennych odnośnie ścieżek i innych w przyszłości
 
 ### SYS argv ###
@@ -16,9 +16,6 @@ if batch_start==0:
 batch_end = int(sys.argv[2])
 if batch_end==0:
     batch_end=None
-
-# programs = list(sys.argv[4].split(','))
-# steps = list(sys.argv[5].split(','))
 
 ###########
 
