@@ -1,9 +1,3 @@
-import pandas as pd
+a = [1,2,3]
 
-
-a = {'molecule':{
-
-}}
-a['molecule']['pdb_to_pdbqt']={}
-a['molecule']['pdb_to_pdbqt']['protein']['output'] = 'aloha'
-print(a)
+print(a[0])

@@ -1,7 +1,73 @@
-elo5423
-eloldsadas
-elo\2345
-wqfabiuadf
-RMSD
-eefdasfdsgr
-wetrqewyejt
+              _
+             (_)
+   __ _ _ __  _ _ __   __ _
+  / _` | '_ \| | '_ \ / _` |
+ | (_| | | | | | | | | (_| |
+  \__, |_| |_|_|_| |_|\__,_|
+   __/ |
+  |___/
+
+gnina  master:33846ee   Built Jul 24 2023.
+gnina is based on smina and AutoDock Vina.
+Please cite appropriately.
+
+WARNING: No GPU detected. CNN scoring will be slow.
+Recommend running with single model (--cnn crossdock_default2018)
+or without cnn scoring (--cnn_scoring=none).
+
+Commandline: /usr/local/bin/gnina -r /mnt/evafs/groups/sfglab/mwisniewski/PhD/data/lp_pdbbind/protein/pdb/5u0f_protein.pdb -l /mnt/evafs/groups/sfglab/mwisniewski/PhD/data/lp_pdbbind/ligand/sdf/5u0f_ligand.sdf --autobox_ligand /mnt/evafs/groups/sfglab/mwisniewski/PhD/data/>
+Using random seed: -145209695
+
+mode |  affinity  |    CNN     |   CNN
+     | (kcal/mol) | pose score | affinity
+-----+------------+------------+----------
+    1       -6.55       0.8952      7.178
+    2       -6.46       0.7790      7.004
+    3       -5.52       0.7732      7.057
+    4       -5.80       0.7041      6.765
+    5       -6.27       0.6930      6.778
+    6       -5.21       0.6924      6.780
+    7       -6.06       0.6637      6.794
+    8       -7.44       0.5956      6.122
+    9       -6.04       0.5897      6.707
+   10       -6.47       0.5885      6.519
+   11       -4.98       0.5780      6.625
+   12       -5.11       0.5217      6.453
+   13       -7.34       0.5179      6.348
+   14       -6.19       0.5086      6.286
+   15       -6.53       0.4972      6.004
+   16       -6.42       0.4958      6.091
+   17       -6.58       0.4845      5.968
+   18       -5.58       0.4784      6.671
+   19       -5.34       0.4739      6.590
+   20       -5.98       0.4711      5.979
+   21       -6.43       0.4636      5.886
+   22       -4.82       0.4628      6.030
+   23       -6.03       0.4458      6.686
+   24       -6.21       0.4373      6.070
+   25       -6.02       0.4272      6.094
+   26       -4.46       0.4129      6.512
+   27       -5.81       0.4084      5.987
+   28       -5.72       0.4072      5.972
+   29       -4.42       0.3898      4.717
+   30       -5.90       0.3732      5.774
+   31       -5.71       0.3725      6.370
+   32       -4.75       0.3414      5.047
+   33       -4.82       0.3353      5.497
+   34       -5.54       0.3322      6.028
+   35       -5.40       0.3290      5.379
+   36       -5.91       0.3248      5.545
+   37       -4.86       0.3214      5.235
+   38       -4.94       0.3121      5.412
+   39       -4.46       0.3101      4.778
+   40       -5.84       0.3095      5.429
+   41       -4.63       0.3014      4.739
+   42       -4.37       0.2922      5.182
+   43       -4.76       0.2915      4.829
+   44       -6.32       0.2655      5.257
+   45       -4.33       0.2569      4.735
+   46       -5.45       0.2536      5.955
+   47       -4.80       0.2343      5.608
+   48       -5.17       0.2304      4.944
+   49       -4.77       0.1903      5.364
+   50       -4.69       0.1371      5.535

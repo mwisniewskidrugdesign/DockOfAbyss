@@ -67,8 +67,8 @@ def diagonal_pipeline(datadir: str,     #  data directory to our workspace
 
     if 'smina' in docking_programs:
 
-      smina_docking = docking.Smina(datadir)  # SMINA Docking Class
-      smina_docking.smina_dirs()  ## Generate output dirs for SMINA docking
+      smina_docking = docking.Smina(datadir,no_modes)  #  SMINA Docking Class
+      smina_docking.smina_dirs()              #  Generate output dirs for SMINA docking
 
     if 'rxdock' in docking_programs:
 
@@ -84,29 +84,31 @@ def diagonal_pipeline(datadir: str,     #  data directory to our workspace
       diffdock_docking = docking.DiffDock(datadir)
       diffdock_docking.diffdock_dirs()
 
-    for molecule_idx, molecule in enumerate(molecules[:]):  ## Docking Loop for molecules from list generated earlier
+    for molecule_idx, molecule in enumerate(molecules):  #  Docking loop for molecules from generated earlier list
 
-      print('Docking ' + molecule + ' to ' + molecule + '. With: \n', docking_programs)  ## Print PDB structure code
+      print(molecule_idx,'/',len(molecules))
 
       #  Docking Sub-Module
 
       if 'smina' in docking_programs:
 
         smina_docking_error_number = 0
-        smina_docking.smina_files(molecule, molecule, molecule)
+        smina_docking.smina_files(molecule, molecule, molecule) #  Generating input and output files variables
 
-        while True:  ## Loop - necessery to generate exactly 100 modes, sometimes with random seed it's generating smaller number of conforms
-
-          smina_checker = smina_docking.files_checker()
+        while True:                                             #  Loop - necessery to generate exactly <n> modes, sometimes with random seed it's generating smaller number of conforms
+          smina_checker = smina_docking.files_checker()         #  checking whether output files didn't exists or if output file exists check them
 
           if smina_checker == True:
-            print('\tFiles Checker: Brakuje Plikow lub Powstało ponizej 50 konformacji')
-            results = smina_docking.smina_docking(no_modes)  ## smina docking function
+
+            results = smina_docking.smina_docking()             #  Smina docking function
+
             smina_modes_checker = smina_docking.modes_checker()
 
             if smina_modes_checker == False:
+
               print('\tModes Checker: Dokowanie zakończone sukcesem')
               break
+
             else:
               if 'Parse error' in results.stderr:
                 print('\tDocking Error')
@@ -137,23 +139,33 @@ def diagonal_pipeline(datadir: str,     #  data directory to our workspace
 
         #rx_docking.read_output(molecule_idx, molecule_idx)
       if 'gnina' in docking_programs:
+
         gnina_docking_error_number = 0
         gnina_docking.gnina_files(molecule, molecule, molecule)
-        gnina_checker = gnina_docking.gnina_output_checker()
-        while True:  ## Loop - necessery to generate exactly 50 modes, sometimes with random seed it's generating smaller number of conforms
-          if gnina_checker == True:
-            try:
-              print(molecule_idx+'. '+molecule+' to '+molecule)
-              gnina_docking.gnina_docking(no_modes)
-            except:
+
+        while True: #  Loop - necessery to generate exactly 50 modes, sometimes with random seed it's generating smaller number of conforms
+
+          gnina_checker, gnina_modes_checker, _ = gnina_docking.gnina_output_checker()
+
+          if gnina_checker == False or gnina_modes_checker == False:
+
+            gnina_docking.gnina_docking(no_modes)
+
+            _, gnina_modes_checker, _ = gnina_docking.gnina_output_checker()
+
+            if gnina_modes_checker == False:
               gnina_docking_error_number += 1
               print('Smina proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + str(gnina_docking_error_number) + 'st time.')
               continue
-          gnina_checker = gnina_docking.gnina_output_checker()
-          if gnina_checker == False:
-            gnina_docking.gnina_rmsd_calc()
-          break
 
+          gnina_checker, _, rmsd_checker = gnina_docking.gnina_output_checker()
+
+          if gnina_checker == True and rmsd_checker==False:
+            gnina_docking.gnina_rmsd_calc()
+            _, _, rmsd_checker = gnina_docking.gnina_output_checker()
+            if rmsd_checker == False:
+              continue
+          break
       if 'diffdock' in docking_programs:
         diffdock_docking_error_number = 0
         diffdock_docking.diffdock_files(molecule, molecule, molecule)
@@ -175,8 +187,8 @@ def diagonal_pipeline(datadir: str,     #  data directory to our workspace
 
     if 'smina' in docking_programs:
 
-      smina_matrix = docking.Smina(datadir)
-      smina_matrix.create_smina_matrix(molecules,molecules,no_modes)
+      smina_matrix = docking.Smina(datadir,no_modes)
+      smina_matrix.create_smina_matrix(molecules,molecules)
 
       for molecule_idx, molecule in enumerate(molecules):
         print(molecule)
@@ -186,7 +198,7 @@ def diagonal_pipeline(datadir: str,     #  data directory to our workspace
           if matrix_type == 'scoring':
             smina_matrix.read_experimental_affinity(df, molecule,molecule)  ## reading experimental affinity data for specific molecule from dataframe
             smina_matrix.read_scoring_function()  ## reading scoring function predicted binding affinity from output
-            smina_matrix.read_atom_term_function(no_modes)  ## reading atom terms sf's components from output
+            smina_matrix.read_atom_term_function()  ## reading atom terms sf's components from output
             smina_matrix.fill_scoring_matrix(molecule_idx,molecule_idx)  ## fill smina matrix with output datas
           elif matrix_type == 'rmsd':
             smina_matrix.read_rmsd()
@@ -194,12 +206,12 @@ def diagonal_pipeline(datadir: str,     #  data directory to our workspace
         else:
           if matrix_type == 'scoring':
             smina_matrix.read_experimental_affinity(df,molecule,molecule)
-            smina_matrix.predicted_binding_affinity = [0.] * no_modes
-            smina_matrix.sf_components = [[0. for i in range(no_modes)]] * 5
+            smina_matrix.predicted_binding_affinity = [0.] * smina_matrix.no_modes
+            smina_matrix.sf_components = [[0. for i in range(smina_matrix.no_modes)]] * 5
             smina_matrix.fill_scoring_matrix(molecule_idx,molecule_idx)
           elif matrix_type=='rmsd':
-            smina_matrix.lb_rmsds=[np.NaN] * no_modes
-            smina_matrix.ub_rmsds=[np.NaN] * no_modes
+            smina_matrix.lb_rmsds=[np.NaN] * smina_matrix.no_modes
+            smina_matrix.ub_rmsds=[np.NaN] * smina_matrix.no_modes
             smina_matrix.fill_rmsd_matrix(molecule_idx,molecule_idx)
       if matrix_type == 'scoring':
         smina_matrix.save_matrix('smina_scoring_matrix')
@@ -207,7 +219,7 @@ def diagonal_pipeline(datadir: str,     #  data directory to our workspace
         smina_matrix.save_matrix('smina_rmsd_matrix')
     if 'rxdock' in docking_programs:
       rxdock_matrix = docking.RxDock(datadir)
-      rxdock_matrix.create_rxdock_matrix(molecules,molecules,no_modes)
+      rxdock_matrix.create_rxdock_matrix(molecules,molecules)
 
       for molecule_idx, molecule in enumerate(molecules):
         print(molecule)

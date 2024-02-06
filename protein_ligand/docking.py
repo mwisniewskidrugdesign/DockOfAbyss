@@ -6,7 +6,7 @@ from typing import List
 import settings
 
 class Smina:
-    def __init__(self,datadir):
+    def __init__(self,datadir,no_modes):
         #  dirs
         self.datadir = datadir
         self.smina_dir = datadir + '/docking_scores/smina'
@@ -21,6 +21,8 @@ class Smina:
         self.pdbqt_output_file = ''
         self.atom_terms_output_file =''
         self.log_output_file = ''
+        #  docking metrices
+        self.no_modes = no_modes
         #  matrix processing
         self.matrix = None
         self.experimental_affinity = None
@@ -36,7 +38,10 @@ class Smina:
             makedir = subprocess.run(['mkdir ' + self.pdbqt_smina_dir], shell=True, capture_output=True, text=True)
             makedir = subprocess.run(['mkdir ' + self.atom_terms_smina_dir], shell=True, capture_output=True, text=True)
             makedir = subprocess.run(['mkdir ' + self.logs_smina_dir], shell=True, capture_output=True, text=True)
-    def smina_files(self,protein,ligand,native_ligand):
+    def smina_files(self,
+                    protein: str,
+                    ligand: str,
+                    native_ligand: str):
         '''Specify Input and Output files for SMINA'''
 
         self.protein_file = self.datadir+'/protein/pdbqt/'+protein+'_protein.pdbqt'
@@ -46,28 +51,33 @@ class Smina:
         self.pdbqt_output_file = self.pdbqt_smina_dir + '/' + protein + '_' + ligand + '.pdbqt'
         self.atom_terms_output_file = self.atom_terms_smina_dir + '/' + protein + '_' + ligand + '_atom_terms.txt'
         self.log_output_file = self.logs_smina_dir + '/' + protein + '_' + ligand + '.log'
+
     def files_checker(self):
-        '''Check whether files exist and are correct'''
+
+        '''
+        Checking whether output files didnt exists or else check them.
+        If checker is True, that means the output files didnt exists or output files are bad.
+        '''
+
         with open(self.log_output_file,'r') as fp:
             x = len(fp.readlines())
-        checker = x != 75 or not (os.path.exists(self.log_output_file) and os.path.exists(self.pdbqt_output_file) and os.path.exists(self.atom_terms_output_file))
-        print('File checker: ',checker)
+        checker = x != self.no_modes+25 or not (os.path.exists(self.log_output_file) and os.path.exists(self.pdbqt_output_file) and os.path.exists(self.atom_terms_output_file))
         return checker
     def modes_checker(self):
         '''Check whether the appropriate number of conformations has been generated'''
         with open(self.log_output_file, 'r') as fp:
             x = len(fp.readlines())
             print(x)
-        checker = x != 75 or not os.path.exists(self.log_output_file)
+        checker = x != self.no_modes+25 or not os.path.exists(self.log_output_file)
         return checker
-    def smina_docking(self,no_modes):
+    def smina_docking(self):
         '''Autodock Smina's docking function'''
 
-        smina_command=[settings.smina_tools_dir,'-r',self.protein_file,'-l',self.ligand_file,'--autobox_ligand',self.native_ligand_file,'--autobox_add','8','--exhaustiveness','32','--num_modes',str(no_modes),'-o',self.pdbqt_output_file,'--atom_terms',self.atom_terms_output_file,'--log',self.log_output_file,'--atom_term_data','--cpu','3','--min_rmsd_filter','0','--energy_range','10000']
+        smina_command=[settings.smina_tools_dir,'-r',self.protein_file,'-l',self.ligand_file,'--autobox_ligand',self.native_ligand_file,'--autobox_add','8','--exhaustiveness','32','--num_modes',str(self.no_modes),'-o',self.pdbqt_output_file,'--atom_terms',self.atom_terms_output_file,'--log',self.log_output_file,'--atom_term_data','--cpu','3','--min_rmsd_filter','0','--energy_range','10000']
         docking = subprocess.run(smina_command, shell=False, capture_output=True, text=True)
         print(docking.stderr)
         print(docking.stdout)
-        return docking
+
     def read_scoring_function(self) -> List:
         ''' Read the Predicted Binding Affinities from pdbqt file'''
 
@@ -75,17 +85,17 @@ class Smina:
         with open(self.pdbqt_output_file,'r') as pdbqt_output:
             self.predicted_binding_affinity = [float(line.replace('REMARK minimizedAffinity ', '').replace('\n', ''))for line in pdbqt_output.readlines() if 'REMARK minimizedAffinity' in line]
         return self.predicted_binding_affinity
-    def read_atom_term_function(self,no_modes: int) -> List:
+    def read_atom_term_function(self) -> List:
         '''Read Atom Terms from _atom_terms.txt file'''
 
         print('\tatom term - started')
         atom_term_output = open(self.atom_terms_output_file,'r')
 
-        gauss = [list() for i in range(no_modes)]
-        gauss2 = [list() for i in range(no_modes)]
-        repulsion = [list() for i in range(no_modes)]
-        hydrophobic = [list() for i in range(no_modes)]
-        non_dir_h_bond = [list() for i in range(no_modes)]
+        gauss = [list() for i in range(self.no_modes)]
+        gauss2 = [list() for i in range(self.no_modes)]
+        repulsion = [list() for i in range(self.no_modes)]
+        hydrophobic = [list() for i in range(self.no_modes)]
+        non_dir_h_bond = [list() for i in range(self.no_modes)]
 
         atom_term_output = atom_term_output.read().split('END\n')[:-1]
         atom_term_output = [i.split('\n') for i in atom_term_output]
@@ -123,18 +133,14 @@ class Smina:
             self.ub_rmsds = [line[30:35] for line in lines]
 
         return self.lb_rmsds,self.ub_rmsds
-    def create_smina_matrix(self,proteins,ligands,no_modes):
+    def create_smina_matrix(self,proteins,ligands):
         '''Create a template for Smina Matrix'''
         scoring_values = ['Predicted Binding Affinity','Gauss1','Gauss2','Repulsion','Hydrophobic','Non_dir_h_bond']
         rmsd_values = ['RMSD']
 
         no_proteins = len(proteins)
-        print(no_proteins)
         no_ligands = len(ligands)
-        print(no_ligands)
-        no_modes = no_modes
-        print(no_modes)
-        self.matrix = np.empty((no_proteins,no_ligands,no_modes),dtype=object)
+        self.matrix = np.empty((no_proteins,no_ligands,self.no_modes),dtype=object)
         return self.matrix
     def fill_scoring_matrix(self,pidx,lidx):
         '''Fill the smina matrix in specific location'''
@@ -163,7 +169,6 @@ class Smina:
             mode_rmsds = np.array(mode_rmsds)
             mode_rmsds = tf.convert_to_tensor(mode_rmsds)
             self.matrix[pidx,lidx,mode_idx] = mode_rmsds
-
     def save_matrix(self,output):
         '''Save the Smina matrix'''
         output = self.datadir+'/docs/'+output
@@ -339,13 +344,41 @@ class Gnina:
         self.log_output_file = self.logs_gnina_dir + '/' + protein + '_' + ligand + '.log'
         self.rmsd_output_file = self.rmsd_gnina_dir+'/'+protein+'_'+ligand+'_rmsd.txt'
     def gnina_output_checker(self):
-        checker = not os.path.exists(self.log_output_file) or not os.path.exists(self.atom_terms_output_file) or not os.path.exists(self.sdf_gz_output_file)
-        return checker
+        try:
+            with open(self.log_output_file,'r') as log_file:
+                starter = '-----+------------+------------+----------'
+                lines = log_file.readlines()
+                if any(starter in line for line in lines):
+                    start_index = next(i for i, line in enumerate(lines) if starter in line)
+                    lines_between = len(lines) - start_index - 1
+        except FileNotFoundError:
+            error=True
+        except Exception:
+            error=True
+
+        checker = os.path.exists(self.log_output_file) and os.path.exists(self.atom_terms_output_file) and os.path.exists(self.sdf_gz_output_file)
+        modes_checker = lines_between == 50
+        rmsd_checker = os.path.exists(self.rmsd_output_file)
+        return checker, modes_checker, rmsd_checker
     def gnina_docking(self,no_modes):
         '''GNINA docking'''
         print('Gnina docking')
-        gnina_command=['singularity','run','--nv','--bind','/mnt',settings.gnina_container,'gnina','-r',self.protein_file,'-l',self.ligand_file,'--autobox_ligand',self.native_ligand_file,'--autobox_add','8','--exhaustiveness','32','--num_modes',str(no_modes),'-o',self.sdf_gz_output_file,'--atom_terms',self.atom_terms_output_file,'--log',self.log_output_file,'--atom_term_data','--cpu','3','--min_rmsd_filter','0']
+        gnina_command=['singularity','run','--nv','--bind','/mnt',settings.gnina_container,'gnina',
+                       '-r',self.protein_file,
+                       '-l',self.ligand_file,
+                       '--autobox_ligand',self.native_ligand_file,
+                       '--autobox_add','8',
+                       '--exhaustiveness','32',
+                       '--num_modes',str(no_modes),
+                       '-o',self.sdf_gz_output_file,
+                       '--atom_terms',self.atom_terms_output_file,
+                       '--log',self.log_output_file,
+                       '--atom_term_data',
+                       '--cpu','3',
+                       '--min_rmsd_filter','0']
+
         docking = subprocess.run(gnina_command, shell=False, capture_output=True, text=True)
+
         print(docking.stdout)
         print(docking.stderr)
     def gnina_rmsd_calc(self):

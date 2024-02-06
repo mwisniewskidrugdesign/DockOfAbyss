@@ -95,11 +95,9 @@ class DatasetPreparation:
             if affinity_type in self.df.columns:
                 self.df = self.df[self.df[affinity_type].str.len() == 0]
         return self.df
-
     def drop_duplicate_ligands(self):
         self.df = self.df.drop_duplicates(subset=['Canonical SMILES'])
         return self.df
-
     def save_df(self, datadir, output):
         self.df = pd.read_excel(self.df)
         self.df.to_excel(datadir + '/protein_ligand/docs/' + output + '.xlsx')

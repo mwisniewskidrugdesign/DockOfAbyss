@@ -177,7 +177,8 @@ class Converter:
 
                 pdbqt_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
 
-                self.converting_dictionary[self.molecule]['pdb_to_pdbqt']['protein']['mgl_tools'] = {'output':pdbqt_result.stdout}
+                self.converting_dictionary[self.molecule]['pdb_to_pdbqt']['protein']['mgl_tools'] = {
+                    'output':pdbqt_result.stdout}
 
                 if int(len(pdbqt_result.stderr)) > 0:
 
