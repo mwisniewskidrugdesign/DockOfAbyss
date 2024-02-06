@@ -1,5 +1,9 @@
-with open('text.txt','r') as test:
-    list_of_modes = test.read().split('RMSD\n')[-1].split('\n')[0]
-    print(list_of_modes)
+import pandas as pd
 
-    # 19:24
+
+a = {'molecule':{
+
+}}
+a['molecule']['pdb_to_pdbqt']={}
+a['molecule']['pdb_to_pdbqt']['protein']['output'] = 'aloha'
+print(a)

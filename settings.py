@@ -3,7 +3,9 @@ def init():
     ##### Software Paths #####
 
     global station
-
+    global datadir
+    global raw_datadir
+    global data_dataframe
     global pdb2fasta_path
     global mgltools_dir
     global cdhit_dir
@@ -15,12 +17,35 @@ def init():
     station='eden'
 
     if station=='inka':
+
+        ###  data directorypaths
+
+        datadir = ''
+        raw_datadir =''
+
+        ###  dataframe csv filepaths
+
+        data_dataframe = ''
+
+        ###  software paths
+
         pdb2fasta_path = 'pdb2fasta'
         mgltools_dir = '/mnt/raid/mwisniewski/software/mgl'
         cdhit_dir = '/mnt/raid/mwisniewski/software/cd-hit-v4.8.1-2019-0228'
         smina_tools_dir = ''
         obabel_path = ''
+
     if station=='eden':
+        ###  data directorypaths
+
+        datadir = '/mnt/evafs/groups/sfglab/mwisniewski/PhD/data/lp_pdbbind'
+        raw_datadir = '/mnt/evafs/groups/sfglab/mwisniewski/PhD/data/raw/PDBbind'
+
+        ###  dataframe csv filepaths
+
+        data_dataframe = '/mnt/evafs/groups/sfglab/mwisniewski/PhD/data/dataframes/LP_PDBBind.csv'
+
+        ###  software paths
         pdb2fasta_path = ''
         mgltools_dir = '/home2/sfglab/mwisniewski/Software/mgltools'
         cdhit_dir = ''
