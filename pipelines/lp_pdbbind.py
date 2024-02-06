@@ -2,11 +2,12 @@ import os.path
 import sys
 import settings
 import numpy as np
-import pandas
+import pandas as pd
 from protein_ligand import generator
 from protein_ligand import docking
 from protein_ligand import datasets
 from typing import List
+
 pd.set_option('display.max_columns', None)
 
 def diagonal_pipeline(datadir: str,     #  data directory to our workspace
@@ -155,7 +156,7 @@ def diagonal_pipeline(datadir: str,     #  data directory to our workspace
 
             if gnina_modes_checker == False:
               gnina_docking_error_number += 1
-              print('Smina proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + str(gnina_docking_error_number) + 'st time.')
+              print('Gnina proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + str(gnina_docking_error_number) + 'st time.')
               continue
 
           gnina_checker, _, rmsd_checker = gnina_docking.gnina_output_checker()
@@ -163,8 +164,10 @@ def diagonal_pipeline(datadir: str,     #  data directory to our workspace
           if gnina_checker == True and rmsd_checker==False:
             gnina_docking.gnina_rmsd_calc()
             _, _, rmsd_checker = gnina_docking.gnina_output_checker()
+
             if rmsd_checker == False:
               continue
+
           break
       if 'diffdock' in docking_programs:
         diffdock_docking_error_number = 0
