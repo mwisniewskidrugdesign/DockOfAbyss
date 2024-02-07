@@ -351,12 +351,11 @@ class Gnina:
                 if any(starter in line for line in lines):
                     start_index = next(i for i, line in enumerate(lines) if starter in line)
                     lines_between = len(lines) - start_index - 1
-        except FileNotFoundError:
+        except:
             lines_between = None
             error=True
-        except Exception:
-            lines_between = None
-            error=True
+
+
 
         checker = os.path.exists(self.log_output_file) and os.path.exists(self.atom_terms_output_file) and os.path.exists(self.sdf_gz_output_file)
         modes_checker = lines_between == 50
