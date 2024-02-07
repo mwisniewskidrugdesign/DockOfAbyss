@@ -344,6 +344,7 @@ class Gnina:
         self.log_output_file = self.logs_gnina_dir + '/' + protein + '_' + ligand + '.log'
         self.rmsd_output_file = self.rmsd_gnina_dir+'/'+protein+'_'+ligand+'_rmsd.txt'
     def gnina_output_checker(self):
+        lines_between=None
         try:
             with open(self.log_output_file,'r') as log_file:
                 starter = '-----+------------+------------+----------'
@@ -354,8 +355,6 @@ class Gnina:
         except:
             lines_between = None
             error=True
-
-
 
         checker = os.path.exists(self.log_output_file) and os.path.exists(self.atom_terms_output_file) and os.path.exists(self.sdf_gz_output_file)
         modes_checker = lines_between == 50
