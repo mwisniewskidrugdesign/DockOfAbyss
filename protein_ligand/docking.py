@@ -432,7 +432,7 @@ class DiffDock:
         csv_checker = os.path.exists(self.diffdock_dir+'/protein_ligand.csv')
         return csv_checker
     def diffdock_docking(self):
-
+        '''This method running basic DiffDock script for predicting the binding of complex'''
         diffdock_command=[
             'python',
             '-m',settings.diffdock_inference_script_path,
