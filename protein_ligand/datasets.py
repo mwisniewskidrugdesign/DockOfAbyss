@@ -104,6 +104,13 @@ class DatasetPreparation:
     def get_molecules(self,pdb_id_column):
         molecules = self.df[pdb_id_column].tolist()
         return molecules
+    def lp_pdbbind_split(self):
+        ''' Method that generate 3 dataframes from lp_pdbbind new split '''
+        train_set = self.df[self.df['new_split'] == 'train']
+        test_set = self.df[self.df['new_split'] == 'test']
+        val_set = self.df[self.df['new_split'] == 'val']
+
+        return train_set, val_set, test_set
 
 class ReadDocuments:
     '''Read Files'''

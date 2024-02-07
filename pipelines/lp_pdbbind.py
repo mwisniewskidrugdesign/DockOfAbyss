@@ -23,8 +23,7 @@ def diagonal_pipeline(datadir: str,     #  data directory to our workspace
                       ):
   '''Diagonal pipeline'''
 
-  mask = df['CL1'] == True
-  df = df[mask]
+  df = df[df['CL1'] == True]
   df = df[batch_start:batch_end]
 
   if 'generate_library' in steps:

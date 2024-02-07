@@ -1,3 +1,5 @@
-a = [1,2,3]
+import pandas as pd
 
-print(a[0])
+columns = ['complex_name', 'protein_path', 'ligand_description', 'protein_sequence']
+diffdock_df = pd.DataFrame(columns=columns)
+print(diffdock_df)

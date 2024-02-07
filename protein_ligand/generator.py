@@ -5,7 +5,6 @@ import subprocess
 import logging
 import settings
 
-
 def setup_logger(name,log_file,level=logging.INFO):
     """
     To setup as many loggers as you want
@@ -554,3 +553,4 @@ class Documents:
         cluster_program=subprocess.run([command],shell=False, capture_output=True, text=True)
         output_file = output_file + '.clstr'
         return output_file
+

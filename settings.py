@@ -47,11 +47,12 @@ def init():
 
         ###  software paths
         pdb2fasta_path = ''
-        mgltools_dir = '/home2/sfglab/mwisniewski/Software/mgltools'
+        mgltools_dir = 'mnt/evafs/groups/sfglab/mwisniewski/software/mgltools'
         cdhit_dir = ''
         smina_tools_dir = '/mnt/evafs/groups/sfglab/mwisniewski/software/smina/smina'
         gnina_container = '/mnt/evafs/groups/sfglab/mwisniewski/software/gnina/gnina.sif'
         obabel_path = '/mnt/evafs/groups/sfglab/mwisniewski/software/openbabel/bin/obabel'
+        diffdock_inference_script_path = '/mnt/evafs/groups/mwisniewski/software/diffdock/inference'
 
     ##########################
 

@@ -1,6 +1,7 @@
 import os
 import subprocess
 import numpy as np
+import pandas as pd
 import tensorflow as tf
 from typing import List
 import settings
@@ -389,13 +390,62 @@ class Gnina:
         print(rmsd_calculation.stdout)
         print(rmsd_calculation.stderr)
 
-# class DiffDock:
-#     def __init(self,datadir):
-#         self.datadir = datadir
-#         self.diffdock_dir = self.datadir + '/docking_scores/diffdock'
-#
-#         self.protein_file=''
-#         self.ligand_file=''
-#         self.native_ligand_file=''
-#
-#         self.matrix = matrix
+class DiffDock:
+    def __init__(self,datadir,no_modes):
+        self.datadir = datadir
+        self.diffdock_dir = datadir + '/diffdock'
+        self.diffdock_results_dir = self.diffdock_dir+'/results'
+
+        self.columns=['complex_name','protein_path','ligand_description','protein_sequence']
+        self.diffdock_df = pd.DataFrame(columns=self.columns)
+
+        self.no_modes = no_modes
+        self.complex = None
+    def diffdock_dirs(self):
+        '''Create Directories for DiffDock outputs'''
+
+        if not os.path.exists(self.diffdock_dir):
+            makedir = subprocess.run(['mkdir ' + self.diffdock_dir], shell=True, capture_output=True, text=True)
+            makedir = subprocess.run(['mkdir' + self.diffdock_results_dir], shell=True, capture_output=True, text=True)
+
+    def diffdock_files(self,protein,ligand):
+        '''Specify Input and Output files for DiffDock'''
+
+        self.complex = protein+'_'+ligand
+        self.protein_file = self.datadir+'/protein/pdb/'+protein+'_protein.pdb'
+        self.ligand_file = self.datadir+'/ligand/sdf/'+ligand+'_ligand.sdf'
+
+    def update_diffdock_dataframe(self):
+        '''Update the dataframe. I have to make it as an update instead of create because of two types of pipelines: diagonal and all vs all.
+        Maybe it will be changed in the future.'''
+
+        complex_data = [self.complex,self.protein_file,self.ligand_file,None]
+        new_line = pd.DataFrame([complex_data],columns=self.columns)
+
+        self.diffdock_df = pd.concat([self.diffdock_df,new_line],ignore_index=True)
+
+    def save_diffdock_dataframe(self):
+        '''Save the dataframe.'''
+        self.diffdock_df.to_csv(self.diffdock_dir+'/protein_ligand.csv',index=False)
+
+    def files_checker(self):
+        csv_checker = os.path.exists(self.diffdock_dir+'/protein_ligand.csv')
+        return csv_checker
+    def diffdock_docking(self):
+
+        diffdock_command=[
+            'python',
+            '-m',settings.diffdock_inference_script_path,
+            '--protein_ligand_csv',self.diffdock_dir+'/protein_ligand.csv',
+            '--out_dir',self.diffdock_results_dir,
+            '--inference_steps',20,
+            '--samples_per_complex',40,
+            '--batch_size',10,
+            '--actual_steps',18,
+            '--no_final_step_noise'
+        ]
+
+        docking = subprocess.run(diffdock_command, shell=False, capture_output=True, text=True)
+        print(docking.stderr)
+        print(docking.stdout)
+
