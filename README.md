@@ -1,5 +1,13 @@
 # Dock of Abyss
+# Nieaktualny opis
 
+
+Installation:
+
+
+```commandline
+soon: add requirements.txt and env.yml 
+```
 Dataset library:
 ```commandline
 ├── /proteins
