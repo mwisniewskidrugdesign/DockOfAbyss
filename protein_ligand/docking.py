@@ -196,7 +196,7 @@ class RxDock:
         with open(self.rx_output,'r') as output_file:
             list_of_modes = output_file.read().split('$$$$')[:-1]
 
-            for mode_index, mode in enumerate(list_of_modes[:]):
+            for mode_index, mode in enumerate(list_of_modes):
                 self.mode_values = mode.split('>  <SCORE>')[-1].split('\n')[1:-2:3]
                 self.mode_values = np.array(self.mode_values)
                 self.mode_values = tf.convert_to_tensor(self.mode_values)

@@ -212,8 +212,8 @@ def diagonal_pipeline(df: pd.DataFrame, #  path to the dataframe with yours comp
         smina.protein = matrix_molecule
         smina.ligand = matrix_molecule
         experimental_affinity = smina.read_experimental_affinity()
-        rmsd = smina.read_RMSD()
-        predicted_affinity = smina.read_predicted_binding_affinity()
+        rmsds = smina.read_RMSD()
+        predicted_affinities = smina.read_predicted_binding_affinity()
         scoring_components = smina.read_atom_terms()
 
         for mod_idx in range(settings.number_of_models):
@@ -223,4 +223,17 @@ def diagonal_pipeline(df: pd.DataFrame, #  path to the dataframe with yours comp
         smina.save_matrix('smina_matrix')
 
     if 'rxdock' in settings.docking_programs:
-      print('elo')
+      rxdock = matrix.RxDockResultsMatrix(matrix_molecules,matrix_molecules,21,df)
+      rxdock_matrix = rxdock.create_matrix()
+
+      for mol_idx, matrix_molecule in enumerate(matrix_molecules):
+        rxdock.protein = matrix_molecule
+        rxdock.ligand = matrix_molecule
+        experimental_affinity = rxdock.read_experimental_affinity()
+        rmsds,predicted_affinities,scoring_components = rxdock.read_data()
+
+        for mod_idx in range(settings.number_of_models):
+
+          rxdock.fill_matrix(mol_idx,mol_idx,mod_idx)
+
+        rxdock.save_matrix('rxdock_matrix')

@@ -108,6 +108,7 @@ class SminaResultsMatrix(ResultsMatrix):
         np.save(settings.datadir+'/docs/results/'+output_filename+'.npy',self.matrix)
 
 class RxDockResultsMatrix(ResultsMatrix):
+
     def __init__(self,proteins: List, ligands: List, df: pd.DataFrame):
         super().__init__(proteins,ligands, df)
         self.protein=None
@@ -116,7 +117,9 @@ class RxDockResultsMatrix(ResultsMatrix):
         self.predicted_binding_affinity_per_complex = None
         self.scoring_components_per_complex = None
         self.rmsd_per_complex = None
-        self.ub_rmsd_per_complex = None
+
+    def parse_molecular_structure(lines):
+
     def read_experimental_affinity(self,affinity_column='value'):
         '''
         This method reads Binding Affinity from the Leak-Proof PDBBind dataframe.
@@ -130,4 +133,37 @@ class RxDockResultsMatrix(ResultsMatrix):
             self.experimental_affinity = np.nan
 
         return self.experimental_affinity
-    def read_predicted_binding_affinity(self):
+
+    def read_data(self):
+        sdf_file_path = settings.datadir + '/docking_scores/rxdock/'+self.protein+'_'+self.ligand+'.sdf'
+        with open(sdf_file_path, 'r') as output_file:
+            list_of_modes = output_file.read().split('$$$$')[:-1]
+            modes = []
+            for mode_index, mode in enumerate(list_of_modes):
+                one_model_values = ['SCORE'] + mode.split('>  <SCORE>')[-1].split('\n')[1:]
+                one_model_values = one_model_values[:]
+                keys = one_model_values[::3]
+                values = one_model_values[1::3]
+                keys = [key.replace('>  <', '').replace('>', '') for key in keys]
+                together = dict(zip(keys, values))
+                modes.append(together)
+            unique = set(key for mode in modes for key in mode)
+            fill_dicts = {key: 0 for key in unique}
+            for mode in modes:
+                for key in unique:
+                    mode.setdefault(key, 0)
+            df = pd.DataFrame(modes)
+            self.rmsd_per_complex = df['RMSD'].tolist()
+            self.predicted_binding_affinity_per_complex = df['SCORE'].tolist()
+            df_components = df.drop(['RMSD', 'SCORE'], axis=1)
+            self.scoring_components_per_complex = [row.tolist() for _, row in df_components.iterrows()]
+        return self.rmsd_per_complex, self.predicted_binding_affinity_per_complex, self.scoring_components_per_complex
+
+    def fill_matrix(self,protein_index,ligand_index,model_index):
+
+        self.matrix[protein_index,ligand_index,model_index,0] = self.rmsd_per_complex[model_index]
+        self.matrix[protein_index,ligand_index,model_index,1] = self.predicted_binding_affinitiy_per_complex[model_index]
+        self.matrix[protein_index,ligand_index,model_index,2:] = np.array(self.scoring_components_per_complex[mode_index])
+    def save_matrix(self,output_filename: str):
+        np.save(settings.datadir+'/docs/results/'+output_filename+'.npy',self.matrix)
+
