@@ -14,6 +14,7 @@ def get_list_of_molecules(df,pdb_id_column='pdbid'):
 class DatasetPreparation:
     '''Class to preapre dataset'''
     def __init__(self,df):
+        settings.init()
         self.df = df
     def create_affinity_columns(self, binding_affinity_column='Affinity Data'):
         '''Create Kd, Ki and IC50 columns from PDBbind.csv Binding Affinity column'''
@@ -68,7 +69,7 @@ class DatasetPreparation:
             self.df = self.df.drop(columns=['temp_affinity_value', 'temp_affinity_unit', 'temp_affinity_type',binding_affinity_column])  # del temporary columns
 
         return self.df
-    def create_seq_columns(self, datadir, pdb_id_column='PDB code',seq_column_name='protein_sequence',sequence_type='protein'):
+    def create_seq_columns(self, pdb_id_column='PDB code',seq_column_name='protein_sequence',sequence_type='protein'):
 
         '''Create protein or pocket aas sequence columns from PDB fasta files'''
         print('Creating Sequence Column')
@@ -76,7 +77,7 @@ class DatasetPreparation:
 
             sequence_lines = []
 
-            sequence_fasta_filepath = datadir + '/'+sequence_type+'/fasta/' + row[pdb_id_column] + '_'+sequence_type+'.fasta'
+            sequence_fasta_filepath = settings.datadir + '/'+sequence_type+'/fasta/' + row[pdb_id_column] + '_'+sequence_type+'.fasta'
 
             for seq_record in SeqIO.parse(sequence_fasta_filepath,'fasta'):
                 sequence_lines.append(str(seq_record.seq))
@@ -98,9 +99,9 @@ class DatasetPreparation:
     def drop_duplicate_ligands(self):
         self.df = self.df.drop_duplicates(subset=['Canonical SMILES'])
         return self.df
-    def save_df(self, datadir, output):
+    def save_df(self, output):
         self.df = pd.read_excel(self.df)
-        self.df.to_excel(datadir + '/protein_ligand/docs/' + output + '.xlsx')
+        self.df.to_excel(settings.datadir + '/protein_ligand/docs/' + output + '.xlsx')
     def get_molecules(self,pdb_id_column):
         molecules = self.df[pdb_id_column].tolist()
         return molecules
@@ -111,7 +112,6 @@ class DatasetPreparation:
         val_set = self.df[self.df['new_split'] == 'val']
 
         return train_set, val_set, test_set
-
 class ReadDocuments:
     '''Read Files'''
     def __init__(self,filepath):

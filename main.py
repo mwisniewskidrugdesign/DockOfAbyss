@@ -28,15 +28,7 @@ if settings.pipeline == 'bdb2020':
                                   settings.number_of_models)
 
 if settings.pipeline == 'lp_pdbbind':
-    lp_pdbbind.diagonal_pipeline(settings.datadir,
-                                 settings.raw_datadir,
-                                 pd.read_csv(settings.data_dataframe),
-                                 settings.number_of_models,
-                                 'pdbid',
-                                 batch_start,batch_end,
-                                 settings.docking_programs,
-                                 settings.steps,
-                                 settings.matrix_type)
+    lp_pdbbind.diagonal_pipeline(pd.read_csv(settings.data_dataframe),'pdbid',batch_start,batch_end)
 
 if settings.pipeline == 'verification':
     docking_outputs.non_docked(settings.datadir,

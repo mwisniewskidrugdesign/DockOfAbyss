@@ -1,5 +1,4 @@
 def init():
-
     ##### Software Paths #####
 
     global station
@@ -14,14 +13,13 @@ def init():
     global gnina_container
     global rxdock
 
-    station='eden'
+    station = 'eden'
 
-    if station=='inka':
-
+    if station == 'inka':
         ###  data directorypaths
 
         datadir = ''
-        raw_datadir =''
+        raw_datadir = ''
 
         ###  dataframe csv filepaths
 
@@ -35,7 +33,7 @@ def init():
         smina_tools_dir = ''
         obabel_path = ''
 
-    if station=='eden':
+    if station == 'eden':
         ###  data directorypaths
 
         datadir = '/mnt/evafs/groups/sfglab/mwisniewski/PhD/data/lp_pdbbind'
@@ -65,10 +63,11 @@ def init():
     global matrix_type
 
     number_of_models = 50
-    pipeline='lp_pdbbind'
-    steps=['docking']
-    docking_programs=['gnina']
-    matrix_type=[]
+    pipeline = 'lp_pdbbind'
+    steps = [
+        'docking']  # list of steps to run in your pipeline in list format: generate_library, convert, docking, matrix
+    docking_programs = ['gnina']  # list of docking programs to run in your pipeline
+    matrix_type = []  # list of matrices to generate in your pipeline for specific programs in string format
 
     if 'convert' in steps:
         global to_pdbqt
@@ -76,30 +75,29 @@ def init():
         global to_mol
         global to_sdf
 
-        to_pdbqt={
-            'protein':False,
+        to_pdbqt = {
+            'protein': False,
             'pocket': False,
-            'ligand':True,
-            'native_ligand':False
+            'ligand': True,
+            'native_ligand': False
         }
-        to_pdb={
-            'protein':False,
+        to_pdb = {
+            'protein': False,
             'pocket': False,
-            'ligand':False,
-            'native_ligand':False
+            'ligand': False,
+            'native_ligand': False
         }
-        to_mol={
-            'protein':False,
+        to_mol = {
+            'protein': False,
             'pocket': False,
-            'ligand':False,
-            'native_ligand':False
+            'ligand': False,
+            'native_ligand': False
         }
-        to_sdf={
-            'protein':False,
+        to_sdf = {
+            'protein': False,
             'pocket': False,
-            'ligand':False,
-            'native_ligand':False
+            'ligand': False,
+            'native_ligand': False
         }
     if 'matrix' in steps:
-        matrix_type='scoring'   #  scoring/rmsd
-
+        matrix_type = 'scoring'  # scoring/rmsd
