@@ -36,7 +36,6 @@ def diag_smina_verification(molecules: List) -> pd.DataFrame:
                   'smina_log_boolean':log_booleans,
                   'smina_atom_terms_boolean': atom_terms_booleans
                   }
-    }
     df = pd.DataFrame(dict_boolean)
     df.to_csv(settings.datadir+'/docs/results/smina_booleans.csv')
     return df
@@ -65,7 +64,6 @@ def diag_rxdock_verification(molecules: List) -> pd.DataFrame:
                   'rxdock_sd_boolean':rxdock_sd_booleans,
                   'rxdock_sdf_boolean':rxdock_sdf_booleans
                   }
-    }
     df = pd.DataFrame(dict_boolean)
     df.to_csv(settings.datadir+'/docs/results/rxdock_booleans.csv')
     return df
@@ -107,7 +105,6 @@ def diag_gnina_verification(molecules: List) -> pd.DataFrame:
                     'gnina_atom_terms_boolean': atom_terms_booleans,
                     'gnina_rmsd_boolean':rmsd_booleans
                     }
-    }
     df = pd.DataFrame(dict_boolean)
     df.to_csv(settings.datadir + '/docs/results/gnina_booleans.csv')
     return df
