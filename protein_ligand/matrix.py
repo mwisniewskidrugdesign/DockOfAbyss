@@ -163,12 +163,23 @@ class GninaResultsMatrix(ResultsMatrix):
         self.protein=None
         self.ligand=None
         self.experimental_affinity = None
-        self.predicted_binding_affinity_per_complex = None
-        self.scoring_components_per_complex = None
         self.rmsd_per_complex = None
+        self.predicted_affinity_per_complex = None
+        self.CNN_pose_score_per_complex = None
+        self.CNN_affinity_per_complex = None
+
+
     def read_rmsd(self):
-        return None
+        rmsd_output_file = settings.datadir + '/docking_scores/gnina/rmsd/'+self.protein+'_'+self.ligand+'_rmsd.txt'
+        with open(rmsd_output_file,'r') as file:
+            self.rmsd_per_complex = [line.split(' ')[-1].replace('\n','') for line in file.readlines()]
+        return self.rmsd_per_complex
     def read_predicted_affinity(self):
-        return None
+        log_output_file = settings.datadir+'docking_scores/gnina/logs'+self.protein+'_'+self.ligand+'.log'
+        with open(log_output_file, 'r') as file:
+            lines = [line for line in file.readlines()[23:]]
+            self.predicted_affinity_per_complex = [line[12:17] for line in lines]
+            self.CNN_pose_score_per_complex = [line[24:30] for line in lines]
+            self.CNN_affinity_per_complex = [line[36:41] for line in lines]
     def read_atom_terms(self):
         return None
