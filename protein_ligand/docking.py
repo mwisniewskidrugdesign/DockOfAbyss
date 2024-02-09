@@ -178,8 +178,10 @@ class Gnina:
     def gnina_rmsd_calc(self):
         '''GNINA output RMSD calculation'''
         print('Gnina output RMSD calculation')
-        obrms_command=['singularity','run','--nv','--bind','/mnt',settings.gnina_container,'obrms','--firstonly',self.native_ligand_file,self.sdf_gz_output_file,'-o',self.rmsd_output_file]
+        obrms_command=['singularity','run','--nv','--bind','/mnt',settings.gnina_container,'obrms','--firstonly',self.native_ligand_file,self.sdf_gz_output_file]
         rmsd_calculation = subprocess.run(obrms_command, shell=False, capture_output=True, text=True)
+        with open(self.rmsd_output_file,'w') as rmsd_file:
+            rmsd_file.write(rmsd_calculation.stdout)
         print(rmsd_calculation.stdout)
         print(rmsd_calculation.stderr)
 class DiffDock:
