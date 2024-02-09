@@ -237,3 +237,5 @@ def diagonal_pipeline(df: pd.DataFrame, #  path to the dataframe with yours comp
           rxdock.fill_matrix(mol_idx,mol_idx,mod_idx)
 
         rxdock.save_matrix('rxdock_matrix')
+
+    if 'gnina' in settings.docking_programs:

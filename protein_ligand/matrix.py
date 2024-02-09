@@ -43,7 +43,7 @@ class SminaResultsMatrix(ResultsMatrix):
         ]
     '''
     def __init__(self,proteins: List, ligands: List, df: pd.DataFrame):
-        super().__init__(proteins,ligands, df)
+        super().__init__(proteins,ligands, no_components,df)
         self.protein=None
         self.ligand=None
         self.experimental_affinity = None
@@ -110,7 +110,7 @@ class SminaResultsMatrix(ResultsMatrix):
 class RxDockResultsMatrix(ResultsMatrix):
 
     def __init__(self,proteins: List, ligands: List, df: pd.DataFrame):
-        super().__init__(proteins,ligands, df)
+        super().__init__(proteins,ligands, no_components,df)
         self.protein=None
         self.ligand=None
         self.experimental_affinity = None
