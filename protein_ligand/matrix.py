@@ -117,9 +117,6 @@ class RxDockResultsMatrix(ResultsMatrix):
         self.predicted_binding_affinity_per_complex = None
         self.scoring_components_per_complex = None
         self.rmsd_per_complex = None
-
-    def parse_molecular_structure(lines):
-
     def read_experimental_affinity(self,affinity_column='value'):
         '''
         This method reads Binding Affinity from the Leak-Proof PDBBind dataframe.
