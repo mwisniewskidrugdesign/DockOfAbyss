@@ -13,7 +13,7 @@ def init():
     global gnina_container
     global rxdock
 
-    station = 'inka'
+    station = 'eden'
 
     if station == 'inka':
         ###  data directorypaths
