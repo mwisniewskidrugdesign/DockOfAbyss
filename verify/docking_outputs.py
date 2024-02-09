@@ -24,7 +24,7 @@ def diag_smina_verification(molecules: List) -> pd.DataFrame:
 
         pdbqt_boolean = True if (os.path.exists(pdbqt_file) and os.path.getsize(pdbqt_file) > 0) else False
         log_boolean = True if (os.path.exists(log_file) and os.path.getsize(log_file) > 0) else False
-        atom_terms_boolean = True (if os.path.exists(atom_terms_file) and os.path.getsize(atom_terms_file) > 0) else False
+        atom_terms_boolean = True if (os.path.exists(atom_terms_file) and os.path.getsize(atom_terms_file) > 0) else False
 
 
         pdbqt_booleans.append(pdbqt_boolean)
@@ -93,7 +93,7 @@ def diag_gnina_verification(molecules: List) -> pd.DataFrame:
 
         sdf_gz_boolean = True if (os.path.exists(sdf_gz_file) and os.path.getsize(sdf_gz_file) > 0) else False
         log_boolean = True if (os.path.exists(log_file) and os.path.getsize(log_file) > 0) else False
-        atom_terms_boolean = True (if os.path.exists(atom_terms_file) and os.path.getsize(atom_terms_file) > 0) else False
+        atom_terms_boolean = True if (os.path.exists(atom_terms_file) and os.path.getsize(atom_terms_file) > 0) else False
         rmsd_boolean = True if (os.path.exists(rmsd_file) and os.path.getsize(rmsd_file) > 0) else False
 
         sdf_gz_booleans.append(sdf_gz_boolean)
