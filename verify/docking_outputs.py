@@ -100,7 +100,7 @@ def diag_gnina_verification(molecules: List) -> pd.DataFrame:
         rmsd_booleans.append(rmsd_boolean)
 
     dict_boolean = {'complex_id': molecules,
-                    'gnina_sdf_gz_boolean': pdbqt_booleans,
+                    'gnina_sdf_gz_boolean': sdf_gz_boolean,
                     'gnina_log_boolean': log_booleans,
                     'gnina_atom_terms_boolean': atom_terms_booleans,
                     'gnina_rmsd_boolean':rmsd_booleans
