@@ -66,7 +66,7 @@ def init():
     pipeline = 'lp_pdbbind'
     steps = ['docking']  # list of steps to run in your pipeline in list format: generate_library, convert, docking, matrix
     docking_programs = ['rxdock']  # list of docking programs to run in your pipeline
-    matrix_programs = ['smina','rxdock','gnina']  # list of matrices to generate in your pipeline for specific programs in string format
+    matrix_programs = []  # list of matrices to generate in your pipeline for specific programs in string format
 
     if 'convert' in steps:
         global to_pdbqt
