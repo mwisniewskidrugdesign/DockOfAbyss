@@ -22,13 +22,6 @@ class Smina:
         self.pdbqt_output_file = ''
         self.atom_terms_output_file =''
         self.log_output_file = ''
-        #  matrix processing
-        self.matrix = None
-        self.experimental_affinity = None
-        self.predicted_binding_affinity = None
-        self.sf_components=None
-        self.lb_rmsds = None
-        self.ub_rmsds = None
     def smina_dirs(self):
         '''Create Directories for SMINA outputs'''
 
@@ -84,12 +77,6 @@ class RxDock:
         self.system_file = system_file          #rx_dock raw system filepath
         self.system_prepared_file = None        #rx_dock prepared system filepath
         self.rx_output = None                   #rx_dock output filepath
-
-        self.matrix = None
-        self.mode_values = None
-        self.values = None
-        self.experimental_affinity = None
-        self.rmsd=None
     def rxdock_dirs(self):
         if not os.path.exists(self.rxdock_dir):
             makedir = subprocess.run(['mkdir ' + self.rxdock_dir], shell=True, capture_output=True, text=True)
@@ -150,11 +137,6 @@ class Gnina:
         self.atom_terms_output_file =''
         self.log_output_file = ''
         self.rmsd_output_file=''
-
-        self.matrix = None
-        self.experimental_affinity = None
-        self.predicted_binding_affinity = None
-        self.sf_components=None
     def gnina_dirs(self):
         if not os.path.exists(self.gnina_dir):
             makedir = subprocess.run(['mkdir ' + self.gnina_dir], shell=True, capture_output=True, text=True)

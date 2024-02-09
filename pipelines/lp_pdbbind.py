@@ -221,7 +221,6 @@ def diagonal_pipeline(df: pd.DataFrame, #  path to the dataframe with yours comp
           smina.fill_matrix(mol_idx,mol_idx,mod_idx)
 
         smina.save_matrix('smina_matrix')
-
     if 'rxdock' in settings.docking_programs:
       rxdock = matrix.RxDockResultsMatrix(matrix_molecules,matrix_molecules,21,df)
       rxdock_matrix = rxdock.create_matrix()
@@ -237,6 +236,5 @@ def diagonal_pipeline(df: pd.DataFrame, #  path to the dataframe with yours comp
           rxdock.fill_matrix(mol_idx,mol_idx,mod_idx)
 
         rxdock.save_matrix('rxdock_matrix')
-
     if 'gnina' in settings.docking_programs:
       print('elo')

@@ -31,8 +31,6 @@ class ResultsMatrix:
         self.matrix = np.empty((no_proteins,no_ligands,settings.number_of_models,self.no_components),dtype=object)
 
         return self.matrix
-
-
 class SminaResultsMatrix(ResultsMatrix):
     '''
     Create the Smina Result Matrix, where (x,y,z) looks like:
@@ -106,9 +104,7 @@ class SminaResultsMatrix(ResultsMatrix):
         self.matrix[protein_index,ligand_index,model_index,2:] = np.array(self.scoring_components_per_complex[mode_index])
     def save_matrix(self,output_filename: str):
         np.save(settings.datadir+'/docs/results/'+output_filename+'.npy',self.matrix)
-
 class RxDockResultsMatrix(ResultsMatrix):
-
     def __init__(self,proteins: List, ligands: List, df: pd.DataFrame):
         super().__init__(proteins,ligands, no_components,df)
         self.protein=None
@@ -130,7 +126,6 @@ class RxDockResultsMatrix(ResultsMatrix):
             self.experimental_affinity = np.nan
 
         return self.experimental_affinity
-
     def read_data(self):
         sdf_file_path = settings.datadir + '/docking_scores/rxdock/'+self.protein+'_'+self.ligand+'.sdf'
         with open(sdf_file_path, 'r') as output_file:
@@ -155,7 +150,6 @@ class RxDockResultsMatrix(ResultsMatrix):
             df_components = df.drop(['RMSD', 'SCORE'], axis=1)
             self.scoring_components_per_complex = [row.tolist() for _, row in df_components.iterrows()]
         return self.rmsd_per_complex, self.predicted_binding_affinity_per_complex, self.scoring_components_per_complex
-
     def fill_matrix(self,protein_index,ligand_index,model_index):
 
         self.matrix[protein_index,ligand_index,model_index,0] = self.rmsd_per_complex[model_index]
@@ -163,4 +157,18 @@ class RxDockResultsMatrix(ResultsMatrix):
         self.matrix[protein_index,ligand_index,model_index,2:] = np.array(self.scoring_components_per_complex[mode_index])
     def save_matrix(self,output_filename: str):
         np.save(settings.datadir+'/docs/results/'+output_filename+'.npy',self.matrix)
-
+class GninaResultsMatrix(ResultsMatrix):
+    def __init__(self,proteins: List, ligands: List, df: pd.DataFrame):
+        super().__init__(proteins,ligands, no_components,df)
+        self.protein=None
+        self.ligand=None
+        self.experimental_affinity = None
+        self.predicted_binding_affinity_per_complex = None
+        self.scoring_components_per_complex = None
+        self.rmsd_per_complex = None
+    def read_rmsd(self):
+        return None
+    def read_predicted_affinity(self):
+        return None
+    def read_atom_terms(self):
+        return None

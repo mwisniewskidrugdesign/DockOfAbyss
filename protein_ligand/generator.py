@@ -517,7 +517,6 @@ class Converter:
 
                 convert_error = self.molecule + ', There is no PDB file to convert or file already exists..'
                 print(convert_error)
-
 class Documents:
     def __init__(self):
         settings.init()
