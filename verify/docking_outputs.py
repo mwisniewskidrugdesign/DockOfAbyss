@@ -2,6 +2,7 @@ import pandas as pd
 import settings
 import os
 from typing import List
+from protein_ligand.datasets import DatasetPreparation
 
 settings.init()
 
@@ -108,3 +109,16 @@ def diag_gnina_verification(molecules: List) -> pd.DataFrame:
     df = pd.DataFrame(dict_boolean)
     df.to_csv(settings.datadir + '/docs/results/gnina_booleans.csv')
     return df
+
+df = pd.read_csv(settings.raw_dataframe)
+df = df[df['CL1'] == True]
+
+docking_verification = DatasetPreparation(df)
+molecules = docking_verification.get_molecules('pdbid')
+
+print(molecules)
+
+diag_smina_verification(molecules)
+diag_gnina_verification(molecules)
+diag_gnina_verification(molecules)
+
