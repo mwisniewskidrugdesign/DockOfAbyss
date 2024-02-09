@@ -9,9 +9,9 @@ def diag_smina_verification(molecules: List) -> pd.DataFrame:
 
     settings.init()
 
-    pdbqt_dir = settings.datadir+'dockings_scores/smina/pdbqt'
-    log_dir = settings.datadir+'dockings_scores/smina/logs'
-    atom_terms_dir = settings.datadir+'dockings_scores/smina/atom_terms'
+    pdbqt_dir = settings.datadir+'/dockings_scores/smina/pdbqt'
+    log_dir = settings.datadir+'/dockings_scores/smina/logs'
+    atom_terms_dir = settings.datadir+'/dockings_scores/smina/atom_terms'
 
     pdbqt_booleans = []
     log_booleans = []
@@ -43,7 +43,7 @@ def diag_rxdock_verification(molecules: List) -> pd.DataFrame:
 
     settings.init()
 
-    rxdock_dir = settings.datadir+'dockings_scores/smina/pdbqt'
+    rxdock_dir = settings.datadir+'/dockings_scores/smina/pdbqt'
 
     rxdock_sd_booleans = []
     rxdock_sdf_booleans = []
@@ -71,10 +71,10 @@ def diag_rxdock_verification(molecules: List) -> pd.DataFrame:
 def diag_gnina_verification(molecules: List) -> pd.DataFrame:
     settings.init()
 
-    sdf_gz_dir = settings.datadir + 'dockings_scores/gnina/sdf_gz'
-    rmsd_dir = settings.datadir + 'docking_scores/gnina/rmsd'
-    log_dir = settings.datadir + 'dockings_scores/gnina/logs'
-    atom_terms_dir = settings.datadir + 'dockings_scores/gnina/atom_terms'
+    sdf_gz_dir = settings.datadir + '/dockings_scores/gnina/sdf_gz'
+    rmsd_dir = settings.datadir + '/docking_scores/gnina/rmsd'
+    log_dir = settings.datadir + '/dockings_scores/gnina/logs'
+    atom_terms_dir = settings.datadir + '/dockings_scores/gnina/atom_terms'
 
     sdf_gz_booleans = []
     rmsd_booleans = []
@@ -93,14 +93,14 @@ def diag_gnina_verification(molecules: List) -> pd.DataFrame:
         log_boolean = True if (os.path.exists(log_file) and os.path.getsize(log_file) > 0) else False
         atom_terms_boolean = True if (os.path.exists(atom_terms_file) and os.path.getsize(atom_terms_file) > 0) else False
         rmsd_boolean = True if (os.path.exists(rmsd_file) and os.path.getsize(rmsd_file) > 0) else False
-
+        print(rmsd_boolean)
         sdf_gz_booleans.append(sdf_gz_boolean)
         log_booleans.append(log_boolean)
         atom_terms_booleans.append(atom_terms_boolean)
         rmsd_booleans.append(rmsd_boolean)
 
     dict_boolean = {'complex_id': molecules,
-                    'gnina_sdf_gz_boolean': sdf_gz_boolean,
+                    'gnina_sdf_gz_boolean': sdf_gz_booleans,
                     'gnina_log_boolean': log_booleans,
                     'gnina_atom_terms_boolean': atom_terms_booleans,
                     'gnina_rmsd_boolean':rmsd_booleans
