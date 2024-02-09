@@ -194,7 +194,7 @@ def diagonal_pipeline(df: pd.DataFrame, #  path to the dataframe with yours comp
     docking_output_boolean_dataframe = matrix_preparation.get_diagonal_unification(molecules,molecules)
     docking_output_boolean_dataframe.to_csv(settings.datadir+'/docs/docking_output_booleans.csv')
 
-    docking_output_all_true_dataframe = docking_output_boolean_dataframe[~docking_output_boolean_dataframe[settings.docking_programs].all(axis=1)]
+    docking_output_all_true_dataframe = docking_output_boolean_dataframe[~docking_output_boolean_dataframe[settings.matrix_programs].all(axis=1)]
     docking_output_all_true_dataframe.to_csv(settings.datadir+'/docs/docking_output_all_true.csv')
 
     matrix_preparation = datasets.DatasetPreparation(docking_output_all_true_dataframe)

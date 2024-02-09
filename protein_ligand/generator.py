@@ -4,6 +4,7 @@ import shutil
 import subprocess
 import logging
 import settings
+from protein_ligand.docking import Smina, Gnina, RxDock
 
 def setup_logger(name,log_file,level=logging.INFO):
     """
@@ -604,7 +605,7 @@ class Documents:
         program_dict = {
             'complex_name': complexes
         }
-        for program in settings.list_of_programs:
+        for program in settings.matrix_programs:
             program_boolean = get_program_boolean(program)
             program_dict[program] = program_boolean
 

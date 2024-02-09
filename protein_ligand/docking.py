@@ -37,10 +37,7 @@ class Smina:
             makedir = subprocess.run(['mkdir ' + self.pdbqt_smina_dir], shell=True, capture_output=True, text=True)
             makedir = subprocess.run(['mkdir ' + self.atom_terms_smina_dir], shell=True, capture_output=True, text=True)
             makedir = subprocess.run(['mkdir ' + self.logs_smina_dir], shell=True, capture_output=True, text=True)
-    def smina_files(self,
-                    protein: str,
-                    ligand: str,
-                    native_ligand: str):
+    def smina_files(self,protein: str,ligand: str,native_ligand: str):
         '''Specify Input and Output files for SMINA'''
 
         self.protein_file = settings.datadir+'/protein/pdbqt/'+protein+'_protein.pdbqt'
@@ -70,38 +67,6 @@ class Smina:
         docking = subprocess.run(smina_command, shell=False, capture_output=True, text=True)
         print(docking.stderr)
         print(docking.stdout)
-
-    # def fill_scoring_matrix(self,pidx,lidx):
-    #     '''Fill the smina matrix in specific location'''
-    #     print('\t\tScoring function: ',type(self.predicted_binding_affinity))
-    #     for value in self.sf_components:
-    #         print('\t\tComponents: ',type(value))
-    #     print('\t\tExperimental Affinity: ',type(self.experimental_affinity))
-    #     for mode_idx in range(len(self.matrix[0][0])):
-    #         if pidx == lidx:
-    #             mode_values = [self.predicted_binding_affinity[mode_idx]]
-    #         else:
-    #             mode_values = [self.predicted_binding_affinity[mode_idx]]
-    #         for i in range(5):
-    #             mode_values.append(self.sf_components[i][mode_idx])
-    #         mode_values = np.array(mode_values)
-    #         mode_values = tf.convert_to_tensor(mode_values)
-    #         self.matrix[pidx,lidx,mode_idx] = mode_values
-    # def fill_rmsd_matrix(self,pidx,lidx):
-    #     for value in self.lb_rmsds:
-    #         print('\t\tRMSD l.b.:',value)
-    #     for value in self.ub_rmsds:
-    #         print('\t\tRMSD u.b.:', value)
-    #     for mode_idx in range(len(self.matrix[0][0])):
-    #         mode_rmsds = [self.lb_rmsds[mode_idx]]
-    #         mode_rmsds = mode_rmsds.append(self.ub_rmsds[mode_idx])
-    #         mode_rmsds = np.array(mode_rmsds)
-    #         mode_rmsds = tf.convert_to_tensor(mode_rmsds)
-    #         self.matrix[pidx,lidx,mode_idx] = mode_rmsds
-    # def save_matrix(self,output):
-    #     '''Save the Smina matrix'''
-    #     output = settings.datadir+'/docs/'+output
-    #     np.save(output, self.matrix)
 class RxDock:
     def __init__(self,system_file='/mnt/evafs/groups/sfglab/mwisniewski/PhD/DockOfAbyss/configs/rxdock_config.prm'):
         settings.init()
@@ -171,46 +136,6 @@ class RxDock:
         print('sdrmsd:')
         print(result.stderr)
         print(result.stdout)
-    def create_rxdock_matrix(self,proteins,ligands):
-
-        self.values = ['<SCORE>', '<SCORE.INTER>>', '<SCORE.INTER.CONST>', '<SCORE.INTER.POLAR>',
-                  '<SCORE.INTER.REPUL>', '<SCORE.INTER.ROT>', '<SCORE.INTER.VDW>', '<SCORE.INTER.norm>', '<SCORE.INTRA>',
-                  '<SCORE.INTRA.DIHEDRAL>', '<SCORE.INTRA.DIHEDRAL.0>', '<SCORE.INTRA.POLAR>', '<SCORE.INTRA.POLAR.0>',
-                  '<SCORE.INTRA.REPUL>', '<SCORE.INTRA.REPUL.0>', '<SCORE.INTRA.VDW>', '<SCORE.INTRA.VDW.0>',
-                  '<SCORE.INTRA.norm>', '<SCORE.RESTR>', '<SCORE.RESTR.CAVITY>', '<SCORE.RESTR.norm>', '<SCORE.SYSTEM>',
-                  '<SCORE.SYSTEM.CONST>', '<SCORE.SYSTEM.DIHEDRAL>', '<SCORE.SYSTEM.norm>', '<SCORE.HEAVY>', '<SCORE.norm>']
-
-        no_proteins = len(proteins)
-        no_ligands = len(ligands)
-
-        self.matrix = np.empty((no_proteins,no_ligands,settings.number_of_models),dtype=object)
-        return self.matrix
-    def fill_rxdock_matrix(self,pidx,lidx,mode_index):
-        self.matrix[pidx,lidx,mode_index] = self.mode_values
-    def read_experimental_affinity(self,df,protein,ligand,affinity_column='pKa'):
-        if protein == ligand:
-            self.experimental_affinity = df[df['pdbid']==protein][affinity_column].values[0]
-    def read_scoring_output(self, protein_index, ligand_index):
-
-        self.rx_output = self.rx_output + '.sd'
-        with open(self.rx_output,'r') as output_file:
-            list_of_modes = output_file.read().split('$$$$')[:-1]
-
-            for mode_index, mode in enumerate(list_of_modes):
-                self.mode_values = mode.split('>  <SCORE>')[-1].split('\n')[1:-2:3]
-                self.mode_values = np.array(self.mode_values)
-                self.mode_values = tf.convert_to_tensor(self.mode_values)
-                self.fill_rxdock_matrix(protein_index,ligand_index,mode_index)
-    def read_rmsd_output(self,protein_index,ligand_index):
-        rmsd_output = self.rx_output+'_rmsd.sdf'
-        with open(rmsd_output,'r') as output_file:
-            list_of_modes = output_file.read().split('$$$$')[:-1]
-            for mode_index,mode in enumerate(list_of_modes[:]):
-                self.rmsd = mode.split('> <RMSD>')[-1].split('\n')[1]
-                self.fill_rxdock_matrix(protein_index,ligand_index,mode_index)
-    def save_matrix(self,output):
-        output = settings.datadir+'/docs/'+output
-        np.save(output, self.matrix)
 class Gnina:
     def __init__(self):
         self.gnina_dir = settings.datadir+'/docking_scores/gnina'
@@ -291,14 +216,12 @@ class DiffDock:
         if not os.path.exists(self.diffdock_dir):
             makedir = subprocess.run(['mkdir ' + self.diffdock_dir], shell=True, capture_output=True, text=True)
             makedir = subprocess.run(['mkdir' + self.diffdock_results_dir], shell=True, capture_output=True, text=True)
-
     def diffdock_files(self,protein,ligand):
         '''Specify Input and Output files for DiffDock'''
 
         self.complex = protein+'_'+ligand
         self.protein_file = settings.datadir+'/protein/pdb/'+protein+'_protein.pdb'
         self.ligand_file = settings.datadir+'/ligand/sdf/'+ligand+'_ligand.sdf'
-
     def update_diffdock_dataframe(self):
         '''Update the dataframe. I have to make it as an update instead of create because of two types of pipelines: diagonal and all vs all.
         Maybe it will be changed in the future.'''
@@ -307,11 +230,9 @@ class DiffDock:
         new_line = pd.DataFrame([complex_data],columns=self.columns)
 
         self.diffdock_df = pd.concat([self.diffdock_df,new_line],ignore_index=True)
-
     def save_diffdock_dataframe(self):
         '''Save the dataframe.'''
         self.diffdock_df.to_csv(self.diffdock_dir+'/protein_ligand.csv',index=False)
-
     def files_checker(self):
         csv_checker = os.path.exists(self.diffdock_dir+'/protein_ligand.csv')
         return csv_checker
