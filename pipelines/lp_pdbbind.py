@@ -9,8 +9,7 @@ from typing import List
 
 pd.set_option('display.max_columns', None)
 
-def diagonal_pipeline(df: pd.DataFrame, #  path to the dataframe with yours complexes
-                      pdb_id_column: str, #  data frame column with specified pdb_id column
+def diagonal_pipeline(pdb_id_column: str, #  data frame column with specified pdb_id column
                       batch_start: int,      # if u want to run your pipeline in batches, there u should specify the start index based on dataframe index
                       batch_end: int,        # if u want to run your pipeline in batches, there u should specify the end index based on dataframe index
                       ):
@@ -18,7 +17,9 @@ def diagonal_pipeline(df: pd.DataFrame, #  path to the dataframe with yours comp
 
   settings.init()
 
+  df = pd.read_csv(settings.raw_dataframe)
   df = df[df['CL1'] == True]
+  df.to_csv(settings.datadir+'/docs/results/dataframe_of_molecules_to_docking.csv')
   df = df[batch_start:batch_end]
 
   whole_dataset = datasets.DatasetPreparation(df)  # Generate Molecule list Class - is it neccessery in this case?

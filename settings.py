@@ -4,7 +4,7 @@ def init():
     global station
     global datadir
     global raw_datadir
-    global data_dataframe
+    global raw_dataframe
     global pdb2fasta_path
     global mgltools_dir
     global cdhit_dir
@@ -13,17 +13,17 @@ def init():
     global gnina_container
     global rxdock
 
-    station = 'eden'
+    station = 'inka'
 
     if station == 'inka':
         ###  data directorypaths
 
-        datadir = ''
+        datadir = '/mnt/raid/mwisniewski/PhD/data/lppdbbind/'
         raw_datadir = ''
 
         ###  dataframe csv filepaths
 
-        data_dataframe = ''
+        raw_dataframe = '/mnt/raid/mwisniewski/PhD/data/LP-PDBBind/dataset/LP_PDBBind.csv'
 
         ###  software paths
 
@@ -41,7 +41,7 @@ def init():
 
         ###  dataframe csv filepaths
 
-        data_dataframe = '/mnt/evafs/groups/sfglab/mwisniewski/PhD/data/dataframes/LP_PDBBind.csv'
+        raw_dataframe = '/mnt/evafs/groups/sfglab/mwisniewski/PhD/data/dataframes/LP_PDBBind.csv'
 
         ###  software paths
         pdb2fasta_path = ''

@@ -1,26 +1,45 @@
-import pandas
 import pandas as pd
-
 import settings
 import os
 from typing import List
 
-def smina_verification(sminadir: str,molecule_dockings: List) -> List:
+settings.init()
 
-    smina_problems = []
+def diag_smina_verification(molecules) -> List:
 
-    pdbqt_files = os.listdir(sminadir+'/pdbqt')
-    log_files = os.listdir(sminadir+'/logs')
-    atom_term_files = os.listdir(sminadir+'/atom_terms')
+    settings.init()
 
-    molecule_dockings = molecule_dockings
+    pdbqt_dir = settings.datadir+'dockings_scores/smina/pdbqt'
+    log_dir = settings.datadir+'dockings_scores/smina/logs'
+    atom_terms_dir = settings.datadir+'dockings_scores/smina/atom_terms'
 
-    for molecule_docking in molecule_dockings:
-        if (molecule_docking+'.log' not in log_files or molecule_docking+'.pdbqt' not in pdbqt_files or molecule_docking+'_atom_terms.txt' not in atom_term_files):
-            smina_problems.append(molecule_docking)
+    pdbqt_booleans = []
+    log_booleans = []
+    atom_terms_booleans = []
+    for molecule in molecules:
+        complex = molecule+'_'+molecule
+        pdbqt_file = pdbqt_dir + '/' + complex + '.pdbqt'
+        log_file = log_dir + '/' + complex + '.log'
+        atom_terms_file = atom_terms_dir+'/'+complex+'_atom_terms.txt'
 
-    return smina_problems
+        pdbqt_boolean = True if os.path.exists(pdbqt_file) and os.path.getsize(pdbqt_file) > 0
+        log_boolean = True if os.path.exists(log_file) and os.path.getsize(log_file) > 0
+        atom_terms_boolean = True if os.path.exists(atom_terms_file) and os.path.getsize(atom_terms_file) > 0
 
+
+        pdbqt_booleans.append(pdbqt_boolean)
+        log_booleans.append(log_boolean)
+        atom_terms_booleans.append(atom_terms_boolean)
+
+    dict={'complex_id':molecules,
+          'smina_pdbqt_boolean':pdbqt_booleans,
+          'smina_log_boolean':log_booleans,
+          'smina_atom_terms_boolean': atom_terms_booleans,
+          }
+    }
+    df = pd.DataFrame(dict)
+    df.to_csv(settings.datadir+'/docs/smina_booleans.csv')
+    return df
 def rxdock_verification(rxdockdir: str, molecule_dockings: List) -> List:
 
     rxdock_problems=[]
@@ -32,7 +51,6 @@ def rxdock_verification(rxdockdir: str, molecule_dockings: List) -> List:
             rxdock_problems.append(molecule_docking)
 
     return rxdock_problems
-
 def gnina_verification(gninadir: str,molecule_dockings: List) -> List:
 
     gnina_problems = []
@@ -90,4 +108,3 @@ def non_docked(datadir: str, dataframe: pd.DataFrame, type='diag') -> List:
     gnina_problems = gnina_verification(gninadir,molecule_dockings)
 
     save_problems(datadir, smina_problems,rxdock_problems,gnina_problems)
-

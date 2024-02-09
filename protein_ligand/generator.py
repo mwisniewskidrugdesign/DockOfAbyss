@@ -63,7 +63,7 @@ class GetDataset:
         native_ligand = deafult False, if you want native ligand diffrent than docked ligand - True
         '''
         try:
-            for index,row in settings.data_dataframe.iterrows():
+            for index,row in settings.raw_dataframe.iterrows():
                 print(str(index) + '.' + row[self.pdb_id_column])
                 pdb_protein_final_path = settings.datadir + '/protein/pdb'
                 pdb_native_ligand_final_path = settings.datadir + '/native_ligand/pdb'
@@ -110,7 +110,7 @@ class GetDataset:
             mol2_ligand_final_path = settings.datadir + '/ligand/mol2'
             sdf_ligand_final_path = settings.datadir + '/ligand/sdf'
 
-            for index,row in data_dataframe.iterrows():
+            for index,row in raw_dataframe.iterrows():
                 print(str(index) + '.' + row[self.pdb_id_column])
 
                 protein_pdb_file = settings.raw_datadir +'/'+row[self.pdb_id_column]+'/'+row[self.pdb_id_column]+'_protein.pdb'

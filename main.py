@@ -24,15 +24,11 @@ if batch_end==0:
 if settings.pipeline == 'bdb2020':
     bdb2020plus.diagonal_pipeline(settings.datadir,
                                   settings.raw_datadir,
-                                  settings.data_dataframe,
+                                  settings.raw_dataframe,
                                   settings.number_of_models)
 
 if settings.pipeline == 'lp_pdbbind':
-    lp_pdbbind.diagonal_pipeline(pd.read_csv(settings.data_dataframe),'pdbid',batch_start,batch_end)
+    lp_pdbbind.diagonal_pipeline('pdbid',batch_start,batch_end)
 
-if settings.pipeline == 'verification':
-    docking_outputs.non_docked(settings.datadir,
-                               settings.raw_datadir,
-                               type='diag')
 
 print('~~~~Fin~~~~~')

@@ -1,4 +1,5 @@
 from protein_ligand import generator
+from protein_ligand import generator
 from protein_ligand import docking
 from protein_ligand import datasets
 import pandas as pd
@@ -14,8 +15,8 @@ def diagonal_pipeline(datadir,rawdir,df,no_modes):
 
     if generate_library_step:
         '''Generate the library for bdb2020plus operations'''
-        generator.generate_libraray(datadir)
-        workspace = generator.GetDataset(datadir,rawdir,df, pdb_id_column='pdbid')                                    #create workspace
+        generator.generate_libraray()
+        workspace = generator.GetDataset(pdb_id_column='pdbid')                                    #create workspace
         workspace.bdb2020plus()                                                  #copy files to workspace
 
     if convert_step:
