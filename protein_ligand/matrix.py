@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from docking import Smina, Gnina, RxDock
+from protein_ligand.docking import Smina, Gnina, RxDock
 import os
 from typing import List
 import settings
