@@ -22,9 +22,9 @@ def diag_smina_verification(molecules: List) -> pd.DataFrame:
         log_file = log_dir + '/' + complex + '.log'
         atom_terms_file = atom_terms_dir+'/'+complex+'_atom_terms.txt'
 
-        pdbqt_boolean = True if os.path.exists(pdbqt_file) and os.path.getsize(pdbqt_file) > 0
-        log_boolean = True if os.path.exists(log_file) and os.path.getsize(log_file) > 0
-        atom_terms_boolean = True if os.path.exists(atom_terms_file) and os.path.getsize(atom_terms_file) > 0
+        pdbqt_boolean = True if (os.path.exists(pdbqt_file) and os.path.getsize(pdbqt_file) > 0) else False
+        log_boolean = True if (os.path.exists(log_file) and os.path.getsize(log_file) > 0) else False
+        atom_terms_boolean = True (if os.path.exists(atom_terms_file) and os.path.getsize(atom_terms_file) > 0) else False
 
 
         pdbqt_booleans.append(pdbqt_boolean)
@@ -54,8 +54,8 @@ def diag_rxdock_verification(molecules: List) -> pd.DataFrame:
         sdf_file = rxdock_dir + '/' + complex + '_rmsd.sdf'
         sd_file = rxdock_dir + '/' + complex + '.sd'
 
-        sdf_booleans = True if os.path.exists(sdf_file) and os.path.getsize(sdf_file) > 0
-        sd_booleans = True if os.path.exists(sd_file) and os.path.getsize(sd_file) > 0
+        sdf_booleans = True if (os.path.exists(sdf_file) and os.path.getsize(sdf_file) > 0) else False
+        sd_booleans = True if (os.path.exists(sd_file) and os.path.getsize(sd_file) > 0) else False
 
 
         rxdock_sdf_booleans.append(sdf_booleans)
@@ -91,10 +91,10 @@ def diag_gnina_verification(molecules: List) -> pd.DataFrame:
         atom_terms_file = atom_terms_dir + '/' + complex + '_atom_terms.txt'
         rmsd_file = rmsd_dir + '/' + complex + '_rmsd.txt'
 
-        sdf_gz_boolean = True if os.path.exists(sdf_gz_file) and os.path.getsize(sdf_gz_file) > 0
-        log_boolean = True if os.path.exists(log_file) and os.path.getsize(log_file) > 0
-        atom_terms_boolean = True if os.path.exists(atom_terms_file) and os.path.getsize(atom_terms_file) > 0
-        rmsd_boolean = True if os.path.exists(rmsd_file) and os.path.getsize(rmsd_file) > 0
+        sdf_gz_boolean = True if (os.path.exists(sdf_gz_file) and os.path.getsize(sdf_gz_file) > 0) else False
+        log_boolean = True if (os.path.exists(log_file) and os.path.getsize(log_file) > 0) else False
+        atom_terms_boolean = True (if os.path.exists(atom_terms_file) and os.path.getsize(atom_terms_file) > 0) else False
+        rmsd_boolean = True if (os.path.exists(rmsd_file) and os.path.getsize(rmsd_file) > 0) else False
 
         sdf_gz_booleans.append(sdf_gz_boolean)
         log_booleans.append(log_boolean)
