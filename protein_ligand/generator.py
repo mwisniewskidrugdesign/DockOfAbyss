@@ -52,6 +52,9 @@ def generate_libraray():
         
         if not os.path.exists(datadir+'/doc/temp'):
             result = subprocess.run(['mkdir',datadir+'/docs/temp'],shell=False,capture_output=True,text=True)
+
+        if not os.path.exists(datadir + '/doc/results'):
+            result = subprocess.run(['mkdir', datadir + '/docs/results'], shell=False, capture_output=True, text=True)
 class GetDataset:
     def __init__(self,df,pdb_id_column):
         settings.init()
