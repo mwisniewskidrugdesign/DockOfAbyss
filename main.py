@@ -1,6 +1,7 @@
 import settings
 from pipelines import bdb2020plus, lp_pdbbind
-from verify import docking_outputs
+from verify.docking_outputs import diag_smina_verification,diag_gnina_verification,diag_rxdock_verification
+from protein_ligand.datasets import DatasetPreparation
 import sys
 import pandas as pd
 
@@ -27,8 +28,20 @@ if settings.pipeline == 'bdb2020':
                                   settings.raw_dataframe,
                                   settings.number_of_models)
 
-if settings.pipeline == 'lp_pdbbind':
+elif settings.pipeline == 'lp_pdbbind':
     lp_pdbbind.diagonal_pipeline('pdbid',batch_start,batch_end)
 
+else:
+    df = pd.read_csv(settings.raw_dataframe)
+    df = df[df['CL1'] == True]
+
+    docking_verification = DatasetPreparation(df)
+    molecules = docking_verification.get_molecules('pdbid')
+
+    print(molecules)
+
+    diag_smina_verification(molecules)
+    diag_rxdock_verification(molecules)
+    diag_gnina_verification(molecules)
 
 print('~~~~Fin~~~~~')
