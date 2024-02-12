@@ -188,7 +188,7 @@ class DiffDock:
     def __init__(self):
         settings.init()
 
-        self.diffdock_dir = settings.datadir + 'docking_scores/diffdock'
+        self.diffdock_dir = settings.datadir + '/docking_scores/diffdock'
         self.diffdock_results_dir = self.diffdock_dir+'/results'
         self.columns=['complex_name','protein_path','ligand_description','protein_sequence']
         self.diffdock_df = pd.DataFrame(columns=self.columns)
