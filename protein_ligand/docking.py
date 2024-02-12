@@ -227,10 +227,10 @@ class DiffDock:
             '-m',settings.diffdock_inference_script_path,
             '--protein_ligand_csv',self.diffdock_dir+'/protein_ligand.csv',
             '--out_dir',self.diffdock_results_dir,
-            '--inference_steps',20,
-            '--samples_per_complex',40,
-            '--batch_size',10,
-            '--actual_steps',18,
+            '--inference_steps','20',
+            '--samples_per_complex','40',
+            '--batch_size','10',
+            '--actual_steps','18',
             '--no_final_step_noise'
         ]
 
