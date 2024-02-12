@@ -3,7 +3,7 @@ import sys
 import settings
 import numpy as np
 import pandas as pd
-from utils.files import smina_output_files_checker, rxdock_output_files_checker, gnina_output_files_checker
+from utils.files import smina_output_files_checker, rxdock_output_files_checker, gnina_output_files_checker, diifdock_output_checker
 from protein_ligand import datasets, generator, docking, matrix
 from typing import List
 
@@ -189,6 +189,7 @@ def diagonal_pipeline(pdb_id_column: str, #  data frame column with specified pd
               print('Smina proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + str(diffdock_docking_error_number) + 'st time.')
               continue
           break
+
   if 'matrix' in settings.steps:
 
     matrix_preparation = generator.Documents()
