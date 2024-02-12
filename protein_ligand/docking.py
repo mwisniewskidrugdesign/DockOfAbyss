@@ -223,8 +223,7 @@ class DiffDock:
     def diffdock_docking(self):
         '''This method running basic DiffDock script for predicting the binding of complex'''
         diffdock_command=[
-            'python',
-            settings.diffdock_inference_script_path,
+            'python', settings.diffdock_inference_script_path,
             '--protein_ligand_csv',self.diffdock_dir+'/protein_ligand.csv',
             '--out_dir',self.diffdock_results_dir,
             '--inference_steps','20',
