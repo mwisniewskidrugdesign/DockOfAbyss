@@ -52,13 +52,16 @@ def gnina_output_files_checker(log_output_file='',sdf_gz_output_file='',atom_ter
     rmsd_checker = os.path.exists(rmsd_output_file)
 
     return output_checker, modes_checker, rmsd_checker
-def diffdock_output_files_checker(output_file='',csv_file=''):
+def diffdock_output_files_checker(output_dir='',csv_file=''):
     '''
     Checking whether DiffDock files did not exists or else check them.
     '''
-
     settings.init()
+    if os.path.exists(output_dir):
+        diffdock_files = [file for file in os.listdir(output_dir)
+                          if os.path.isfile(os.path.join(output_dir, file)) and os.path.getsize(os.path.join(output_dir, file)) > 0]
 
+    directory_checker = len(diffdock_files) >= 50
     csv_checker = os.path.exists(csv_file)
 
-    return csv_checker
+    return directory_checker, csv_checker
