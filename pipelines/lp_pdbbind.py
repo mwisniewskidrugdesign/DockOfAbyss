@@ -178,7 +178,8 @@ def diagonal_pipeline(pdb_id_column: str, #  data frame column with specified pd
               continue
           break
       if 'diffdock' in settings.docking_programs:
-        csv_checker = diffdock_output_files_checker()
+        csv_diffdock_file = diffdock_docking.csv_diffdock_file
+        csv_checker = diffdock_output_files_checker(csv_file=csv_diffdock_file)
         if csv_checker == False:
           for molecule_idx, molecule in enumerate(molecules):
             print(molecule)

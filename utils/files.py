@@ -52,7 +52,7 @@ def gnina_output_files_checker(log_output_file='',sdf_gz_output_file='',atom_ter
     rmsd_checker = os.path.exists(rmsd_output_file)
 
     return output_checker, modes_checker, rmsd_checker
-def diffdock_output_files_checker(output_file='',csv_file=settings.datadir+'/docking_scores/diffdock/protein_ligand.csv'):
+def diffdock_output_files_checker(output_file='',csv_file=''):
     '''
     Checking whether DiffDock files did not exists or else check them.
     '''

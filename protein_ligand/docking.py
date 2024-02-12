@@ -192,7 +192,7 @@ class DiffDock:
         self.diffdock_results_dir = self.diffdock_dir+'/results'
         self.columns=['complex_name','protein_path','ligand_description','protein_sequence']
         self.diffdock_df = pd.DataFrame(columns=self.columns)
-
+        self.csv_diffdock_file = self.diffdock_dir+'/protein_ligand.csv'
         self.complex = None
     def diffdock_dirs(self):
         '''Create Directories for DiffDock outputs'''
@@ -216,7 +216,8 @@ class DiffDock:
         self.diffdock_df = pd.concat([self.diffdock_df,new_line],ignore_index=True)
     def save_diffdock_dataframe(self):
         '''Save the dataframe.'''
-        self.diffdock_df.to_csv(self.diffdock_dir+'/protein_ligand.csv',index=False)
+
+        self.diffdock_df.to_csv(self.csv_diffdock_file,index=False)
     def files_checker(self):
         csv_checker = os.path.exists(self.diffdock_dir+'/protein_ligand.csv')
         return csv_checker
