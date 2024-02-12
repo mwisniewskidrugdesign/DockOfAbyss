@@ -177,21 +177,24 @@ def diagonal_pipeline(pdb_id_column: str, #  data frame column with specified pd
             if gnina_rmsd_checker == False:
               continue
           break
-
-    if 'diffdock' in settings.docking_programs:
-      #  generate full csv file
-      csv_checker = diffdock_output_files_checker(csv_file=diffdock_docking.csv_diffdock_file)
-      if csv_checker == False:
-        for molecule_idx,molecule in enumerate(molecules):
-          print(molecule)
-          diffdock_docking.diffdock_files(molecule,molecule)
-          diffdock_docking.update_diffdock_dataframe()
-        diffdock_docking.save_diffdock_dataframe()
-      if batch_end==None or batch_start==None:
+      if 'diffdock' in settings.docking_programs:
+        diffdock_docking.diffdock_files(molecule,molecule)
+        diffdock_docking.make_complex_dir()
         diffdock_docking.diffdock_docking()
-      else:
-        diffdock_docking.split_diffdock_csv_file(batch_start,batch_end)
-        diffdock_docking.diffdock_docking()
+    # if 'diffdock' in settings.docking_programs:
+    #   #  generate full csv file
+    #   csv_checker = diffdock_output_files_checker(csv_file=diffdock_docking.csv_diffdock_file)
+    #   if csv_checker == False:
+    #     for molecule_idx,molecule in enumerate(molecules):
+    #       print(molecule)
+    #       diffdock_docking.diffdock_files(molecule,molecule)
+    #       diffdock_docking.update_diffdock_dataframe()
+    #     diffdock_docking.save_diffdock_dataframe()
+    #   if batch_end==None or batch_start==None:
+    #     diffdock_docking.diffdock_docking()
+    #   else:
+    #     diffdock_docking.split_diffdock_csv_file(batch_start,batch_end)
+    #     diffdock_docking.diffdock_docking()
 
 
   if 'matrix' in settings.steps:

@@ -227,7 +227,8 @@ class DiffDock:
         self.diffdock_df  = self.diffdock_df.iloc[batch_start:batch_end+1]
         self.csv_diffdock_file = self.diffdock_dir+f'/protein_ligand_{batch_start}_{batch_end}.csv'
         self.diffdock_df.to_csv(self.csv_diffdock_file)
-
+    def make_complex_dir(self):
+        makedir = subprocess.run(['mkdir ' + self.diffdock_results_dir+'/'+self.complex], shell=True, capture_output=True, text=True)
     def files_checker(self):
         csv_checker = os.path.exists(self.diffdock_dir+'/protein_ligand.csv')
         return csv_checker
@@ -235,10 +236,11 @@ class DiffDock:
         '''This method running basic DiffDock script for predicting the binding of complex'''
         diffdock_command=[
             'python', settings.diffdock_inference_script_path,
-            '--protein_ligand_csv',self.csv_diffdock_file,
-            '--out_dir',self.diffdock_results_dir,
+            '--protein_path',self.protein_file,
+            '--ligand',self.ligand_file,
+            '--out_dir',self.diffdock_results_dir+'/'+self.complex,
             '--inference_steps','20',
-            '--samples_per_complex','40',
+            '--samples_per_complex','50',
             '--batch_size','10',
             '--actual_steps','18',
             '--no_final_step_noise'
