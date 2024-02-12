@@ -189,7 +189,6 @@ class DiffDock:
         settings.init()
 
         self.diffdock_dir = settings.datadir + '/docking_scores/diffdock'
-        self.diffdock_results_dir = self.diffdock_dir+'/results'
 
         self.columns=['complex_name','protein_path','ligand_description','protein_sequence']
         self.diffdock_df = pd.DataFrame(columns=self.columns)
@@ -202,8 +201,6 @@ class DiffDock:
 
         if not os.path.exists(self.diffdock_dir):
             makedir = subprocess.run(['mkdir ' + self.diffdock_dir], shell=True, capture_output=True, text=True)
-        if not os.path.exists(self.diffdock_results_dir):
-            makedir = subprocess.run(['mkdir ' + self.diffdock_results_dir], shell=True, capture_output=True, text=True)
     def diffdock_files(self,protein,ligand):
         '''Specify Input and Output files for DiffDock'''
 
@@ -227,8 +224,6 @@ class DiffDock:
         self.diffdock_df  = self.diffdock_df.iloc[batch_start:batch_end+1]
         self.csv_diffdock_file = self.diffdock_dir+f'/protein_ligand_{batch_start}_{batch_end}.csv'
         self.diffdock_df.to_csv(self.csv_diffdock_file)
-    def make_complex_dir(self):
-        makedir = subprocess.run(['mkdir ' + self.diffdock_results_dir+'/'+self.complex], shell=True, capture_output=True, text=True)
     def files_checker(self):
         csv_checker = os.path.exists(self.diffdock_dir+'/protein_ligand.csv')
         return csv_checker
@@ -239,7 +234,8 @@ class DiffDock:
             'python', '-m', 'inference',
             '--protein_path',self.protein_file,
             '--ligand_description',self.ligand_file,
-            '--out_dir',self.diffdock_results_dir+'/'+self.complex,
+            '--out_dir',self.diffdock_dir,
+            '--complex_name',self.complex
             '--inference_steps','20',
             '--samples_per_complex','50',
             '--batch_size','10',
