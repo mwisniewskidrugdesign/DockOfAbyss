@@ -66,7 +66,7 @@ def init():
     number_of_models = 50
     pipeline = 'lp_pdbbind'
     steps = ['docking']  # list of steps to run in your pipeline in list format: generate_library, convert, docking, matrix
-    docking_programs = ['gnina']  # list of docking programs to run in your pipeline
+    docking_programs = ['diffdock']  # list of docking programs to run in your pipeline
     matrix_programs = []  # list of matrices to generate in your pipeline for specific programs in string format
 
     if 'convert' in steps:
