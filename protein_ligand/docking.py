@@ -199,6 +199,7 @@ class DiffDock:
 
         if not os.path.exists(self.diffdock_dir):
             makedir = subprocess.run(['mkdir ' + self.diffdock_dir], shell=True, capture_output=True, text=True)
+        if not os.path.exists(self.diffdock_results_dir):
             makedir = subprocess.run(['mkdir' + self.diffdock_results_dir], shell=True, capture_output=True, text=True)
     def diffdock_files(self,protein,ligand):
         '''Specify Input and Output files for DiffDock'''
