@@ -180,7 +180,7 @@ def diagonal_pipeline(pdb_id_column: str, #  data frame column with specified pd
       if 'diffdock' in settings.docking_programs:
         checker = diffdock_docking.files_checker()
         print(checker)
-        if not checker:
+        if checker == False:
           for molecule_idx, molecule in enumerate(molecules):
             print(molecule)
             diffdock_docking.diffdock_files(molecule,molecule)
