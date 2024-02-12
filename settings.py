@@ -51,7 +51,7 @@ def init():
         smina_tools_dir = '/mnt/evafs/groups/sfglab/mwisniewski/software/smina/smina'
         gnina_container = '/mnt/evafs/groups/sfglab/mwisniewski/software/gnina/gnina.sif'
         obabel_path = '/mnt/evafs/groups/sfglab/mwisniewski/software/openbabel/bin/obabel'
-        diffdock_inference_script_path = '/mnt/evafs/groups/mwisniewski/software/diffdock/inference'
+        diffdock_inference_script_path = '/mnt/evafs/groups/mwisniewski/software/diffdock/inference.py'
 
     ##########################
 
