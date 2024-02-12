@@ -179,7 +179,6 @@ def diagonal_pipeline(pdb_id_column: str, #  data frame column with specified pd
           break
       if 'diffdock' in settings.docking_programs:
         diffdock_docking.diffdock_files(molecule,molecule)
-        diffdock_docking.make_complex_dir()
         diffdock_docking.diffdock_docking()
     # if 'diffdock' in settings.docking_programs:
     #   #  generate full csv file
