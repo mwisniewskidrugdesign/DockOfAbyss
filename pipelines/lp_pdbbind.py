@@ -72,6 +72,7 @@ def diagonal_pipeline(pdb_id_column: str, #  data frame column with specified pd
       diffdock_docking = docking.DiffDock()
       diffdock_docking.diffdock_dirs()
 
+
     for molecule_idx, molecule in enumerate(molecules):  #  Docking loop for molecules from generated earlier list
 
       print(molecule_idx,'/',len(molecules))
@@ -177,18 +178,13 @@ def diagonal_pipeline(pdb_id_column: str, #  data frame column with specified pd
               continue
           break
       if 'diffdock' in settings.docking_programs:
-        diffdock_docking_error_number = 0
-        diffdock_docking.diffdock_files(molecule, molecule)
-        diffdock_checker = diffdock_docking.files_checker()
-        while True: #  Loop - necessery to generate exactly 50 modes, sometimes with random seed it's generating smaller number of conforms
-          if diffdock_checker == True:
-            try:
-              diffdock_docking.diffdock_docking()
-            except:
-              diffdock_docking_error_number += 1
-              print('Smina proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + str(diffdock_docking_error_number) + 'st time.')
-              continue
-          break
+        checker = diffdock_docking.files_checker()
+        if not checker:
+          for molecule_idx, molecule in enumerate(molecules):
+            diffdock_docking.diffdock_files(molecule,molecule)
+            diffdock_docking.update_diffdock_dataframe()
+        diffdock_docking.save_diffdock_dataframe()
+        break
 
   if 'matrix' in settings.steps:
 
