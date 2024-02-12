@@ -187,7 +187,7 @@ def diagonal_pipeline(pdb_id_column: str, #  data frame column with specified pd
           diffdock_docking.diffdock_files(molecule,molecule)
           diffdock_docking.update_diffdock_dataframe()
         diffdock_docking.save_diffdock_dataframe()
-      if batch_end==0 and batch_start==0:
+      if batch_end==None or batch_start==None:
         diffdock_docking.diffdock_docking()
       else:
         diffdock_docking.split_diffdock_csv_file(batch_start,batch_end)
