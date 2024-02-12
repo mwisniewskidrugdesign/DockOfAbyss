@@ -1,12 +1,6 @@
+TORCH
+python -m inference --protein_path /mnt/evafs/groups/sfglab/mwisniewski/PhD/data/lp_pdbbind/protein/pdb/4b72_protein.pdb --ligand /mnt/evafs/groups/sfglab/mwisniewski/PhD/data/lp_pdbbind/ligand/sdf/4b72_ligand.sdf --out_dir /mnt/evafs/groups/sfglab/mwisniewski/software/diffdock/test --inference_steps 20 --samples_per_complex 40 --batch_size 10 --actual_steps 18 --no_final_step_noise
 
 
-log_output_file = 'test/4ahu_4ahu.log'
-with open(log_output_file,'r') as file:
-    lines = [line for line in file.readlines()[23:]]
-    predicted_affinity_per_comples =[line[12:17] for line in lines]
-    CNN_pose_score = [line[24:30] for line in lines]
-    CNN_affinity = [line[36:41] for line in lines]
 
-print(CNN_affinity)
-print(CNN_pose_score)
-print(predicted_affinity_per_comples)
+Wiśniewski M., Babirye P., Musubika C., Papakonstantinou E., Kirimunda S., Lazniewski M., Szczepinska T.,  Joloba M.L., Eliopoulos E., Bongcam–Rudloff E., Vlachakis D., Kumar Halder A., Plewczynski D. and Wayengera M.
