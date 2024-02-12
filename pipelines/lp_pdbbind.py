@@ -178,7 +178,7 @@ def diagonal_pipeline(pdb_id_column: str, #  data frame column with specified pd
           break
       if 'diffdock' in settings.docking_programs:
         diffdock_docking_error_number = 0
-        diffdock_docking.diffdock_files(molecule, molecule, molecule)
+        diffdock_docking.diffdock_files(molecule, molecule)
         diffdock_checker = diffdock_docking.diffdock_files_checker()
         while True: #  Loop - necessery to generate exactly 50 modes, sometimes with random seed it's generating smaller number of conforms
           if diffdock_checker == True:
