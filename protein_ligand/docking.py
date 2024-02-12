@@ -235,7 +235,7 @@ class DiffDock:
             '--protein_path',self.protein_file,
             '--ligand_description',self.ligand_file,
             '--out_dir',self.diffdock_dir,
-            '--complex_name',self.complex
+            '--complex_name',self.complex,
             '--inference_steps','20',
             '--samples_per_complex','50',
             '--batch_size','10',
