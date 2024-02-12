@@ -3,7 +3,7 @@ import sys
 import settings
 import numpy as np
 import pandas as pd
-from utils.files import smina_output_files_checker, rxdock_output_files_checker, gnina_output_files_checker, diffdock_output_files_checke
+from utils.files import smina_output_files_checker, rxdock_output_files_checker, gnina_output_files_checker, diffdock_output_files_checker
 from protein_ligand import datasets, generator, docking, matrix
 from typing import List
 
