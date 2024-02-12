@@ -12,6 +12,7 @@ def init():
     global smina_tools_dir
     global gnina_container
     global rxdock
+    global diffdock_inference_script_path
 
     station = 'eden'
 
