@@ -190,17 +190,20 @@ class DiffDock:
 
         self.diffdock_dir = settings.datadir + '/docking_scores/diffdock'
         self.diffdock_results_dir = self.diffdock_dir+'/results'
+
         self.columns=['complex_name','protein_path','ligand_description','protein_sequence']
         self.diffdock_df = pd.DataFrame(columns=self.columns)
         self.csv_diffdock_file = self.diffdock_dir+'/protein_ligand.csv'
+        self.splitted_csv_diffdock_file = ''
         self.complex = None
+
     def diffdock_dirs(self):
         '''Create Directories for DiffDock outputs'''
 
         if not os.path.exists(self.diffdock_dir):
             makedir = subprocess.run(['mkdir ' + self.diffdock_dir], shell=True, capture_output=True, text=True)
         if not os.path.exists(self.diffdock_results_dir):
-            makedir = subprocess.run(['mkdir' + self.diffdock_results_dir], shell=True, capture_output=True, text=True)
+            makedir = subprocess.run(['mkdir ' + self.diffdock_results_dir], shell=True, capture_output=True, text=True)
     def diffdock_files(self,protein,ligand):
         '''Specify Input and Output files for DiffDock'''
 
@@ -219,6 +222,12 @@ class DiffDock:
         '''Save the dataframe.'''
 
         self.diffdock_df.to_csv(self.csv_diffdock_file,index=False)
+    def split_diffdock_csv_file(self,batch_start,batch_end):
+        self.diffdock_df = pd.read_csv(self.csv_diffdock_file)
+        self.diffdock_df  = self.diffdock_df.iloc[batch_start:batch_end+1]
+        self.csv_diffdock_file = self.diffdock_dir+f'/protein_ligand_{batch_start}_{batch_end}.csv'
+        self.diffdock_df.to_csv(self.csv_diffdock_file)
+
     def files_checker(self):
         csv_checker = os.path.exists(self.diffdock_dir+'/protein_ligand.csv')
         return csv_checker
@@ -226,7 +235,7 @@ class DiffDock:
         '''This method running basic DiffDock script for predicting the binding of complex'''
         diffdock_command=[
             'python', settings.diffdock_inference_script_path,
-            '--protein_ligand_csv',self.diffdock_dir+'/protein_ligand.csv',
+            '--protein_ligand_csv',self.csv_diffdock_file,
             '--out_dir',self.diffdock_results_dir,
             '--inference_steps','20',
             '--samples_per_complex','40',
