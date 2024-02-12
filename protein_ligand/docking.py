@@ -237,7 +237,7 @@ class DiffDock:
         diffdock_command=[
             'python', settings.diffdock_inference_script_path,
             '--protein_path',self.protein_file,
-            '--ligand',self.ligand_file,
+            '--ligand_description',self.ligand_file,
             '--out_dir',self.diffdock_results_dir+'/'+self.complex,
             '--inference_steps','20',
             '--samples_per_complex','50',
