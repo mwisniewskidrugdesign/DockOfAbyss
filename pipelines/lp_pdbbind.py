@@ -3,7 +3,7 @@ import sys
 import settings
 import numpy as np
 import pandas as pd
-from utils.files import smina_output_files_checker, rxdock_output_files_checker, gnina_output_files_checker
+from utils.files import smina_output_files_checker, rxdock_output_files_checker, gnina_output_files_checker, diffdock_output_files_checke
 from protein_ligand import datasets, generator, docking, matrix
 from typing import List
 
@@ -178,9 +178,9 @@ def diagonal_pipeline(pdb_id_column: str, #  data frame column with specified pd
               continue
           break
       if 'diffdock' in settings.docking_programs:
-        checker = diffdock_docking.files_checker()
+        csv_checker = diffdock_output_files_checker()
         print(checker)
-        if checker == False:
+        if csv_checker == False:
           for molecule_idx, molecule in enumerate(molecules):
             print(molecule)
             diffdock_docking.diffdock_files(molecule,molecule)
