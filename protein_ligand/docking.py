@@ -37,9 +37,9 @@ class Smina:
         self.ligand_file = settings.datadir+'/ligand/sdf/'+ligand+'_ligand.sdf'
         self.native_ligand_file = settings.datadir+'/native_ligand/pdbqt/'+native_ligand+'_ligand.sdf'
 
-        self.pdbqt_output_file = settings.pdbqt_smina_dir + '/' + protein + '_' + ligand + '.pdbqt'
-        self.atom_terms_output_file = settings.atom_terms_smina_dir + '/' + protein + '_' + ligand + '_atom_terms.txt'
-        self.log_output_file = settings.logs_smina_dir + '/' + protein + '_' + ligand + '.log'
+        self.pdbqt_output_file = self.pdbqt_smina_dir + '/' + protein + '_' + ligand + '.pdbqt'
+        self.atom_terms_output_file = self.atom_terms_smina_dir + '/' + protein + '_' + ligand + '_atom_terms.txt'
+        self.log_output_file = self.logs_smina_dir + '/' + protein + '_' + ligand + '.log'
     def smina_docking(self):
         '''Autodock Smina's docking function'''
 
