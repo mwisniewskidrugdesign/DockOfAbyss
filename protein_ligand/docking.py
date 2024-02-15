@@ -51,6 +51,7 @@ class Smina:
                        '--exhaustiveness','32',
                        '--num_modes',str(settings.number_of_models),
                        '-o',self.pdbqt_output_file,
+                       '--addH',
                        '--atom_terms',self.atom_terms_output_file,
                        '--log',self.log_output_file,
                        '--atom_term_data',
