@@ -18,8 +18,8 @@ def smina_output_files_checker(log_file,pdbqt_file,atom_terms_file):
                 os.path.exists(log_file) and os.path.exists(pdbqt_file) and os.path.exists(atom_terms_file))
         modes_checker = x != settings.number_of_models + 25 or not os.path.exists(log_file)
     else:
-        checker = False
-        modes_checker = False
+        checker = True
+        modes_checker = True
     return checker, modes_checker
 def rxdock_output_files_checker(cavity_file='',output_file='',rmsd_file=''):
     '''
