@@ -46,7 +46,7 @@ def init():
 
         ###  software paths
         pdb2fasta_path = ''
-        mgltools_dir = 'mnt/evafs/groups/sfglab/mwisniewski/software/mgltools'
+        mgltools_dir = '/mnt/evafs/groups/sfglab/mwisniewski/software/mgltools'
         cdhit_dir = ''
         smina_tools_dir = '/mnt/evafs/groups/sfglab/mwisniewski/software/smina/smina'
         gnina_container = '/mnt/evafs/groups/sfglab/mwisniewski/software/gnina/gnina.sif'
