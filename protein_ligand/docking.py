@@ -10,7 +10,7 @@ class Smina:
     def __init__(self):
         #  dirs
         settings.init()
-        self.smina_dir = settings.datadir + '/docking_scores/sm'
+        self.smina_dir = settings.datadir + '/docking_scores/smina'
         self.pdbqt_smina_dir = self.smina_dir + '/pdbqt'
         self.atom_terms_smina_dir = self.smina_dir + '/atom_terms'
         self.logs_smina_dir = self.smina_dir + '/logs'
