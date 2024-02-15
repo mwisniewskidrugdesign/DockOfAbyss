@@ -41,17 +41,22 @@ def diagonal_pipeline(pdb_id_column: str, #  data frame column with specified pd
 
 
       library = generator.Converter(row['pdbid'])
-
+      #  convert proteins and pockets to pdbqt for smina
       library.pdb_to_pdbqt(protein=settings.to_pdbqt['protein'],
                            pocket=settings.to_pdbqt['pocket'])
+      #  convert proteins and pockets to mol if needed
       library.pdb_to_mol(protein=settings.to_mol['protein'],
                          pocket=settings.to_mol['pocket'])
+      #  convert ligands to pdb
       library.mol_to_pdb(ligand=settings.to_pdb['ligand'],
                          native_ligand=settings.to_pdb['native_ligand'])
+      #  convert ligands to pdbqt
       library.pdb_to_pdbqt(ligand=settings.to_pdbqt['ligand'],
                            native_ligand=settings.to_pdbqt['native_ligand'])
+      #  convert ligands to sdf
       library.mol_to_sdf(ligand=settings.to_sdf['ligand'],
                          native_ligand=settings.to_sdf['native_ligand'])
+
   if 'docking' in settings.steps:
 
     '''Process docking for your dataset'''
