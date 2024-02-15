@@ -37,7 +37,7 @@ def diagonal_pipeline(pdb_id_column: str, #  data frame column with specified pd
 
     for index,row in df.iterrows():
 
-      print('[CONVERTING]',str(index) / len(df))
+      #print('[CONVERTING]',str(index) / len(df))
 
 
       library = generator.Converter(row['pdbid'])
