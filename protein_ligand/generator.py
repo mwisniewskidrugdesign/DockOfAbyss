@@ -175,7 +175,7 @@ class Converter:
                 command = [settings.mgltools_dir + '/bin/pythonsh', settings.mgltools_dir + '/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor4.py',
                            '-r',pdb_protein_file,
                            '-o',pdbqt_protein_file,
-                           '-A','checkhydrogens']
+                           '-A','bonds_hydrogens']
 
                 pdbqt_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
 
@@ -189,7 +189,7 @@ class Converter:
 
                     command = [settings.obabel_path,
                                pdb_protein_file,
-                               '-O',pdbqt_protein_file]
+                               '-O',pdbqt_protein_file,'-h']
 
                     pdbqt_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
 
@@ -215,7 +215,7 @@ class Converter:
                 command = [settings.mgltools_dir + '/bin/pythonsh',settings.mgltools_dir + '/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor4.py',
                            '-r', pdb_pocket_file,
                            '-o', pdbqt_pocket_file,
-                           '-A', 'checkhydrogens']
+                           '-A', 'bonds_hydrogens']
 
                 pdbqt_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
 
@@ -227,7 +227,7 @@ class Converter:
                         'error': pdbqt_result.stderr}
 
                     command = [settings.obabel_path,pdb_pocket_file,
-                               '-O',pdbqt_pocket_file]
+                               '-O',pdbqt_pocket_file,'-h']
 
                     pdbqt_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
 
@@ -250,7 +250,7 @@ class Converter:
 
             if (not os.path.exists(pdbqt_ligand_file) or os.path.getsize(pdbqt_ligand_file) == 0) and os.path.exists(pdb_ligand_file):
 
-                command = [settings.obabel_path,pdb_ligand_file,'-O',pdbqt_ligand_file]
+                command = [settings.obabel_path,pdb_ligand_file,'-O',pdbqt_ligand_file,'-h']
                 pdbqt_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
 
                 self.converting_dictionary[self.molecule]['pdb_to_pdbqt']['ligand']['openbabel'] = {'output':pdbqt_result.stdout}
@@ -269,7 +269,7 @@ class Converter:
 
             if (not os.path.exists(pdbqt_native_ligand_file) or os.path.getsize(pdbqt_native_ligand_file) == 0) and os.path.exists(pdb_native_ligand_file):
 
-                command = [settings.obabel_path, pdb_native_ligand_file, '-O', pdbqt_native_ligand_file]
+                command = [settings.obabel_path, pdb_native_ligand_file, '-O', pdbqt_native_ligand_file,'-h']
                 pdbqt_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
 
                 self.converting_dictionary[self.molecule]['pdb_to_pdbqt']['native_ligand']['openbabel'] = {'output':pdbqt_result.stdout}
@@ -325,7 +325,7 @@ class Converter:
 
             if (not os.path.exists(mol2_protein_file) or os.path.getsize(mol2_protein_file) == 0) and os.path.exists(pdb_protein_file):
 
-                command = [settings.obabel_path,pdb_protein_file,'-O',mol2_protein_file]
+                command = [settings.obabel_path,pdb_protein_file,'-O',mol2_protein_file,'-h']
                 mol2_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
                 print(mol2_result.stderr)
 
@@ -341,7 +341,7 @@ class Converter:
 
             if (not os.path.exists(mol2_pocket_file) or os.path.getsize(mol2_pocket_file) == 0) and os.path.exists(pdb_pocket_file):
 
-                command = [settings.obabel_path,pdb_pocket_file,'-O',mol2_pocket_file]
+                command = [settings.obabel_path,pdb_pocket_file,'-O',mol2_pocket_file,'-h']
                 mol2_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
                 print(mol2_result.stderr)
 
@@ -356,7 +356,7 @@ class Converter:
             mol2_ligand_file = settings.datadir + '/ligand/mol2/' + self.molecule + '_ligand.mol2'
 
             if (not os.path.exists(mol2_ligand_file) or os.path.getsize(mol2_ligand_file) == 0) and os.path.exists(pdb_ligand_file):
-                command = [settings.obabel_path,pdb_ligand_file,'-O',mol2_ligand_file]
+                command = [settings.obabel_path,pdb_ligand_file,'-O',mol2_ligand_file,'-h']
                 mol2_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
                 print(mol2_result.stderr)
 
@@ -371,7 +371,7 @@ class Converter:
             mol2_native_ligand_file = settings.datadir + '/native_ligand/mol2/' + self.molecule + '_ligand.mol2'
 
             if (not os.path.exists(mol2_native_ligand_file) or os.path.getsize(mol2_native_ligand_file) == 0) and os.path.exists(pdb_native_ligand_file):
-                command = [settings.obabel_path,pdb_native_ligand_file,'-O',mol2_native_ligand_file]
+                command = [settings.obabel_path,pdb_native_ligand_file,'-O',mol2_native_ligand_file,'-h']
                 mol2_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
                 print(mol2_result.stdout)
 
@@ -395,7 +395,7 @@ class Converter:
 
             if (not os.path.exists(pdb_protein_file) or os.path.getsize(pdb_protein_file) == 0) and os.path.exists(mol2_protein_file):
 
-                command = [settings.obabel_path,mol2_protein_file,'-O',pdb_protein_file]
+                command = [settings.obabel_path,mol2_protein_file,'-O',pdb_protein_file,'-h']
                 pdb_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
                 print('error: '+str(len(pdb_result.stderr))+' | '+pdb_result.stderr)
 
@@ -411,7 +411,7 @@ class Converter:
 
             if (not os.path.exists(pdb_pocket_file) or os.path.getsize(pdb_pocket_file) == 0) and os.path.exists(mol2_pocket_file):
 
-                command = [settings.obabel_path,mol2_pocket_file,'-O',pdb_pocket_file]
+                command = [settings.obabel_path,mol2_pocket_file,'-O',pdb_pocket_file,'-h']
                 pdb_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
                 print('error: '+str(len(pdb_result.stderr))+' | '+pdb_result.stderr)
 
@@ -426,7 +426,7 @@ class Converter:
             pdb_ligand_file = settings.datadir + '/ligand/pdb/' + self.molecule + '_ligand.pdb'
 
             if (not os.path.exists(pdb_ligand_file) or os.path.getsize(pdb_ligand_file) == 0) and os.path.exists(mol2_ligand_file):
-                command = [settings.obabel_path,mol2_ligand_file,'-O',pdb_ligand_file]
+                command = [settings.obabel_path,mol2_ligand_file,'-O',pdb_ligand_file,'-h']
                 pdb_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
                 print('error: '+str(len(pdb_result.stderr))+' | '+pdb_result.stderr)
 
@@ -441,7 +441,7 @@ class Converter:
             pdb_native_ligand_file = settings.datadir + '/native_ligand/pdb/' + self.molecule + '_ligand.pdb'
 
             if (not os.path.exists(pdb_native_ligand_file) or os.path.getsize(pdb_native_ligand_file) == 0) and os.path.exists(mol2_native_ligand_file):
-                command = [settings.obabel_path,mol2_native_ligand_file,'-O',pdb_native_ligand_file]
+                command = [settings.obabel_path,mol2_native_ligand_file,'-O',pdb_native_ligand_file,'-h']
                 pdb_result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
                 print('error: '+str(len(pdb_result.stderr))+' | '+pdb_result.stderr)
 
@@ -466,7 +466,7 @@ class Converter:
 
             if os.path.exists(mol2_protein_file):
 
-                command = [settings.obabel_path,sdf_protein_file,'-O',mol2_protein_file]
+                command = [settings.obabel_path,sdf_protein_file,'-O',mol2_protein_file,'-h']
                 result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
                 print('error: '+str(len(result.stderr))+' | '+result.stderr)
 
@@ -482,7 +482,7 @@ class Converter:
 
             if os.path.exists(mol2_pocket_file):
 
-                command = [settings.obabel_path,mol2_pocket_file,'-O',sdf_pocket_file]
+                command = [settings.obabel_path,mol2_pocket_file,'-O',sdf_pocket_file,'-h']
                 result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
                 print('error: '+str(len(result.stderr))+' | '+result.stderr)
 
@@ -497,7 +497,7 @@ class Converter:
             sdf_ligand_file = settings.datadir + '/ligand/sdf/' + self.molecule + '_ligand.sdf'
 
             if os.path.exists(mol2_ligand_file):
-                command = [settings.obabel_path,mol2_ligand_file,'-O',sdf_ligand_file]
+                command = [settings.obabel_path,mol2_ligand_file,'-O',sdf_ligand_file,'-h']
                 result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
                 print('error: '+str(len(result.stderr))+' | '+result.stderr)
 
@@ -512,7 +512,7 @@ class Converter:
             sdf_native_ligand_file = settings.datadir + '/native_ligand/sdf/' + self.molecule + '_ligand.sdf'
 
             if os.path.exists(mol2_native_ligand_file):
-                command = [settings.obabel_path,mol2_native_ligand_file,'-O',sdf_native_ligand_file]
+                command = [settings.obabel_path,mol2_native_ligand_file,'-O',sdf_native_ligand_file,'-h']
                 result = subprocess.run(command, shell=False, capture_output=True, text=True, close_fds=True)
                 print('error: '+str(len(result.stderr))+' | '+result.stderr)
 
