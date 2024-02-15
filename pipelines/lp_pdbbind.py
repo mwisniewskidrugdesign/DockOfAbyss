@@ -107,11 +107,11 @@ def diagonal_pipeline(pdb_id_column: str, #  data frame column with specified pd
               print('\tModes Checker: Dokowanie zakończone sukcesem')
               break
 
-            # else:
-            #
-            #   if 'Parse error' in results.stderr:
-            #     print('\tDocking Error')
-            #     break
+            else:
+
+              if 'Parse error' in results.stderr:
+                print('\tDocking Error')
+                break
 
               smina_docking_error_number +=1
               print('Smina proposed less modes than expected for docking ' + molecule + ' to ' + molecule + '. ' + str(smina_docking_error_number) + 'st time.')
