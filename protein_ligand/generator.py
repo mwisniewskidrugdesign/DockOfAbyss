@@ -198,7 +198,7 @@ class Converter:
 
                     if int(len(pdbqt_result.stderr)) > 0:
                         self.converting_dictionary[self.molecule]['pdb_to_pdbqt']['protein']['openbabel'] = {
-                            'error': pdbqt_result.err}
+                            'error': pdbqt_result.stderr}
 
             else:
                 self.converting_dictionary[self.molecule]['pdb_to_pdbqt']['protein']['error'] = 'File error. There is some problem with pdbqt file or pdb file has already exist.'
@@ -237,7 +237,7 @@ class Converter:
                     if int(len(pdbqt_result.stderr)) > 0:
 
                         self.converting_dictionary[self.molecule]['pdb_to_pdbqt']['pocket']['openbabel'] = {
-                            'error': pdbqt_result.err}
+                            'error': pdbqt_result.stderr}
             else:
                 self.converting_dictionary[self.molecule]['pdb_to_pdbqt']['pocket']['error'] = 'File error. There is some problem with pdbqt file or pdb file has already exist.'
 
