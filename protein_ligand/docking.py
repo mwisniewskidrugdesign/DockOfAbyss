@@ -10,7 +10,7 @@ class Smina:
     def __init__(self):
         #  dirs
         settings.init()
-        self.smina_dir = settings.datadir + '/docking_scores/smina'
+        self.smina_dir = settings.datadir + '/docking_scores/sm'
         self.pdbqt_smina_dir = self.smina_dir + '/pdbqt'
         self.atom_terms_smina_dir = self.smina_dir + '/atom_terms'
         self.logs_smina_dir = self.smina_dir + '/logs'
@@ -33,9 +33,9 @@ class Smina:
     def smina_files(self,protein: str,ligand: str,native_ligand: str):
         '''Specify Input and Output files for SMINA'''
 
-        self.protein_file = settings.datadir+'/protein/pdbqt/'+protein+'_protein.pdbqt'
-        self.ligand_file = settings.datadir+'/ligand/pdbqt/'+ligand+'_ligand.pdbqt'
-        self.native_ligand_file = settings.datadir+'/native_ligand/pdbqt/'+native_ligand+'_ligand.pdbqt'
+        self.protein_file = settings.datadir+'/protein/pdb/'+protein+'_protein.pdb'
+        self.ligand_file = settings.datadir+'/ligand/sdf/'+ligand+'_ligand.sdf'
+        self.native_ligand_file = settings.datadir+'/native_ligand/pdbqt/'+native_ligand+'_ligand.sdf'
 
         self.pdbqt_output_file = settings.pdbqt_smina_dir + '/' + protein + '_' + ligand + '.pdbqt'
         self.atom_terms_output_file = settings.atom_terms_smina_dir + '/' + protein + '_' + ligand + '_atom_terms.txt'
